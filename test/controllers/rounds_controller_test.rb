@@ -3,9 +3,7 @@
 require "test_helper"
 
 class RoundsControllerTest < ActionDispatch::IntegrationTest
-  setup do
-    @round = rounds(:one)
-  end
+  setup { @round = rounds(:one) }
 
   test "should get index" do
     get rounds_url
@@ -51,9 +49,7 @@ class RoundsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy round" do
-    assert_difference("Round.count", -1) do
-      delete round_url(@round)
-    end
+    assert_difference("Round.count", -1) { delete round_url(@round) }
 
     assert_redirected_to rounds_url
   end

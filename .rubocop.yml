@@ -2,20 +2,53 @@ require:
   - rubocop-rails
   - rubocop-minitest
 
+inherit_mode:
+  merge:
+    - Exclude
+
 AllCops:
   NewCops: enable
+  Exclude:
+    - "config/initializers/simple_form.rb"
+    - "config/initializers/simple_form_bootstrap.rb"
+
+Metrics:
+  Enabled: false
 
 Layout/LineLength:
   Max: 80
 
-Metrics/MethodLength:
-  Max: 20
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_fixed_indentation
 
-Metrics/CyclomaticComplexity:
-  Max: 10
+Layout/ParameterAlignment:
+  EnforcedStyle: with_fixed_indentation
 
-Metrics/PerceivedComplexity:
-  Max: 10
+Layout/EndAlignment:
+  EnforcedStyleAlignWith: variable
+  AutoCorrect: true
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Layout/LineEndStringConcatenationIndentation:
+  EnforcedStyle: indented
+
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
+
+Layout/EmptyLineAfterMultilineCondition:
+  Enabled: true
+
+Layout/HeredocArgumentClosingParenthesis:
+  Enabled: true
+
+Layout/RedundantLineBreak:
+  Enabled: true
+  InspectBlocks: true
 
 Style/Documentation:
   Enabled: false
@@ -23,11 +56,22 @@ Style/Documentation:
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
-Layout/ArgumentAlignment:
-  EnforcedStyle: with_fixed_indentation
-
-Layout/MultilineMethodCallIndentation:
-  EnforcedStyle: indented
-
 Style/NumericPredicate:
   EnforcedStyle: comparison
+
+Style/DateTime:
+  Enabled: true
+
+Style/AutoResourceCleanup:
+  Enabled: true
+
+Style/ClassMethodsDefinitions:
+  Enabled: true
+  EnforcedStyle: self_class
+
+Style/CollectionMethods:
+  Enabled: true
+
+Style/UnlessLogicalOperators:
+  Enabled: true
+  EnforcedStyle: forbid_logical_operators

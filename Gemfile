@@ -45,6 +45,9 @@ gem "sassc-rails", "~> 2.1"
 # Use Bootstrap for styling
 gem "bootstrap", "~> 5.1"
 
+# Flexible form builder
+gem "simple_form", "~> 5.1"
+
 group :development, :test do
   # Start debugger with binding.b [https://github.com/ruby/debug]
   gem "debug", ">= 1.0.0", platforms: %i[mri mingw x64_mingw]

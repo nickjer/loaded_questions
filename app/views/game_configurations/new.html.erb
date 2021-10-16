@@ -1,0 +1,7 @@
+<h1>New game configuration</h1>
+
+<%= simple_form_for @game_configuration do |form| %>
+  <%= form.input :player_name %>
+  <%= form.input :question, as: :text %>
+  <%= form.button :submit, class: "btn-primary" %>
+<% end %>

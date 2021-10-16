@@ -3,9 +3,7 @@
 require "test_helper"
 
 class GamesControllerTest < ActionDispatch::IntegrationTest
-  setup do
-    @game = games(:one)
-  end
+  setup { @game = games(:one) }
 
   test "should get index" do
     get games_url
@@ -43,9 +41,7 @@ class GamesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy game" do
-    assert_difference("Game.count", -1) do
-      delete game_url(@game)
-    end
+    assert_difference("Game.count", -1) { delete game_url(@game) }
 
     assert_redirected_to games_url
   end

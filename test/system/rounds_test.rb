@@ -3,9 +3,7 @@
 require "application_system_test_case"
 
 class RoundsTest < ApplicationSystemTestCase
-  setup do
-    @round = rounds(:one)
-  end
+  setup { @round = rounds(:one) }
 
   test "visiting the index" do
     visit rounds_url
@@ -38,9 +36,7 @@ class RoundsTest < ApplicationSystemTestCase
 
   test "should destroy Round" do
     visit rounds_url
-    page.accept_confirm do
-      click_on "Destroy", match: :first
-    end
+    page.accept_confirm { click_on "Destroy", match: :first }
 
     assert_text "Round was successfully destroyed"
   end

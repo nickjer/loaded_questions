@@ -3,9 +3,7 @@
 require "application_system_test_case"
 
 class GamesTest < ApplicationSystemTestCase
-  setup do
-    @game = games(:one)
-  end
+  setup { @game = games(:one) }
 
   test "visiting the index" do
     visit games_url
@@ -38,9 +36,7 @@ class GamesTest < ApplicationSystemTestCase
 
   test "should destroy Game" do
     visit games_url
-    page.accept_confirm do
-      click_on "Destroy", match: :first
-    end
+    page.accept_confirm { click_on "Destroy", match: :first }
 
     assert_text "Game was successfully destroyed"
   end
