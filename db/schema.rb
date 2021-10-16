@@ -10,11 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_16_121426) do
+ActiveRecord::Schema.define(version: 2021_10_16_130213) do
 
   create_table "games", force: :cascade do |t|
     t.text "question"
     t.integer "status", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at", precision: 6, null: false
+    t.datetime "last_sign_in_at", precision: 6, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

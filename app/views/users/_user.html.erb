@@ -1,0 +1,25 @@
+<div id="<%= dom_id user %>" class="scaffold_record">
+  <p>
+    <strong>Name:</strong>
+    <%= user.name %>
+  </p>
+
+  <p>
+    <strong>Sign in count:</strong>
+    <%= user.sign_in_count %>
+  </p>
+
+  <p>
+    <strong>Current sign in at:</strong>
+    <%= user.current_sign_in_at %>
+  </p>
+
+  <p>
+    <strong>Last sign in at:</strong>
+    <%= user.last_sign_in_at %>
+  </p>
+
+  <p>
+    <%= link_to "Show this user", user %>
+  </p>
+</div>
