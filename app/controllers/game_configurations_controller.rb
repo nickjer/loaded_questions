@@ -20,6 +20,6 @@ class GameConfigurationsController < ApplicationController
   private
 
   def game_configuration_params
-    params.require(:game_configuration).permit(:player_name, :question)
+    params.require(:game_configuration).permit(:player_name)
   end
 end

@@ -3,9 +3,11 @@
 class GameConfiguration
   include ActiveModel::Model
 
-  attr_accessor :player_name, :question
+  attr_accessor :player_name
 
-  validates :player_name, :question, presence: true
+  attr_reader :game
+
+  validates :player_name, presence: true
 
   def save
     valid?
