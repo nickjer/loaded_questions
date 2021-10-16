@@ -1,7 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  game: one
+  question: MyText
   status: 0
 
 two:
+  game: two
+  question: MyText
   status: 0

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-class Game < ApplicationRecord
+class Round < ApplicationRecord
   enum status: {
-    starting: 0,
+    active: 0,
     completed: 1
   }, _prefix: true
 
-  has_many :rounds, dependent: :destroy
+  belongs_to :game
 end
