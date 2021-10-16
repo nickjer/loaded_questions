@@ -40,7 +40,10 @@ gem "bootsnap", ">= 1.4.4", require: false
 # gem "bcrypt", "~> 3.1.7"
 
 # Use Sass to process CSS
-# gem "sassc-rails", "~> 2.1"
+gem "sassc-rails", "~> 2.1"
+
+# Use Bootstrap for styling
+gem "bootstrap", "~> 5.1"
 
 group :development, :test do
   # Start debugger with binding.b [https://github.com/ruby/debug]
