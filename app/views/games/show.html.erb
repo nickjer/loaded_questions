@@ -1,11 +1,19 @@
 <p id="notice"><%= notice %></p>
 
-<%= render @game %>
+<%- if @game.active_rounds? -%>
+  <%= render @game.active_round %>
+<%- else -%>
+  <div class="d-grid gap-2">
+    <%= button_to "Create Round", player_rounds_path(@player), class: "btn btn-primary" %>
+  </div>
+<%- end -%>
+
+<div id="players">
+  <%- @game.players.each do |player| -%>
+    <div><%= player.name %></div>
+  <%- end -%>
+</div>
 
 <div>
-  <%= link_to "New round", new_player_round_path(@player) %> |
-  <%= link_to "Edit this game", edit_game_path(@game) %> |
-  <%= link_to "Back to games", games_path %>
-
-  <%= button_to "Destroy this game", game_path(@game), method: :delete %>
+  <%= link_to "Back to games", root_path %>
 </div>

@@ -12,7 +12,7 @@ class GameConfiguration
   validates :player_name, presence: true
   validates :user, presence: true
 
-  # @return [Game]
+  # @return [Game, nil]
   def create_game
     return unless valid?
 

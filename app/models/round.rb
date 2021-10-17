@@ -5,4 +5,6 @@ class Round < ApplicationRecord
 
   belongs_to :player
   has_one :game, through: :player
+
+  validates :question, presence: true
 end

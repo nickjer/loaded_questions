@@ -23,13 +23,13 @@ class RoundsController < ApplicationController
 
   # POST /rounds
   def create
-    @round = player.rounds.build(round_params)
-
     respond_to do |format|
-      if @round.save
-        format.html { redirect_to @round.game, notice: "Round was created." }
+      if CreateRound.new(player).call
+        format.html { redirect_to @player.game, notice: "Round was created." }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html do
+          redirect_to @player.game, notice: "Round failed to be created."
+        end
       end
     end
   end
