@@ -10,8 +10,8 @@ class GameConfigurationsController < ApplicationController
   def create
     @game_configuration = GameConfiguration.new(game_configuration_params)
 
-    if @game_configuration.save
-      redirect_to @game_configuration.game, notice: "Game was created."
+    if (game = @game_configuration.create_game)
+      redirect_to game, notice: "Game was created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -20,6 +20,6 @@ class GameConfigurationsController < ApplicationController
   private
 
   def game_configuration_params
-    params.require(:game_configuration).permit(:player_name)
+    params.require(:game_configuration).permit(:player_name).merge(user: @user)
   end
 end

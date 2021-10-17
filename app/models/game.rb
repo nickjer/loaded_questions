@@ -3,5 +3,5 @@
 class Game < ApplicationRecord
   enum status: { starting: 0, completed: 1 }, _prefix: true
 
-  has_many :rounds, dependent: :destroy
+  has_many :players, dependent: :destroy
 end

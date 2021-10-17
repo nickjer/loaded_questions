@@ -3,13 +3,20 @@
 class GameConfiguration
   include ActiveModel::Model
 
+  # @return [String]
   attr_accessor :player_name
 
-  attr_reader :game
+  # @return [User]
+  attr_accessor :user
 
   validates :player_name, presence: true
+  validates :user, presence: true
 
-  def save
-    valid?
+  # @return [Game]
+  def create_game
+    return unless valid?
+
+    player = Player.new(name: player_name, user: user)
+    Game.create!(players: [player])
   end
 end

@@ -1,13 +1,14 @@
-<h1>New game configuration</h1>
-
-<%= simple_form_for @game_configuration do |form| %>
+<%= simple_form_for(@player, url: game_players_path) do |form| %>
   <%= form.error_notification %>
   <%- if form.object.errors[:base].present? -%>
     <%= form.error_notification message: form.object.errors[:base].to_sentence %>
   <%- end -%>
+  <%- if form.object.errors[:game].present? -%>
+    <%= form.error_notification message: form.object.errors[:game].to_sentence %>
+  <%- end -%>
 
   <div class="form-inputs">
-    <%= form.input :player_name %>
+    <%= form.input :name %>
   </div>
 
   <div class="form-actions">

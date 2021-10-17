@@ -1,13 +1,12 @@
 <div id="<%= dom_id game %>" class="scaffold_record">
   <p>
-    <strong>Question:</strong>
-    <%= game.question %>
-  </p>
-
-  <p>
     <strong>Status:</strong>
     <%= game.status %>
   </p>
+
+  <div id="players">
+    <%= render game.players %>
+  </div>
 
   <p>
     <%= link_to "Show this game", game %>
