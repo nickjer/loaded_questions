@@ -3,6 +3,7 @@
 <%= render @game %>
 
 <div>
+  <%= link_to "New round", new_player_round_path(@player) %> |
   <%= link_to "Edit this game", edit_game_path(@game) %> |
   <%= link_to "Back to games", games_path %>
 

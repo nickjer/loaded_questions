@@ -9,6 +9,10 @@ class GamesController < ApplicationController
   # GET /games/1
   def show
     @game = Game.find(params[:id])
+    @player = @game.players.find_by(user: @user)
+
+    # Create player if user doesn't have one
+    redirect_to new_game_player_path(@game) if @player.blank?
   end
 
   # GET /games/new

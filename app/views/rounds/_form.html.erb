@@ -1,27 +1,14 @@
-<%= form_with(model: round) do |form| %>
-  <% if round.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(round.errors.count, "error") %> prohibited this round from being saved:</h2>
+<%= simple_form_for(round, url: player_rounds_path) do |form| %>
+  <%= form.error_notification %>
+  <%- if form.object.errors[:base].present? -%>
+    <%= form.error_notification message: form.object.errors[:base].to_sentence %>
+  <%- end -%>
 
-      <ul>
-        <% round.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :game_id %>
-    <%= form.text_field :game_id %>
+  <div class="form-inputs">
+    <%= form.input :question %>
   </div>
 
-  <div class="field">
-    <%= form.label :question %>
-    <%= form.text_area :question %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+  <div class="form-actions">
+    <%= form.button :submit, class: "btn-primary" %>
   </div>
 <% end %>

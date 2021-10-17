@@ -4,5 +4,5 @@ class Round < ApplicationRecord
   enum status: { active: 0, completed: 1 }, _prefix: true
 
   belongs_to :player
-  belongs_to :game, through: :player
+  has_one :game, through: :player
 end
