@@ -28,10 +28,7 @@ ActiveRecord::Schema.define(version: 2021_10_16_162212) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at", precision: 6, null: false
-    t.datetime "last_sign_in_at", precision: 6, null: false
+    t.datetime "last_seen_at", precision: 6, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
