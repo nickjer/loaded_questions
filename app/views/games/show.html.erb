@@ -1,19 +1,34 @@
 <p id="notice"><%= notice %></p>
 
-<%- if @game.active_rounds? -%>
-  <%= render @game.active_round %>
-<%- else -%>
-  <div class="d-grid gap-2">
-    <%= button_to "Create Round", player_rounds_path(@player), class: "btn btn-primary" %>
+<div class="row">
+  <div class="col-md-10" id="active_round">
+    <%- if @game.active_rounds? -%>
+      <p>
+        <strong>Question:</strong>
+        <%= @game.active_round.question %>
+      </p>
+    <%- else -%>
+      <%=
+        button_to(
+          "Create Round",
+          player_rounds_path(@player),
+          class: "btn btn-primary btn-lg",
+          form_class: "d-grid gap-2 col-6 mx-auto"
+        )
+      %>
+    <%- end -%>
   </div>
-<%- end -%>
 
-<div id="players">
-  <%- @game.players.each do |player| -%>
-    <div><%= player.name %></div>
-  <%- end -%>
+  <div class="col-md-2">
+    <strong>Players:</strong>
+    <div id="players">
+      <%- @game.players.each do |player| -%>
+        <div id="<%= dom_id player %>"><%= player.name %></div>
+      <%- end -%>
+    </div>
+  </div>
 </div>
 
-<div>
+<footer>
   <%= link_to "Back to games", root_path %>
-</div>
+</footer>
