@@ -11,7 +11,7 @@ class GameConfigurationsController < ApplicationController
     @game_configuration = GameConfiguration.new(game_configuration_params)
 
     if (game = @game_configuration.create_game)
-      redirect_to game, notice: "Game was created."
+      redirect_to game
     else
       render :new, status: :unprocessable_entity
     end
