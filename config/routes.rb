@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   resources :users
 
   resources :games, shallow: true do
+    resources :active_rounds, shallow: true
+
     resources :players, shallow: true do
       resources :rounds, shallow: true do
         resources :answers

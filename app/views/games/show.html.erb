@@ -29,13 +29,16 @@
           </div>
         <% end %>
       <%- else -%>
-        Active Player!
+        <%= simple_form_for(@active_round, html: { class: "d-grid gap-2 col-6 mx-auto" }) do |form| %>
+          <%= form.hidden_field :status, value: :completed %>
+          <%= form.button :submit, class: "btn-primary", value: "Complete Round" %>
+        <% end %>
       <%- end -%>
     <%- else -%>
       <%=
         button_to(
           "Create Round",
-          player_rounds_path(@current_player),
+          game_active_rounds_path(@game, active_round: { question: nil }),
           class: "btn btn-primary btn-lg",
           form_class: "d-grid gap-2 col-6 mx-auto"
         )

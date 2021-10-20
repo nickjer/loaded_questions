@@ -10,8 +10,6 @@ class CreateRound
   def call
     question = "How are you doing?"
 
-    return false if game.active_rounds.exists?
-
     player.rounds.create!(question: question)
 
     true

@@ -62,6 +62,6 @@ class RoundsController < ApplicationController
   end
 
   def round_params
-    params.require(:round).permit(:question)
+    params.require(:round).permit(:question, :status)
   end
 end
