@@ -5,6 +5,7 @@ class Round < ApplicationRecord
 
   belongs_to :player
   has_one :game, through: :player
+  has_many :answers, dependent: :destroy
 
   validates :question, presence: true
 end

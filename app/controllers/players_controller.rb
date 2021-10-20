@@ -13,7 +13,7 @@ class PlayersController < ApplicationController
 
   # GET /players/new
   def new
-    @player = game.players.build
+    @player = game.players.where(user: @user).build
   end
 
   # GET /players/1/edit
@@ -23,7 +23,7 @@ class PlayersController < ApplicationController
 
   # POST /players
   def create
-    @player = game.players.build(player_params)
+    @player = game.players.where(user: @user).build(player_params)
 
     respond_to do |format|
       if @player.save
@@ -62,6 +62,6 @@ class PlayersController < ApplicationController
   end
 
   def player_params
-    params.require(:player).permit(:name).merge(user: @user)
+    params.require(:player).permit(:name)
   end
 end

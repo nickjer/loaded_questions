@@ -2,16 +2,40 @@
 
 <div class="row">
   <div class="col-md-10" id="active_round">
-    <%- if @game.active_rounds? -%>
+    <%- if @active_round.present? -%>
       <p>
         <strong>Question:</strong>
-        <%= @game.active_round.question %>
+        <%= @active_round.question %>
       </p>
+
+      <%- if @current_player != @active_player -%>
+        <%=
+          simple_form_for(
+            [@answer.persisted? ? nil : @active_round, @answer],
+            wrapper: :inline_form,
+            html: { class: "row row-cols-lg-auto g-3 align-items-center mb-2" },
+            wrapper_mappings: { boolean: :inline_boolean }
+          ) do |form|
+        %>
+          <%= form.error_notification %>
+          <%- if form.object.errors[:base].present? -%>
+            <%= form.error_notification message: form.object.errors[:base].to_sentence %>
+          <%- end -%>
+
+          <%= form.input :value, label: false %>
+
+          <div class="col-12">
+            <%= form.button :submit, class: "btn-primary" %>
+          </div>
+        <% end %>
+      <%- else -%>
+        Active Player!
+      <%- end -%>
     <%- else -%>
       <%=
         button_to(
           "Create Round",
-          player_rounds_path(@player),
+          player_rounds_path(@current_player),
           class: "btn btn-primary btn-lg",
           form_class: "d-grid gap-2 col-6 mx-auto"
         )
@@ -22,8 +46,16 @@
   <div class="col-md-2">
     <strong>Players:</strong>
     <div id="players">
-      <%- @game.players.each do |player| -%>
-        <div id="<%= dom_id player %>"><%= player.name %></div>
+      <%- @game.players.order(:name).each do |player| -%>
+        <div id="<%= dom_id player %>">
+          <%- if player == @active_player -%>
+            ★
+          <%- else -%>
+            <%= player.active_answer.present? ? "☑" : "☐" %>
+          <%- end -%>
+          -
+          <%= player.name %>
+        </div>
       <%- end -%>
     </div>
   </div>

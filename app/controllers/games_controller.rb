@@ -9,10 +9,19 @@ class GamesController < ApplicationController
   # GET /games/1
   def show
     @game = Game.find(params[:id])
-    @player = @game.players.find_by(user: @user)
+    @current_player = @game.players.find_by(user: @user)
 
     # Create player if user doesn't have one
-    redirect_to new_game_player_path(@game) if @player.blank?
+    return redirect_to(new_game_player_path(@game)) if @current_player.blank?
+
+    @active_round = @game.active_round
+    return if @active_round.blank?
+
+    @active_player = @active_round&.player
+    return if @current_player == @active_player
+
+    @answer =
+      @active_round.answers.find_or_initialize_by(player: @current_player)
   end
 
   # GET /games/new

@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :answers
   resources :users
 
   resources :games, shallow: true do
     resources :players, shallow: true do
-      resources :rounds
+      resources :rounds, shallow: true do
+        resources :answers
+      end
     end
   end
 

@@ -5,8 +5,8 @@ class Game < ApplicationRecord
 
   has_many :players, dependent: :destroy
   has_many :rounds, through: :players
-  has_many :active_rounds, -> { status_active.order(created_at: :asc) },
-    through: :players, source: :rounds
+  has_many :active_rounds, through: :players
+  has_many :active_answers, through: :active_rounds, source: :answers
 
   # @return [Boolean]
   def active_rounds?

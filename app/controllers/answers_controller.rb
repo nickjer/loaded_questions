@@ -3,7 +3,7 @@
 class AnswersController < ApplicationController
   # GET /answers
   def index
-    @answers = Answer.all
+    @answers = round.answers
   end
 
   # GET /answers/1
@@ -13,7 +13,7 @@ class AnswersController < ApplicationController
 
   # GET /answers/new
   def new
-    @answer = Answer.new
+    @answer = round.answers.build(player: current_player)
   end
 
   # GET /answers/1/edit
@@ -23,13 +23,13 @@ class AnswersController < ApplicationController
 
   # POST /answers
   def create
-    @answer = Answer.new(answer_params)
+    @answer = round.answers.where(player: current_player).build(answer_params)
 
     respond_to do |format|
       if @answer.save
-        format.html { redirect_to @answer, notice: "Answer was created." }
+        format.html { redirect_to game, notice: "Answer was created." }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { redirect_to game, notice: "Answer failed to be created." }
       end
     end
   end
@@ -37,11 +37,12 @@ class AnswersController < ApplicationController
   # PATCH/PUT /answers/1
   def update
     @answer = Answer.find(params[:id])
+
     respond_to do |format|
       if @answer.update(answer_params)
-        format.html { redirect_to @answer, notice: "Answer was updated." }
+        format.html { redirect_to game, notice: "Answer was updated." }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { redirect_to game, notice: "Answer failed to be created." }
       end
     end
   end
@@ -57,7 +58,19 @@ class AnswersController < ApplicationController
 
   private
 
+  def round
+    @round ||= Round.find(params[:round_id])
+  end
+
+  def game
+    @game ||= round.game
+  end
+
+  def current_player
+    @current_player ||= game.players.find_by!(user: @user)
+  end
+
   def answer_params
-    params.require(:answer).permit(:value, :player_id, :round_id)
+    params.require(:answer).permit(:value)
   end
 end

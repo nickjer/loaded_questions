@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_17_143543) do
+ActiveRecord::Schema.define(version: 2021_10_19_215845) do
+
+  create_table "answers", force: :cascade do |t|
+    t.text "value", null: false
+    t.integer "player_id", null: false
+    t.integer "round_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["player_id", "round_id"], name: "index_answers_on_player_id_and_round_id", unique: true
+    t.index ["player_id"], name: "index_answers_on_player_id"
+    t.index ["round_id"], name: "index_answers_on_round_id"
+  end
 
   create_table "games", force: :cascade do |t|
     t.integer "status", default: 0, null: false
@@ -45,6 +56,8 @@ ActiveRecord::Schema.define(version: 2021_10_17_143543) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "answers", "players"
+  add_foreign_key "answers", "rounds"
   add_foreign_key "players", "games"
   add_foreign_key "players", "users"
   add_foreign_key "rounds", "players"
