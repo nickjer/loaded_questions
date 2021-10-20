@@ -23,7 +23,10 @@ class ActiveRoundsController < ApplicationController
 
   # DELETE /rounds/1
   def destroy
-    Round.find(params[:id]).update(status: :completed)
+    Round
+      .where(player: Player.where(user: @user), status: :active)
+      .find(params[:id])
+      .update(status: :completed)
     respond_to do |format|
       format.html do
         redirect_to game, notice: "Active round was destroyed."

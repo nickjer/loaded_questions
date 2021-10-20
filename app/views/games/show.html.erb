@@ -29,10 +29,15 @@
           </div>
         <% end %>
       <%- else -%>
-        <%= simple_form_for(@active_round, html: { class: "d-grid gap-2 col-6 mx-auto" }) do |form| %>
-          <%= form.hidden_field :status, value: :completed %>
-          <%= form.button :submit, class: "btn-primary", value: "Complete Round" %>
-        <% end %>
+        <%=
+          button_to(
+            "Complete Round",
+            active_round_path(@active_round),
+            method: :delete,
+            class: "btn btn-danger btn-lg",
+            form_class: "d-grid gap-2 col-6 mx-auto"
+          )
+        %>
       <%- end -%>
     <%- else -%>
       <%=
