@@ -5,15 +5,14 @@ Rails.application.routes.draw do
 
   resources :games, shallow: true do
     resources :active_rounds, shallow: true
-
-    resources :players, shallow: true do
-      resources :rounds, shallow: true do
-        resources :answers
-      end
+    resources :players, shallow: true
+    resources :rounds, shallow: true do
+      resources :new_rounds
+      resources :answers
     end
   end
 
-  resources :game_configurations, only: %i[new create]
+  resources :new_games, only: %i[new create]
 
-  root "game_configurations#new"
+  root "new_games#new"
 end

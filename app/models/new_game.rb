@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class GameConfiguration
+class NewGame
   include ActiveModel::Model
 
   # @return [String]
@@ -16,7 +16,10 @@ class GameConfiguration
   def create_game
     return unless valid?
 
+    question = "How are you doing?"
     player = Player.new(name: player_name, user: user)
+    player.rounds.build(question: question)
+
     Game.create!(players: [player])
   end
 end

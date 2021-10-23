@@ -1,6 +1,6 @@
-<h1>New game configuration</h1>
+<h1>New game</h1>
 
-<%= simple_form_for @game_configuration do |form| %>
+<%= simple_form_for @new_game do |form| %>
   <%= form.error_notification %>
   <%- if form.object.errors[:base].present? -%>
     <%= form.error_notification message: form.object.errors[:base].to_sentence %>

@@ -8,20 +8,18 @@ class GamesController < ApplicationController
 
   # GET /games/1
   def show
-    @game = Game.find(params[:id])
+    @game = Game.includes(:current_round, :active_player).find(params[:id])
     @current_player = @game.players.find_by(user: @user)
 
     # Create player if user doesn't have one
     return redirect_to(new_game_player_path(@game)) if @current_player.blank?
 
-    @active_round = @game.active_round
-    return if @active_round.blank?
-
-    @active_player = @active_round&.player
+    @active_player = @game.active_player
+    @current_round = @game.current_round
     return if @current_player == @active_player
 
-    @answer =
-      @active_round.answers.find_or_initialize_by(player: @current_player)
+    @answer = @current_round.answers
+      .find_or_initialize_by(player: @current_player)
   end
 
   # GET /games/new

@@ -1,17 +1,17 @@
 <p id="notice"><%= notice %></p>
 
 <div class="row">
-  <div class="col-md-10" id="active_round">
-    <%- if @active_round.present? -%>
+  <div class="col-md-10" id="current_round">
+    <%- if @current_round.status_active? -%>
       <p>
         <strong>Question:</strong>
-        <%= @active_round.question %>
+        <%= @current_round.question %>
       </p>
 
       <%- if @current_player != @active_player -%>
         <%=
           simple_form_for(
-            [@answer.persisted? ? nil : @active_round, @answer],
+            [@answer.persisted? ? nil : @current_round, @answer],
             wrapper: :inline_form,
             html: { class: "row row-cols-lg-auto g-3 align-items-center mb-2" },
             wrapper_mappings: { boolean: :inline_boolean }
@@ -32,7 +32,7 @@
         <%=
           button_to(
             "Complete Round",
-            active_round_path(@active_round),
+            active_round_path(@current_round),
             method: :delete,
             class: "btn btn-danger btn-lg",
             form_class: "d-grid gap-2 col-6 mx-auto"
@@ -43,7 +43,7 @@
       <%=
         button_to(
           "Create Round",
-          game_active_rounds_path(@game, active_round: { question: nil }),
+          round_new_rounds_path(@current_round, new_round: { question: nil }),
           class: "btn btn-primary btn-lg",
           form_class: "d-grid gap-2 col-6 mx-auto"
         )
@@ -59,7 +59,7 @@
           <%- if player == @active_player -%>
             ★
           <%- else -%>
-            <%= player.active_answer.present? ? "☑" : "☐" %>
+            <%= player.current_answer.present? ? "☑" : "☐" %>
           <%- end -%>
           -
           <%= player.name %>

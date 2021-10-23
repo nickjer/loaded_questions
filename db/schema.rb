@@ -43,11 +43,13 @@ ActiveRecord::Schema.define(version: 2021_10_19_215845) do
 
   create_table "rounds", force: :cascade do |t|
     t.integer "player_id", null: false
+    t.integer "previous_id"
     t.integer "status", default: 0, null: false
     t.text "question"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["player_id"], name: "index_rounds_on_player_id"
+    t.index ["previous_id"], name: "index_rounds_on_previous_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|

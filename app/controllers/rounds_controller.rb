@@ -3,7 +3,7 @@
 class RoundsController < ApplicationController
   # GET /rounds
   def index
-    @rounds = player.rounds
+    @rounds = game.rounds
   end
 
   # GET /rounds/1
@@ -13,7 +13,7 @@ class RoundsController < ApplicationController
 
   # GET /rounds/new
   def new
-    @round = player.rounds.build
+    @round = game.rounds.build(player: current_player)
   end
 
   # GET /rounds/1/edit
@@ -24,11 +24,11 @@ class RoundsController < ApplicationController
   # POST /rounds
   def create
     respond_to do |format|
-      if CreateRound.new(player).call
-        format.html { redirect_to @player.game, notice: "Round was created." }
+      if CreateRound.new(current_player).call
+        format.html { redirect_to game, notice: "Round was created." }
       else
         format.html do
-          redirect_to @player.game, notice: "Round failed to be created."
+          redirect_to game, notice: "Round failed to be created."
         end
       end
     end
@@ -39,7 +39,7 @@ class RoundsController < ApplicationController
     @round = Round.find(params[:id])
     respond_to do |format|
       if @round.update(round_params)
-        format.html { redirect_to @round.game, notice: "Round was updated." }
+        format.html { redirect_to game, notice: "Round was updated." }
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -57,8 +57,12 @@ class RoundsController < ApplicationController
 
   private
 
-  def player
-    @player ||= Player.find(params[:player_id])
+  def game
+    @game ||= Game.find(params[:game_id])
+  end
+
+  def current_player
+    @current_player ||= game.players.find_by!(user: @user)
   end
 
   def round_params
