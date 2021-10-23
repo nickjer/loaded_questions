@@ -5,6 +5,7 @@ class Game < ApplicationRecord
 
   has_many :players, dependent: :destroy
 
+  has_many :rounds, through: :players
   has_one :active_player, -> { active }, class_name: "Player",
     inverse_of: :game, dependent: nil
   has_one :current_round, -> { current }, through: :active_player,

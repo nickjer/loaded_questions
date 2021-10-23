@@ -17,4 +17,13 @@ class Round < ApplicationRecord
 
   validates :question, presence: true
   validates :previous, uniqueness: { allow_blank: true }
+  validate :all_rounds_completed, on: :create
+
+  private
+
+  def all_rounds_completed
+    return unless game.rounds.status_active.exists?
+
+    errors.add(:base, "Active round currently exists for this game")
+  end
 end
