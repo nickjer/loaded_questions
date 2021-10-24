@@ -5,6 +5,7 @@ class NewRound
 
   validates :previous_round, presence: true
   validates :player, presence: true
+  validate :player_in_game
 
   # @return [Round]
   attr_accessor :previous_round
@@ -26,6 +27,12 @@ class NewRound
   end
 
   private
+
+  def player_in_game
+    return if previous_round.game.players.exists?(player.id)
+
+    errors.add(:player, message: "does not exist in this game")
+  end
 
   # @return [Round]
   def round

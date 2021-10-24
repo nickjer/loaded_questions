@@ -24,7 +24,8 @@ class ActiveRoundsController < ApplicationController
   # DELETE /rounds/1
   def destroy
     Round
-      .where(player: Player.where(user: @user), status: :active)
+      .not_completed
+      .where(player: Player.where(user: @user))
       .find(params[:id])
       .update(status: :completed)
     respond_to do |format|

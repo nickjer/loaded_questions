@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Round < ApplicationRecord
-  enum status: { active: 0, completed: 1 }, _prefix: true
+  enum status: { polling: 0, matching: 1, completed: 2 }
 
   belongs_to :player
   belongs_to :previous, class_name: "Round", optional: true
@@ -11,6 +11,7 @@ class Round < ApplicationRecord
   has_one :game, through: :player
   has_one :next, class_name: "Round", foreign_key: :previous_id,
     inverse_of: :previous, dependent: :destroy
+  has_many :participating_players, through: :answers, source: :player
 
   scope :current,
     -> { left_outer_joins(:next).where(nexts_rounds: { id: nil }).distinct }
@@ -29,7 +30,7 @@ class Round < ApplicationRecord
   private
 
   def all_rounds_completed
-    return unless game.rounds.status_active.exists?
+    return unless game.rounds.not_completed.exists?
 
     errors.add(:base, "Active round currently exists for this game")
   end

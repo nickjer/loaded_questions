@@ -16,8 +16,11 @@ ActiveRecord::Schema.define(version: 2021_10_19_215845) do
     t.text "value", null: false
     t.integer "player_id", null: false
     t.integer "round_id", null: false
+    t.integer "guessed_player_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["guessed_player_id", "round_id"], name: "index_answers_on_guessed_player_id_and_round_id", unique: true
+    t.index ["guessed_player_id"], name: "index_answers_on_guessed_player_id"
     t.index ["player_id", "round_id"], name: "index_answers_on_player_id_and_round_id", unique: true
     t.index ["player_id"], name: "index_answers_on_player_id"
     t.index ["round_id"], name: "index_answers_on_round_id"

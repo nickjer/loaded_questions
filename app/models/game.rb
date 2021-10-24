@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Game < ApplicationRecord
-  enum status: { active: 0, completed: 1 }, _prefix: true
+  enum status: { playing: 0, completed: 1 }
 
   has_many :players, dependent: :destroy
 

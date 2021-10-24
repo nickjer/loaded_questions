@@ -2,13 +2,23 @@
 
 <div class="row">
   <div class="col-md-10" id="current_round">
-    <%- if @current_round.status_active? -%>
+    <%- if @current_round.polling? -%>
       <p>
         <strong>Question:</strong>
         <%= @current_round.question %>
       </p>
 
-      <%- if @current_player != @active_player -%>
+      <%- if @current_player == @active_player -%>
+        <%=
+          button_to(
+            "Complete Round",
+            active_round_path(@current_round),
+            method: :delete,
+            class: "btn btn-danger btn-lg",
+            form_class: "d-grid gap-2 col-6 mx-auto"
+          )
+        %>
+      <%- else -%>
         <%=
           simple_form_for(
             [@answer.persisted? ? nil : @current_round, @answer],
@@ -28,22 +38,18 @@
             <%= form.button :submit, class: "btn-primary" %>
           </div>
         <% end %>
+      <%- end -%>
+    <%- elsif @current_round.matching? -%>
+      <%- if @current_player == @active_player -%>
+        PLEASE MATCH
       <%- else -%>
-        <%=
-          button_to(
-            "Complete Round",
-            active_round_path(@current_round),
-            method: :delete,
-            class: "btn btn-danger btn-lg",
-            form_class: "d-grid gap-2 col-6 mx-auto"
-          )
-        %>
+        MATCHING
       <%- end -%>
     <%- else -%>
       <%=
         button_to(
           "Create Round",
-          round_new_rounds_path(@current_round, new_round: { question: nil }),
+          round_new_rounds_path(@current_round),
           class: "btn btn-primary btn-lg",
           form_class: "d-grid gap-2 col-6 mx-auto"
         )

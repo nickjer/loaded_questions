@@ -3,6 +3,7 @@
 class Answer < ApplicationRecord
   belongs_to :player
   belongs_to :round
+  belongs_to :guessed_player, class_name: "Player", optional: true
 
   has_one :game, through: :player
 
@@ -10,5 +11,10 @@ class Answer < ApplicationRecord
     uniqueness: {
       scope: :round,
       message: "Answer already exists for this player"
+    }
+  validates :guessed_player,
+    uniqueness: {
+      scope: :round,
+      messages: "You already guessed this player on another answer"
     }
 end
