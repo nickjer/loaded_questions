@@ -20,16 +20,22 @@ class Round < ApplicationRecord
   validate :all_rounds_completed, on: :create
   validate :single_root_round, on: :create
 
+  # @return [Game, nil]
+  def game
+    # This is a workaround for https://github.com/rails/rails/issues/33155
+    super || player&.game
+  end
+
   private
 
   def all_rounds_completed
-    return unless player.game.rounds.status_active.exists?
+    return unless game.rounds.status_active.exists?
 
     errors.add(:base, "Active round currently exists for this game")
   end
 
   def single_root_round
-    return if previous.present? || !player.game.rounds.exists?
+    return if previous.present? || !game.rounds.exists?
 
     errors.add(:base, "Game already has an initial round")
   end

@@ -10,8 +10,8 @@ class NewGamesController < ApplicationController
   def create
     @new_game = NewGame.new(new_game_params)
 
-    if (game = @new_game.create_game)
-      redirect_to game
+    if @new_game.save
+      redirect_to game_path(@new_game)
     else
       render :new, status: :unprocessable_entity
     end

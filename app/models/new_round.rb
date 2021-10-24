@@ -12,23 +12,23 @@ class NewRound
   # @return [Player]
   attr_accessor :player
 
-  # @return [Game]
-  delegate :game, to: :previous_round
-
-  # @return [Round]
-  def round
-    # Do not use #build_* because it will delete original association
-    @round ||= Round.new(
-      question: "How are you doing?",
-      previous: previous_round,
-      player: player
-    )
-  end
-
   # @return [Boolean]
   def save
     return false unless valid?
 
+    round.assign_attributes(
+      question: "How are you doing?",
+      previous: previous_round,
+      player: player
+    )
+
     round.save
+  end
+
+  private
+
+  # @return [Round]
+  def round
+    @round ||= Round.new
   end
 end
