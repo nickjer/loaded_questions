@@ -2,6 +2,8 @@
 
 class MatchingRound
   include ActiveModel::Model
+  include ActiveModel::Validations::Callbacks
+  include LogValidations
 
   validates :round, presence: true
   validates :status, inclusion: { in: %w[polling] }

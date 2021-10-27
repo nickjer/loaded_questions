@@ -2,6 +2,8 @@
 
 class NewRound
   include ActiveModel::Model
+  include ActiveModel::Validations::Callbacks
+  include LogValidations
 
   validates :previous_round, presence: true
   validates :player, presence: true

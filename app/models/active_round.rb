@@ -2,6 +2,8 @@
 
 class ActiveRound
   include ActiveModel::Model
+  include ActiveModel::Validations::Callbacks
+  include LogValidations
 
   # @return [Game]
   attr_accessor :game
