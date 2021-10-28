@@ -7,6 +7,7 @@ class Answer < ApplicationRecord
 
   has_one :game, through: :player
 
+  validates :value, presence: true
   validates :player,
     uniqueness: {
       scope: :round,
