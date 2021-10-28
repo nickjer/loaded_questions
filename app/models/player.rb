@@ -14,4 +14,9 @@ class Player < ApplicationRecord
     uniqueness: { scope: :user, message: "Player already exists for this game" }
 
   scope :active, -> { joins(:rounds).merge(Round.current) }
+
+  # @return [void]
+  def name=(value)
+    super(value&.strip)
+  end
 end

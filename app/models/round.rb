@@ -27,6 +27,11 @@ class Round < ApplicationRecord
     super || player&.game
   end
 
+  # @return [void]
+  def question=(value)
+    super(value&.strip)
+  end
+
   private
 
   def all_rounds_completed

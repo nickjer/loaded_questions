@@ -18,4 +18,9 @@ class Answer < ApplicationRecord
       allow_blank: true,
       messages: "You already guessed this player on another answer"
     }
+
+  # @return [void]
+  def value=(value)
+    super(value&.strip)
+  end
 end
