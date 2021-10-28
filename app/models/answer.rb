@@ -15,6 +15,7 @@ class Answer < ApplicationRecord
   validates :guessed_player,
     uniqueness: {
       scope: :round,
+      allow_blank: true,
       messages: "You already guessed this player on another answer"
     }
 end

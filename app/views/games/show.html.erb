@@ -11,9 +11,9 @@
       <%- if @current_player == @active_player -%>
         <%=
           button_to(
-            "Complete Round",
-            active_round_path(@current_round),
-            method: :delete,
+            "Begin Matching Answers",
+            round_matching_rounds_path(@current_round),
+            method: :post,
             class: "btn btn-danger btn-lg",
             form_class: "d-grid gap-2 col-6 mx-auto"
           )
@@ -40,6 +40,14 @@
         <% end %>
       <%- end -%>
     <%- elsif @current_round.matching? -%>
+      <div class="list-group" data-controller="sort">
+        <%- @current_round.answers.each do |answer| -%>
+          <div class="list-group-item">
+            <h5 class="mb-1"><%= answer.player.name %></h5>
+            <div class="draggable-item"><%= answer.value %></div>
+          </div>
+        <%- end -%>
+      </div>
       <%- if @current_player == @active_player -%>
         PLEASE MATCH
       <%- else -%>

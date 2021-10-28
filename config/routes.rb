@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :players, shallow: true
     resources :rounds, shallow: true do
       resources :new_rounds
+      resources :matching_rounds
       resources :answers
     end
   end
