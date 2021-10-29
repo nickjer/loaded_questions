@@ -14,14 +14,17 @@ gem "sqlite3", "~> 1.4"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
 
-# Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-gem "importmap-rails", ">= 0.3.4"
+# Bundle and transpile JavaScript [https://github.com/rails/jsbundling-rails]
+gem "jsbundling-rails", "~> 0.1.0"
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails", ">= 0.7.11"
 
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails", ">= 0.4.0"
+
+# Bundle and process CSS [https://github.com/rails/cssbundling-rails]
+gem "cssbundling-rails", ">= 0.1.0"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder", "~> 2.7"
@@ -40,10 +43,7 @@ gem "bootsnap", ">= 1.4.4", require: false
 # gem "bcrypt", "~> 3.1.7"
 
 # Use Sass to process CSS
-gem "sassc-rails", "~> 2.1"
-
-# Use Bootstrap for styling
-gem "bootstrap", "~> 5.1"
+# gem "sassc-rails", "~> 2.1"
 
 # Flexible form builder
 gem "simple_form", "~> 5.1"
