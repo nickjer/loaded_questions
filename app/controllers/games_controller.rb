@@ -9,9 +9,9 @@ class GamesController < ApplicationController
   # GET /games/1
   def show
     @game = Game.includes(
-      :current_round, :active_player, players: [:user, :current_answer]
+      :current_round, :active_player, players: :current_answer
     ).find(params[:id])
-    @current_player = @game.players.find { |player| player.user = @user }
+    @current_player = @game.players.find_by(user: @user)
 
     # Create player if user doesn't have one
     return redirect_to(new_game_player_path(@game)) if @current_player.blank?
