@@ -71,12 +71,16 @@
   <div class="col-md-2">
     <strong>Players:</strong>
     <div id="players">
-      <%- @game.players.order(:name).each do |player| -%>
+      <%- @game.players.sort_by(&:name).each do |player| -%>
         <div id="<%= dom_id player %>">
           <%- if player == @active_player -%>
             ★
           <%- else -%>
-            <%= player.current_answer.present? ? "☑" : "☐" %>
+            <%- if player.current_answer.present? -%>
+              <i class="fa-regular fa-square-check"></i>
+            <%- else -%>
+              <i class="fa-regular fa-square"></i>
+            <%- end -%>
           <%- end -%>
           -
           <%= player.name %>

@@ -7,7 +7,8 @@ class Player < ApplicationRecord
   has_many :rounds, dependent: :destroy
   has_many :answers, dependent: :destroy
 
-  has_one :current_answer, through: :game, source: :current_answers
+  has_one :current_answer, ->(player) { where(player: player) },
+    through: :game, source: :current_answers
 
   validates :name, uniqueness: { scope: :game, case_sensitive: false }
   validates :game,
