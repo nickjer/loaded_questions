@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
-class NewRound
-  include ActiveModel::Model
-  include ActiveModel::Validations::Callbacks
-  include LogValidations
-
+class NewRound < Form
   validates :previous_round, presence: true
   validates :player, presence: true
   validate :player_in_game

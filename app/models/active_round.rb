@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
-class ActiveRound
-  include ActiveModel::Model
-  include ActiveModel::Validations::Callbacks
-  include LogValidations
-
+class ActiveRound < Form
   # @return [Game]
   attr_accessor :game
 

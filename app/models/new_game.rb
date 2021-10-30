@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
-class NewGame
-  include ActiveModel::Model
-  include ActiveModel::Validations::Callbacks
-  include LogValidations
-
+class NewGame < Form
   validates :player_name, presence: true
   validates :user, presence: true
 

@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
-class MatchingRound
-  include ActiveModel::Model
-  include ActiveModel::Validations::Callbacks
-  include LogValidations
-
+class MatchingRound < Form
   validates :round, presence: true
   validates :status, inclusion: { in: %w[polling] }
 
