@@ -17,6 +17,7 @@ class GamesController < ApplicationController
     @active_player = @game.active_player
     @current_round = @game.current_round
     return if @current_player == @active_player
+    return unless @current_round.polling?
 
     @answer = @current_round.answers
       .find_or_initialize_by(player: @current_player)

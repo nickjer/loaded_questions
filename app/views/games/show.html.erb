@@ -42,7 +42,10 @@
     <%- elsif @current_round.matching? -%>
       <div class="list-group">
         <%- @current_round.answers.each do |answer| -%>
-          <div class="list-group-item" data-controller="swap" data-swap-group="answers">
+          <div
+            class="list-group-item"
+            data-controller="<%= "swap" if @current_player == @active_player %>"
+            data-swap-group="answers">
             <h5 class="mb-1"><%= answer.player.name %></h5>
             <div class="swap-item">
               <%= answer.value %>
@@ -51,9 +54,7 @@
         <%- end -%>
       </div>
       <%- if @current_player == @active_player -%>
-        PLEASE MATCH
-      <%- else -%>
-        MATCHING
+        Button here!
       <%- end -%>
     <%- else -%>
       <%=
