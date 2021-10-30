@@ -3,5 +3,5 @@
 
 import { application } from "./application"
 
-import SortController from "./sort_controller"
-application.register("sort", SortController)
+import SwapController from "./swap_controller"
+application.register("swap", SwapController)
