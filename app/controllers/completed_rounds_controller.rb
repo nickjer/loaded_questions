@@ -11,7 +11,7 @@ class CompletedRoundsController < ApplicationController
     @completed_round = CompletedRound.new(completed_round_params)
 
     if @completed_round.save
-      redirect_to @completed_round.game, notice: "Begin completed round"
+      redirect_to @completed_round.game
     else
       redirect_to @completed_round.game,
         notice: "Failed to proceed to completed round"

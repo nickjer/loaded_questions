@@ -27,7 +27,7 @@ class AnswersController < ApplicationController
 
     respond_to do |format|
       if @answer.save
-        format.html { redirect_to game, notice: "Answer was created." }
+        format.html { redirect_to game }
       else
         format.html { redirect_to game, notice: "Answer failed to be created." }
       end
@@ -40,7 +40,7 @@ class AnswersController < ApplicationController
 
     respond_to do |format|
       if @answer.update(answer_params)
-        format.html { redirect_to game, notice: "Answer was updated." }
+        format.html { redirect_to game }
       else
         format.html { redirect_to game, notice: "Answer failed to be created." }
       end
@@ -51,9 +51,7 @@ class AnswersController < ApplicationController
   def destroy
     @answer = Answer.find(params[:id])
     @answer.destroy
-    respond_to do |format|
-      format.html { redirect_to answers_url, notice: "Answer was destroyed." }
-    end
+    respond_to { |format| format.html { redirect_to answers_url } }
   end
 
   private

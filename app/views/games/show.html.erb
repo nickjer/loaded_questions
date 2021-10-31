@@ -1,11 +1,18 @@
-<p id="notice"><%= notice %></p>
+<%- if notice -%>
+  <div class="alert alert-danger d-flex align-items-center mt-2" role="alert">
+    <i class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"></i>
+    <div><%= notice %></div>
+  </div>
+<%- end -%>
 
-<div class="row">
+<div class="row mt-2">
   <div class="col-md-10" id="current_round">
-    <p>
+    <div class="card border-secondary mb-2">
+      <div class="card-body">
       <strong>Question:</strong>
       <%= @current_round.question %>
-    </p>
+      </div>
+    </div>
     <%- if @current_round.polling? -%>
       <%- if @current_player == @active_player -%>
         <%=
@@ -13,6 +20,7 @@
             "Begin Matching Answers",
             round_matching_rounds_path(@current_round),
             method: :post,
+            disabled: @current_round.ordered_answers.blank?,
             class: "btn btn-danger btn-lg",
             form_class: "d-grid gap-2 col-6 mx-auto"
           )
@@ -48,8 +56,13 @@
         <%- @current_round.ordered_answers.each do |answer| -%>
           <div class="list-group-item" data-swap-target="item">
             <h5 class="mb-1"><%= answer.guessed_player.name %></h5>
-            <div data-id="<%= answer.id %>" class="swap-item">
-              <%= answer.value %>
+            <div data-id="<%= answer.id %>" class="swap-item d-flex align-items-center">
+              <%- if @current_player == @active_player -%>
+                <span class="badge bg-light text-dark flex-shrink-0 me-2 border">
+                  <i class="bi bi-arrow-down-up"></i>
+                </span>
+              <%- end -%>
+              <div><%= answer.value %></div>
             </div>
           </div>
         <%- end -%>
@@ -76,9 +89,9 @@
               </h5>
               <small>
               <%- if correct_match -%>
-                <i class="fa-solid fa-check"></i>
+                <i class="bi bi-check-lg"></i>
               <%- else -%>
-                <i class="fa-solid fa-xmark"></i>
+                <i class="bi bi-x-lg"></i>
               <%- end -%>
               </small>
             </div>
@@ -87,7 +100,7 @@
             </p>
             <%- unless correct_match -%>
               <small>
-                <i class="fa-solid fa-minus"></i>
+                <i class="bi bi-dash"></i>
                 <%= answer.player.name %>
               </small>
             <%- end -%>
@@ -95,12 +108,12 @@
         <%- end -%>
       </div>
       <p>
-        Total Points = <%= @current_round.ordered_answers.count(&:correct?) %>
+        Total Correct = <%= @current_round.ordered_answers.count(&:correct?) %>
       </p>
       <%=
         button_to(
           "Create Round",
-          player_new_rounds_path(@current_round),
+          player_new_rounds_path(@current_player),
           class: "btn btn-primary btn-lg",
           form_class: "d-grid gap-2 col-6 mx-auto"
         )
@@ -114,12 +127,12 @@
       <%- @game.players.sort_by(&:name).each do |player| -%>
         <div id="<%= dom_id player %>">
           <%- if player == @active_player -%>
-            <i class="fa-solid fa-star fa-fw"></i>
+            <i class="bi bi-star-fill"></i>
           <%- else -%>
             <%- if player.current_answer.present? -%>
-              <i class="fa-regular fa-square-check fa-fw"></i>
+              <i class="bi bi-check-square"></i>
             <%- else -%>
-              <i class="fa-regular fa-square fa-fw"></i>
+              <i class="bi bi-square"></i>
             <%- end -%>
           <%- end -%>
           -

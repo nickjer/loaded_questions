@@ -11,7 +11,7 @@ class NewRoundsController < ApplicationController
     @new_round = NewRound.new(new_round_params)
 
     if @new_round.save
-      redirect_to game, notice: "New round was created"
+      redirect_to game
     else
       redirect_to game, notice: "New round failed to be created"
     end

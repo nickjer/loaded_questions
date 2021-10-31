@@ -1,7 +1,6 @@
 @import 'bootstrap/scss/bootstrap';
 
-$fa-font-path: '@fortawesome/fontawesome-free/webfonts';
-@import '@fortawesome/fontawesome-free/scss/fontawesome';
-@import '@fortawesome/fontawesome-free/scss/solid';
-@import '@fortawesome/fontawesome-free/scss/brands';
-@import '@fortawesome/fontawesome-free/scss/regular';
+$bootstrap-icons-font-src:
+  url("bootstrap-icons/font/fonts/bootstrap-icons.woff2") format("woff2"),
+  url("bootstrap-icons/font/fonts/bootstrap-icons.woff") format("woff") !default;
+@import 'bootstrap-icons/font/bootstrap-icons';

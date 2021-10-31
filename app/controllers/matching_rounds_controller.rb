@@ -11,7 +11,7 @@ class MatchingRoundsController < ApplicationController
     @matching_round = MatchingRound.new(matching_round_params)
 
     if @matching_round.save
-      redirect_to @matching_round.game, notice: "Begin matching round"
+      redirect_to @matching_round.game
     else
       redirect_to @matching_round.game,
         notice: "Failed to proceed to matching round"

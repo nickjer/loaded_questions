@@ -27,7 +27,7 @@ class PlayersController < ApplicationController
 
     respond_to do |format|
       if @player.save
-        format.html { redirect_to @player.game, notice: "Player was created." }
+        format.html { redirect_to @player.game }
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -39,7 +39,7 @@ class PlayersController < ApplicationController
     @player = Player.find(params[:id])
     respond_to do |format|
       if @player.update(player_params)
-        format.html { redirect_to @player.game, notice: "Player was updated." }
+        format.html { redirect_to @player.game }
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
