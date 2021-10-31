@@ -20,6 +20,9 @@ class Answer < ApplicationRecord
       messages: "You already guessed this player on another answer"
     }
 
+  scope :ordered_by_guessed_player,
+    -> { includes(:guessed_player).order("players.name") }
+
   # @return [void]
   def value=(value)
     super(value&.strip)
@@ -28,5 +31,10 @@ class Answer < ApplicationRecord
   # @return [Boolean]
   def readonly?
     round.completed?
+  end
+
+  # @return [Boolean]
+  def correct?
+    player_id == guessed_player_id
   end
 end

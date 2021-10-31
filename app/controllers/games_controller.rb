@@ -11,7 +11,10 @@ class GamesController < ApplicationController
     @game = Game.includes(
       :active_player,
       players: :current_answer,
-      current_round: :participating_players
+      current_round: [
+        :participating_players,
+        { ordered_answers: %i[player guessed_player] }
+      ]
     ).find(params[:id])
     @current_player = @game.players.find_by(user: @user)
 

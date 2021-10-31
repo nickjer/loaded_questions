@@ -45,11 +45,11 @@
         data-controller="<%= "swap" if @current_player == @active_player %>"
         data-swap-url-value="<%= round_answer_swappers_path(@current_round, format: :json) %>"
         data-swap-name-value="answer">
-        <%- @current_round.participating_players.sort_by(&:name).each do |player| -%>
+        <%- @current_round.ordered_answers.each do |answer| -%>
           <div class="list-group-item" data-swap-target="item">
-            <h5 class="mb-1"><%= player.name %></h5>
-            <div data-id="<%= player.guessed_answer.id %>" class="swap-item">
-              <%= player.guessed_answer.value %>
+            <h5 class="mb-1"><%= answer.guessed_player.name %></h5>
+            <div data-id="<%= answer.id %>" class="swap-item">
+              <%= answer.value %>
             </div>
           </div>
         <%- end -%>
@@ -64,9 +64,39 @@
             form_class: "d-grid gap-2 col-6 mx-auto"
           )
         %>
-        Button here!
       <%- end -%>
     <%- else -%>
+      <div id="answers" class="list-group mb-2">
+        <%- @current_round.ordered_answers.each do |answer| -%>
+          <%- correct_match = answer.player == answer.guessed_player -%>
+          <div class="list-group-item list-group-item-<%= correct_match ? "success" : "danger" %>">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">
+                <%= answer.guessed_player.name %>
+              </h5>
+              <small>
+              <%- if correct_match -%>
+                <i class="fa-solid fa-check"></i>
+              <%- else -%>
+                <i class="fa-solid fa-xmark"></i>
+              <%- end -%>
+              </small>
+            </div>
+            <p class="mb-1">
+              <%= answer.value %>
+            </p>
+            <%- unless correct_match -%>
+              <small>
+                <i class="fa-solid fa-minus"></i>
+                <%= answer.player.name %>
+              </small>
+            <%- end -%>
+          </div>
+        <%- end -%>
+      </div>
+      <p>
+        Total Points = <%= @current_round.ordered_answers.count(&:correct?) %>
+      </p>
       <%=
         button_to(
           "Create Round",
@@ -84,12 +114,12 @@
       <%- @game.players.sort_by(&:name).each do |player| -%>
         <div id="<%= dom_id player %>">
           <%- if player == @active_player -%>
-            ★
+            <i class="fa-solid fa-star fa-fw"></i>
           <%- else -%>
             <%- if player.current_answer.present? -%>
-              <i class="fa-regular fa-square-check"></i>
+              <i class="fa-regular fa-square-check fa-fw"></i>
             <%- else -%>
-              <i class="fa-regular fa-square"></i>
+              <i class="fa-regular fa-square fa-fw"></i>
             <%- end -%>
           <%- end -%>
           -

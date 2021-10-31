@@ -7,6 +7,8 @@ class Round < ApplicationRecord
   belongs_to :previous, class_name: "Round", optional: true
 
   has_many :answers, dependent: :destroy
+  has_many :ordered_answers, -> { ordered_by_guessed_player },
+    class_name: "Answer", inverse_of: :round, dependent: nil
 
   has_one :game, through: :player
   has_one :next, class_name: "Round", foreign_key: :previous_id,
