@@ -41,7 +41,7 @@
     <%- elsif @current_round.matching? -%>
       <div
         id="answers"
-        class="list-group"
+        class="list-group mb-2"
         data-controller="<%= "swap" if @current_player == @active_player %>"
         data-swap-url-value="<%= round_answer_swappers_path(@current_round, format: :json) %>"
         data-swap-name-value="answer">
@@ -55,6 +55,15 @@
         <%- end -%>
       </div>
       <%- if @current_player == @active_player -%>
+        <%=
+          button_to(
+            "Complete Matching",
+            round_completed_rounds_path(@current_round),
+            method: :post,
+            class: "btn btn-danger btn-lg",
+            form_class: "d-grid gap-2 col-6 mx-auto"
+          )
+        %>
         Button here!
       <%- end -%>
     <%- else -%>
