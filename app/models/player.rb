@@ -9,6 +9,8 @@ class Player < ApplicationRecord
 
   has_one :current_answer, ->(player) { where(player: player) },
     through: :game, source: :current_answers
+  has_one :guessed_answer, ->(player) { where(guessed_player: player) },
+    through: :game, source: :current_answers
 
   validates :name, uniqueness: { scope: :game, case_sensitive: false }
   validates :game,

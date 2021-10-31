@@ -14,9 +14,20 @@ class MatchingRound < Form
   def save
     return false unless valid?
 
-    round.status = :matching
+    Round.transaction do
+      round.status = :matching
+      randomized_players = round.participating_players.shuffle
 
-    round.save
+      round.answers.zip(randomized_players).each do |answer, random_player|
+        answer.update!(guessed_player: random_player)
+      end
+
+      round.save!
+    end
+
+    true
+  rescue StandardError
+    false
   end
 
   # @return [String]

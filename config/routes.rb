@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :rounds, shallow: true do
       resources :new_rounds
       resources :matching_rounds
+      resources :answer_swappers
       resources :answers
     end
   end

@@ -5,7 +5,10 @@ Sortable.mount(new Swap())
 
 export default class extends Controller {
   static targets = [ "item" ]
- static values = { url: String }
+  static values = {
+    name: String,
+    url: String
+  }
 
   connect() {
   }
@@ -24,23 +27,22 @@ export default class extends Controller {
     const csrfToken = document.getElementsByName("csrf-token")[0].content
 
     let data = new FormData()
-    data.append("item_id", event.item.dataset.id)
-    data.append("swap_item_id", event.swapItem.dataset.id)
+    let item_name = `${this.nameValue}_swapper[${this.nameValue}_id]`
+    let swap_item_name = `${this.nameValue}_swapper[swap_${this.nameValue}_id]`
+    data.append(item_name, event.item.dataset.id)
+    data.append(swap_item_name, event.swapItem.dataset.id)
 
-    // Rails.ajax({
-    //   url: this.urlValue,
-    //   type: "POST",
-    //   data: data
-    // })
-    // fetch(this.urlValue, {
-    fetch('/games', {
+    fetch(this.urlValue, {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: data,
       headers: {
         "X-CSRF-Token": csrfToken
       },
     })
-      .then(response => response.text())
-      .then(html => this.element.innerHTML = html)
+      .then(response => {
+        if (!response.ok) {
+          console.log(response)
+        }
+      })
   }
 }

@@ -2,17 +2,17 @@
 
 class AnswerSwapper < Form
   validates :answer_id, presence: true
-  validates :answer_swap_id, presence: true
+  validates :swap_answer_id, presence: true
   validates :round, presence: true
 
   validates :answer, presence: true
-  validates :answer_swap, presence: true
+  validates :swap_answer, presence: true
 
   # @return [String]
   attr_accessor :answer_id
 
   # @return [String]
-  attr_accessor :answer_swap_id
+  attr_accessor :swap_answer_id
 
   # @return [Round]
   attr_accessor :round
@@ -23,11 +23,10 @@ class AnswerSwapper < Form
 
     Answer.transaction do
       guessed_player = answer.guessed_player
-      answer.guessed_player = answer_swap.guessed_player
-      answer_swap.guessed_player = guessed_player
-
-      answer.save
-      answer_swap.save
+      swap_guessed_player = swap_answer.guessed_player
+      answer.update!(guessed_player: nil)
+      swap_answer.update!(guessed_player: guessed_player)
+      answer.update!(guessed_player: swap_guessed_player)
     end
 
     true
@@ -45,9 +44,9 @@ class AnswerSwapper < Form
   end
 
   # @return [Answer, nil]
-  def answer_swap
+  def swap_answer
     return if round.blank?
 
-    @answer_swap ||= round.answers.find(answer_swap_id)
+    @swap_answer ||= round.answers.find(swap_answer_id)
   end
 end

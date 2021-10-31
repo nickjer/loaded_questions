@@ -9,7 +9,9 @@ class GamesController < ApplicationController
   # GET /games/1
   def show
     @game = Game.includes(
-      :current_round, :active_player, players: :current_answer
+      :active_player,
+      players: :current_answer,
+      current_round: :participating_players
     ).find(params[:id])
     @current_player = @game.players.find_by(user: @user)
 
