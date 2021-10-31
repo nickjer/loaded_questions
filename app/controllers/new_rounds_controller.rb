@@ -19,28 +19,17 @@ class NewRoundsController < ApplicationController
 
   private
 
-  # @return [Round]
-  def previous_round
-    @previous_round ||= Round.includes(:game).find_by!(
-      id: params[:round_id],
-      player: Player.where(
-        game: Game.where(players: Player.where(user: @user))
-      )
-    )
+  def player
+    @player ||= Player.find_by!(id: params[:player_id], user: @user)
   end
 
   # @return [Game]
   def game
-    previous_round.game
-  end
-
-  # @return [Player]
-  def current_player
-    @current_player ||= game.players.find_by!(user: @user)
+    player.game
   end
 
   # @return [ActionController::Parameters]
   def new_round_params
-    params.permit.merge(player: current_player, previous_round: previous_round)
+    params.permit.merge(player: player)
   end
 end

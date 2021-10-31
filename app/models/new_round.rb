@@ -1,39 +1,44 @@
 # frozen_string_literal: true
 
 class NewRound < Form
-  validates :previous_round, presence: true
   validates :player, presence: true
-  validate :player_in_game
+  validates :previous_round, presence: true
+  validates :previous_round_status, inclusion: { in: %w[completed] }
 
-  # @return [Round]
-  attr_accessor :previous_round
-
-  # @return [Player]
+  # @return [Player, nil]
   attr_accessor :player
 
   # @return [Boolean]
   def save
     return false unless valid?
 
-    round.assign_attributes(
-      question: "How are you doing?",
-      previous: previous_round,
-      player: player
-    )
+    Round.transaction do
+      round = player.rounds.build(
+        question: "How are you doing?",
+        previous: previous_round
+      )
+      round.save!
+    end
 
-    round.save
+    true
+  rescue StandardError
+    false
   end
 
   private
 
-  def player_in_game
-    return if previous_round.game.players.exists?(player.id)
-
-    errors.add(:player, message: "does not exist in this game")
+  # @return [Game, nil]
+  def game
+    player&.game
   end
 
-  # @return [Round]
-  def round
-    @round ||= Round.new
+  # @return [Round, nil]
+  def previous_round
+    game&.current_round
+  end
+
+  # @return [String, nil]
+  def previous_round_status
+    previous_round&.status
   end
 end

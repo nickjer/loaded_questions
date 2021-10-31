@@ -24,4 +24,9 @@ class Answer < ApplicationRecord
   def value=(value)
     super(value&.strip)
   end
+
+  # @return [Boolean]
+  def readonly?
+    round.completed?
+  end
 end

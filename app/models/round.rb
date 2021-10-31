@@ -32,6 +32,11 @@ class Round < ApplicationRecord
     super(value&.strip)
   end
 
+  # @return [Boolean]
+  def readonly?
+    status_was == "completed"
+  end
+
   private
 
   def all_rounds_completed
