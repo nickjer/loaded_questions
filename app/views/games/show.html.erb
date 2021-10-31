@@ -46,7 +46,7 @@
         data-controller="<%= "swap" if @current_player == @active_player %>"
         data-swap-url-value="<%= round_answer_swappers_path(@current_round, format: :json) %>"
         data-swap-name-value="answer">
-        <%- @current_round.participating_players.each do |player| -%>
+        <%- @current_round.participating_players.sort_by(&:name).each do |player| -%>
           <div class="list-group-item" data-swap-target="item">
             <h5 class="mb-1"><%= player.name %></h5>
             <div data-id="<%= player.guessed_answer.id %>" class="swap-item">
