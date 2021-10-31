@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class MatchingRoundsController < ApplicationController
-  before_action :check_permissions
-
   # GET /matching_rounds/new
   def new
     @matching_round = MatchingRound.new
@@ -23,17 +21,13 @@ class MatchingRoundsController < ApplicationController
   private
 
   def round
-    @round ||= Round.find(params[:round_id])
+    @round ||= Round.find_by!(
+      id: params[:round_id],
+      player: Player.where(user: @user)
+    )
   end
 
   def matching_round_params
     params.permit.merge(round: round)
-  end
-
-  def check_permissions
-    return if round.player.user == @user
-
-    redirect_to round.game,
-      notice: "You do not have permissions to begin matching round"
   end
 end

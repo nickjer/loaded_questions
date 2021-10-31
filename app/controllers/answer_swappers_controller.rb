@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class AnswerSwappersController < ApplicationController
-  before_action :check_permissions
-
   # GET /answer_swappers/new
   def new
     @answer_swapper = AnswerSwapper.new
@@ -26,18 +24,14 @@ class AnswerSwappersController < ApplicationController
   private
 
   def round
-    @round ||= Round.find(params[:round_id])
+    @round ||= Round.find_by!(
+      id: params[:round_id],
+      player: Player.where(user: @user)
+    )
   end
 
   def answer_swapper_params
     params.require(:answer_swapper).permit(:answer_id, :swap_answer_id)
       .merge(round: round)
-  end
-
-  def check_permissions
-    return if round.player.user == @user
-
-    redirect_to round.game,
-      notice: "You do not have permissions to begin matching round"
   end
 end

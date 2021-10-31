@@ -21,7 +21,12 @@ class NewRoundsController < ApplicationController
 
   # @return [Round]
   def previous_round
-    @previous_round ||= Round.find(params[:round_id])
+    @previous_round ||= Round.includes(:game).find_by!(
+      id: params[:round_id],
+      player: Player.where(
+        game: Game.where(players: Player.where(user: @user))
+      )
+    )
   end
 
   # @return [Game]
@@ -29,20 +34,13 @@ class NewRoundsController < ApplicationController
     previous_round.game
   end
 
-  # @return [Player, nil]
+  # @return [Player]
   def current_player
-    @current_player ||= game.players.find_by(user: @user)
+    @current_player ||= game.players.find_by!(user: @user)
   end
 
   # @return [ActionController::Parameters]
   def new_round_params
     params.permit.merge(player: current_player, previous_round: previous_round)
-  end
-
-  # @return [void]
-  def check_permissions
-    return if current_player.present?
-
-    redirect_to game, notice: "You do not have permissions to create new round"
   end
 end
