@@ -4,11 +4,9 @@
     <%= form.error_notification message: form.object.errors[:base].to_sentence %>
   <%- end -%>
 
-  <div class="form-inputs">
-    <%= form.input :question %>
-  </div>
+  <%= form.input :question %>
 
-  <div class="form-actions">
+  <div class="col-12">
     <%= form.button :submit, class: "btn-primary" %>
   </div>
 <% end %>

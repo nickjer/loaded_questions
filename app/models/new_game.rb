@@ -2,10 +2,14 @@
 
 class NewGame < Form
   validates :player_name, presence: true
+  validates :question, presence: true
   validates :user, presence: true
 
   # @return [String]
   attr_accessor :player_name
+
+  # @return [String]
+  attr_accessor :question
 
   # @return [User]
   attr_accessor :user
@@ -31,11 +35,6 @@ class NewGame < Form
   end
 
   private
-
-  # @return [String]
-  def question
-    "How are you doing?"
-  end
 
   # @return [Player]
   def player

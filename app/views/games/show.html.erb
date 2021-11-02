@@ -13,11 +13,10 @@
     %>
     <%- if @current_round.completed? -%>
       <%=
-        button_to(
-          "Create Round",
-          player_new_rounds_path(@current_player),
-          class: "btn btn-primary btn-lg",
-          form_class: "d-grid gap-2 col-6 mx-auto"
+        link_to(
+          "New Round",
+          new_player_new_round_path(@current_player),
+          class: "btn btn-primary btn-lg d-grid gap-2 col-6 mx-auto"
         )
       %>
     <%- end -%>

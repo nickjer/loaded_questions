@@ -1,16 +1,15 @@
-<h1>New game</h1>
+<h1>New Game</h1>
 
 <%= simple_form_for @new_game do |form| %>
   <%= form.error_notification %>
-  <%- if form.object.errors[:base].present? -%>
-    <%= form.error_notification message: form.object.errors[:base].to_sentence %>
+  <%- form.object.errors.to_hash(true).except(:player_name, :question).each_value do |error_msgs| -%>
+    <%= form.error_notification message: error_msgs.to_sentence %>
   <%- end -%>
 
-  <div class="form-inputs">
-    <%= form.input :player_name %>
-  </div>
+  <%= form.input :player_name %>
+  <%= form.input :question %>
 
-  <div class="form-actions">
-    <%= form.button :submit, class: "btn-primary" %>
+  <div class="col-12">
+    <%= form.button :submit, "Create New Game", class: "btn-primary" %>
   </div>
 <% end %>

@@ -20,6 +20,6 @@ class NewGamesController < ApplicationController
   private
 
   def new_game_params
-    params.require(:new_game).permit(:player_name).merge(user: @user)
+    params.require(:new_game).permit(:player_name, :question).merge(user: @user)
   end
 end

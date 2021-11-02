@@ -2,23 +2,21 @@
 
 class NewRound < Form
   validates :player, presence: true
+  validates :question, presence: true
   validates :previous_round, presence: true
   validates :previous_round_status, inclusion: { in: %w[completed] }
 
   # @return [Player, nil]
   attr_accessor :player
 
+  # @return [String, nil]
+  attr_accessor :question
+
   # @return [Boolean]
   def save
     return false unless valid?
 
-    Round.transaction do
-      round = player.rounds.build(
-        question: "How are you doing?",
-        previous: previous_round
-      )
-      round.save!
-    end
+    player.rounds.create!(question: question, previous: previous_round)
 
     true
   rescue StandardError
