@@ -7,7 +7,20 @@
 
 <div class="row mt-2">
   <div class="col-md-10" id="current_round">
-    <%= render @current_round, current_player: @current_player, active_player: @active_player %>
+    <%=
+      render @current_round, answer: @answer,
+        is_active_player: @current_player == @active_player
+    %>
+    <%- if @current_round.completed? -%>
+      <%=
+        button_to(
+          "Create Round",
+          player_new_rounds_path(@current_player),
+          class: "btn btn-primary btn-lg",
+          form_class: "d-grid gap-2 col-6 mx-auto"
+        )
+      %>
+    <%- end -%>
   </div>
 
   <div class="col-md-2">

@@ -1,4 +1,3 @@
-<%- is_active_player = (current_player == active_player) -%>
 <div id="<%= dom_id round %>">
   <div class="card border-secondary mb-2">
     <div class="card-body">
@@ -53,15 +52,7 @@
       %>
     </div>
     <p>
-      Total Correct = <%= round.ordered_answers.count(&:correct?) %>
+      <%= round.player.name %>'s Score = <%= round.ordered_answers.count(&:correct?) %>
     </p>
-    <%=
-      button_to(
-        "Create Round",
-        player_new_rounds_path(current_player),
-        class: "btn btn-primary btn-lg",
-        form_class: "d-grid gap-2 col-6 mx-auto"
-      )
-    %>
   <%- end -%>
 </div>
