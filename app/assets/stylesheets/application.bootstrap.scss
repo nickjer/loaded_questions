@@ -1,5 +1,12 @@
 @import 'bootstrap/scss/bootstrap';
 
+.sortable-swap-highlight {
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+  --bs-text-opacity: 1;
+  color: rgba(var(--bs-white-rgb), var(--bs-text-opacity)) !important;
+}
+
 $bootstrap-icons-font-src:
   url("bootstrap-icons/font/fonts/bootstrap-icons.woff2") format("woff2"),
   url("bootstrap-icons/font/fonts/bootstrap-icons.woff") format("woff") !default;
