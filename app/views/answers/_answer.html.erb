@@ -1,20 +1,37 @@
-<div id="<%= dom_id answer %>" class="scaffold_record">
-  <p>
-    <strong>Value:</strong>
-    <%= answer.value %>
-  </p>
-
-  <p>
-    <strong>Player:</strong>
-    <%= answer.player_id %>
-  </p>
-
-  <p>
-    <strong>Round:</strong>
-    <%= answer.round_id %>
-  </p>
-
-  <p>
-    <%= link_to "Show this answer", answer %>
-  </p>
+<div
+  id="<%= dom_id answer %>"
+  <%- if round_completed -%>
+    class="list-group-item list-group-item-<%= answer.correct? ? "success" : "danger" %>"
+  <%- else -%>
+    class="list-group-item"
+  <%- end -%>
+  data-swap-target="item">
+  <div class="d-flex w-100 justify-content-between">
+    <h5 class="mb-1"><%= answer.guessed_player.name %></h5>
+    <%- if round_completed -%>
+      <small>
+        <%- if answer.correct? -%>
+          <i class="bi bi-check-lg"></i>
+        <%- else -%>
+          <i class="bi bi-x-lg"></i>
+        <%- end -%>
+      </small>
+    <%- end -%>
+  </div>
+  <div data-id="<%= answer.id %>" class="swap-item d-flex align-items-center">
+    <%- if is_active_player && !round_completed -%>
+      <span class="badge bg-light text-dark flex-shrink-0 me-2 border">
+        <i class="bi bi-arrow-down-up"></i>
+      </span>
+    <%- end -%>
+    <div><%= answer.value %></div>
+  </div>
+  <%- if round_completed && !answer.correct? -%>
+    <div>
+      <small>
+        <i class="bi bi-dash"></i>
+        <%= answer.player.name %>
+      </small>
+    </div>
+  <%- end -%>
 </div>

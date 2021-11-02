@@ -1,10 +1,67 @@
-<div id="<%= dom_id round %>" class="scaffold_record">
-  <p>
-    <strong>Question:</strong>
-    <%= round.question %>
-  </p>
+<%- is_active_player = (current_player == active_player) -%>
+<div id="<%= dom_id round %>">
+  <div class="card border-secondary mb-2">
+    <div class="card-body">
+      <strong>Question:</strong>
+      <%= round.question %>
+    </div>
+  </div>
 
-  <p>
-    <%= link_to "Show this round", round %>
-  </p>
+  <%- if round.polling? -%>
+    <%- if is_active_player -%>
+      <%=
+        button_to(
+          "Begin Matching Answers",
+          round_matching_rounds_path(round),
+          method: :post,
+          disabled: round.ordered_answers.blank?,
+          class: "btn btn-danger btn-lg",
+          form_class: "d-grid gap-2 col-6 mx-auto"
+        )
+      %>
+    <%- else -%>
+      <%= render partial: "answers/form", locals: { round: round, answer: answer } %>
+    <%- end -%>
+  <%- elsif round.matching? -%>
+    <div
+      id="answers"
+      class="list-group mb-2"
+      data-controller="<%= "swap" if is_active_player %>"
+      data-swap-url-value="<%= round_answer_swappers_path(round, format: :json) %>"
+      data-swap-name-value="answer">
+      <%=
+        render round.ordered_answers, is_active_player: is_active_player,
+          round_completed: round.completed?
+      %>
+    </div>
+    <%- if is_active_player -%>
+      <%=
+        button_to(
+          "Complete Matching",
+          round_completed_rounds_path(round),
+          method: :post,
+          class: "btn btn-danger btn-lg",
+          form_class: "d-grid gap-2 col-6 mx-auto"
+        )
+      %>
+    <%- end -%>
+  <%- else -%>
+    <div id="answers" class="list-group mb-2">
+      <%=
+        render round.ordered_answers, is_active_player: is_active_player,
+          round_completed: round.completed?
+      %>
+    </div>
+    <p>
+      Total Correct = <%= round.ordered_answers.count(&:correct?) %>
+    </p>
+    <%=
+      button_to(
+        "Create Round",
+        player_new_rounds_path(current_player),
+        class: "btn btn-primary btn-lg",
+        form_class: "d-grid gap-2 col-6 mx-auto"
+      )
+    %>
+  <%- end -%>
 </div>
