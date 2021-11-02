@@ -14,11 +14,11 @@ class ApplicationController < ActionController::Base
 
   # @return [String, nil]
   def current_user_id
-    session[:current_user_id].to_s.presence
+    cookies.permanent.encrypted[:current_user_id].to_s.presence
   end
 
   # @return [void]
   def current_user_id=(user_id)
-    session[:current_user_id] = user_id.to_s
+    cookies.permanent.encrypted[:current_user_id] = user_id.to_s
   end
 end
