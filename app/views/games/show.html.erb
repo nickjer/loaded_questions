@@ -124,21 +124,9 @@
   <div class="col-md-2">
     <strong>Players:</strong>
     <div id="players">
-      <%- @game.players.sort_by(&:name).each do |player| -%>
-        <div id="<%= dom_id player %>">
-          <%- if player == @active_player -%>
-            <i class="bi bi-star-fill"></i>
-          <%- else -%>
-            <%- if player.current_answer.present? -%>
-              <i class="bi bi-check-square"></i>
-            <%- else -%>
-              <i class="bi bi-square"></i>
-            <%- end -%>
-          <%- end -%>
-          -
-          <%= player.name %>
-        </div>
-      <%- end -%>
+      <%=
+        render(@game.players.sort_by(&:name), active_player: @active_player)
+      %>
     </div>
   </div>
 </div>

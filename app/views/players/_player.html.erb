@@ -1,20 +1,13 @@
-<div id="<%= dom_id player %>" class="scaffold_record">
-  <p>
-    <strong>Name:</strong>
-    <%= player.name %>
-  </p>
-
-  <p>
-    <strong>User:</strong>
-    <%= player.user_id %>
-  </p>
-
-  <p>
-    <strong>Game:</strong>
-    <%= player.game_id %>
-  </p>
-
-  <p>
-    <%= link_to "Show this player", player %>
-  </p>
+<div id="<%= dom_id player %>">
+  <%- if player == active_player -%>
+    <i class="bi bi-star-fill"></i>
+  <%- else -%>
+    <%- if player.current_answer.present? -%>
+      <i class="bi bi-check-square"></i>
+    <%- else -%>
+      <i class="bi bi-square"></i>
+    <%- end -%>
+  <%- end -%>
+  -
+  <%= player.name %>
 </div>
