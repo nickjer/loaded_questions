@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
 
   # @return [String, nil]
   def current_user_id
-    cookies.permanent.encrypted[:current_user_id].to_s.presence
+    cookies.encrypted[:current_user_id].to_s.presence
   end
 
   # @return [void]
