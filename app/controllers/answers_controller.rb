@@ -25,12 +25,17 @@ class AnswersController < ApplicationController
   def create
     @answer = round.answers.where(player: current_player).build(answer_params)
 
-    respond_to do |format|
-      if @answer.save
-        format.html { redirect_to game }
-      else
-        format.html { redirect_to game, notice: "Answer failed to be created." }
-      end
+    if @answer.save
+      Turbo::StreamsChannel.broadcast_update_to(
+        game,
+        target: @current_player,
+        partial: "players/player",
+        object: @current_player,
+        locals: { active_player: game.active_player }
+      )
+      redirect_to game
+    else
+      redirect_to game, notice: "Answer failed to be created."
     end
   end
 
