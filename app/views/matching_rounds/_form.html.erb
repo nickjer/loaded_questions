@@ -1,0 +1,12 @@
+<%=
+  simple_form_for(
+    round,
+    url: round_matching_rounds_path(round),
+    method: :post,
+    html: { class: "d-grid gap-2 col-6 mx-auto" }
+  ) do |form|
+%>
+  <div id="matching_round_submit">
+    <%= render "matching_rounds/submit_button", round: round %>
+  </div>
+<% end %>

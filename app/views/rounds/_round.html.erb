@@ -8,16 +8,7 @@
 
   <%- if round.polling? -%>
     <%- if is_active_player -%>
-      <%=
-        button_to(
-          "Begin Matching Answers",
-          round_matching_rounds_path(round),
-          method: :post,
-          disabled: round.ordered_answers.size < 2,
-          class: "btn btn-danger btn-lg",
-          form_class: "d-grid gap-2 col-6 mx-auto"
-        )
-      %>
+      <%= render "matching_rounds/form", round: round %>
     <%- else -%>
       <%= render partial: "answers/form", locals: { round: round, answer: answer } %>
     <%- end -%>
