@@ -28,7 +28,7 @@
     <strong>Players:</strong>
     <div id="players">
       <%=
-        render(@game.players.sort_by(&:name), active_player: @active_player)
+        render(@game.players, active_player: @active_player)
       %>
     </div>
   </div>

@@ -25,12 +25,17 @@ class PlayersController < ApplicationController
   def create
     @player = game.players.where(user: @user).build(player_params)
 
-    respond_to do |format|
-      if @player.save
-        format.html { redirect_to @player.game }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-      end
+    if @player.save
+      Turbo::StreamsChannel.broadcast_update_to(
+        game,
+        target: "players",
+        partial: "players/player",
+        collection: game.players,
+        locals: { active_player: game.active_player }
+      )
+      redirect_to @player.game
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
