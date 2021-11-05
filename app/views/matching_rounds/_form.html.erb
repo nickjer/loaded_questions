@@ -3,10 +3,47 @@
     round,
     url: round_matching_rounds_path(round),
     method: :post,
-    html: { class: "d-grid gap-2 col-6 mx-auto" }
+    html: {
+      class: "d-grid gap-2 col-6 mx-auto",
+      data: {
+        controller: "confirm-submit",
+        action: "confirm-submit#showModal"
+      }
+    }
   ) do |form|
 %>
-  <div id="matching_round_submit">
-    <%= render "matching_rounds/submit_button", round: round %>
+  <%=
+    form.button :submit, "Begin Matching Answers", class: "btn-danger btn-lg"
+  %>
+
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="createMatchingRoundModal"
+    tabindex="-1"
+    data-confirm-submit-target="modal"
+    aria-labelledby="createMatchingRoundModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createMatchingRoundModalLabel">
+            Begin Matching Answers
+          </h5>
+          <button type="button" class="btn-close" data-action="confirm-submit#closeModal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you would like to begin matching answers?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-action="confirm-submit#closeModal">
+            Close
+          </button>
+          <button type="button" class="btn btn-primary" data-action="confirm-submit#submitForm">
+            Yes, I am sure
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>

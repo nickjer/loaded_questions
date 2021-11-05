@@ -3,5 +3,8 @@
 
 import { application } from "./application"
 
-import SwapController from "./swap_controller"
+import ConfirmSubmitController from "./confirm_submit_controller.js"
+application.register("confirm-submit", ConfirmSubmitController)
+
+import SwapController from "./swap_controller.js"
 application.register("swap", SwapController)

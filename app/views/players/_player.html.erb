@@ -1,12 +1,10 @@
 <div id="<%= dom_id player %>">
   <%- if player == active_player -%>
     <i class="bi bi-star-fill"></i>
+  <%- elsif player.current_answer.present? -%>
+    <i class="bi bi-check-square"></i>
   <%- else -%>
-    <%- if player.current_answer.present? -%>
-      <i class="bi bi-check-square"></i>
-    <%- else -%>
-      <i class="bi bi-square"></i>
-    <%- end -%>
+    <i class="bi bi-square"></i>
   <%- end -%>
   -
   <%= player.name %>
