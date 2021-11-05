@@ -25,15 +25,7 @@
       %>
     </div>
     <%- if is_active_player -%>
-      <%=
-        button_to(
-          "Complete Matching",
-          round_completed_rounds_path(round),
-          method: :post,
-          class: "btn btn-danger btn-lg",
-          form_class: "d-grid gap-2 col-6 mx-auto"
-        )
-      %>
+      <%= render "completed_rounds/form", round: round %>
     <%- end -%>
   <%- else -%>
     <div id="answers" class="list-group mb-2">

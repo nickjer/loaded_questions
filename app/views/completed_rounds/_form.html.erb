@@ -1,7 +1,7 @@
 <%=
   simple_form_for(
     round,
-    url: round_matching_rounds_path(round),
+    url: round_completed_rounds_path(round),
     method: :post,
     html: {
       class: "d-grid gap-2 col-6 mx-auto",
@@ -12,26 +12,26 @@
     }
   ) do |form|
 %>
-  <%= form.button :button, "Match Answers", class: "btn-danger btn-lg" %>
+  <%= form.button :button, "Completed Matching", class: "btn-danger btn-lg" %>
 
   <!-- Modal -->
   <div
     class="modal fade"
-    id="createMatchingRoundModal"
+    id="createCompletedRoundModal"
     tabindex="-1"
     data-confirm-submit-target="modal"
-    aria-labelledby="createMatchingRoundModalLabel"
+    aria-labelledby="createCompletedRoundModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="createMatchingRoundModalLabel">
-            Begin Matching Answers
+          <h5 class="modal-title" id="createCompletedRoundModalLabel">
+            Complete Matching
           </h5>
           <button type="button" class="btn-close" data-action="confirm-submit#closeModal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          Are you sure you would like to begin matching answers?
+          Are you sure you would like to finalize your matched answers?
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-action="confirm-submit#closeModal">
