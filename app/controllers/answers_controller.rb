@@ -32,12 +32,6 @@ class AnswersController < ApplicationController
         partial: "players/player",
         locals: { player: @current_player, active_player: game.active_player }
       )
-      Turbo::StreamsChannel.broadcast_update_to(
-        game,
-        target: "matching_round_submit",
-        partial: "matching_rounds/submit_button",
-        locals: { round: round }
-      )
       redirect_to game
     else
       redirect_to game, notice: "Answer failed to be created."
