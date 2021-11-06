@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/rails/propshaft.git
+  revision: 5258e82daa664aaecbb0206ec0e6a814e009923e
+  ref: 5258e82
+  specs:
+    propshaft (0.2.0)
+      rails (>= 7.0.0.alpha2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -112,8 +120,7 @@ GEM
     parallel (1.21.0)
     parser (3.0.2.0)
       ast (~> 2.4.1)
-    propshaft (0.2.0)
-      rails (>= 7.0.0.alpha2)
+    pg (1.2.3)
     public_suffix (4.0.6)
     puma (5.5.2)
       nio4r (~> 2.0)
@@ -188,7 +195,6 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sqlite3 (1.4.2)
     stimulus-rails (0.7.2)
       rails (>= 6.0.0)
     thor (1.1.0)
@@ -223,7 +229,8 @@ DEPENDENCIES
   debug (>= 1.0.0)
   jbuilder (~> 2.7)
   jsbundling-rails (~> 0.1.0)
-  propshaft (>= 0.1.7)
+  pg (~> 1.1)
+  propshaft!
   puma (~> 5.0)
   rails (~> 7.0.0.alpha2)
   redis (~> 4.0)
@@ -232,7 +239,6 @@ DEPENDENCIES
   rubocop-rails
   selenium-webdriver
   simple_form (~> 5.1)
-  sqlite3 (~> 1.4)
   stimulus-rails (>= 0.4.0)
   turbo-rails (>= 0.7.11)
   tzinfo-data
@@ -243,4 +249,4 @@ RUBY VERSION
    ruby 3.0.1p64
 
 BUNDLED WITH
-   2.2.15
+   2.2.30

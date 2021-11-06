@@ -9,10 +9,11 @@ ruby "3.0.1"
 gem "rails", "~> 7.0.0.alpha2"
 
 # The modern asset pipeline for Rails.
-gem "propshaft", ">= 0.1.7"
+# gem "propshaft", ">= 0.1.7"
+gem "propshaft", github: "rails/propshaft", ref: "5258e82"
 
-# Use sqlite3 as the database for Active Record
-gem "sqlite3", "~> 1.4"
+# Use postgresql as the database for Active Record
+gem "pg", "~> 1.1"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
