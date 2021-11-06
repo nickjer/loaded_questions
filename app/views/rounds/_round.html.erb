@@ -10,8 +10,11 @@
   </div>
 
   <%- if round.polling? -%>
-    <%= render "matching_rounds/form", round: round %>
-    <%= render partial: "answers/form", locals: { round: round, answer: answer } %>
+    <%- if is_active_user -%>
+      <%= render "matching_rounds/form", round: round %>
+    <%- else -%>
+      <%= render partial: "answers/form", locals: { round: round, answer: answer } %>
+    <%- end -%>
   <%- elsif round.matching? -%>
     <div
       id="answers"
@@ -23,7 +26,9 @@
         render round.ordered_answers, round_completed: round.completed?
       %>
     </div>
-    <%= render "completed_rounds/form", round: round %>
+    <%- if is_active_user -%>
+      <%= render "completed_rounds/form", round: round %>
+    <%- end -%>
   <%- else -%>
     <div id="answers" class="list-group mb-2">
       <%=

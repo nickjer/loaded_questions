@@ -6,7 +6,7 @@ export default class extends Controller {
     activePlayerId: String
   }
 
-  static targets = [ "activePlayer", "notActivePlayer", "activePlayerClass" ]
+  static targets = [ "activePlayerClass" ]
 
   get currentPlayerId() {
     return document.querySelector('meta[name="current_player_id"]').content
@@ -17,18 +17,6 @@ export default class extends Controller {
   }
 
   connect() {
-  }
-
-  activePlayerTargetConnected(element) {
-    if (!this.isActivePlayer) {
-      element.remove()
-    }
-  }
-
-  notActivePlayerTargetConnected(element) {
-    if (this.isActivePlayer) {
-      element.remove()
-    }
   }
 
   activePlayerClassTargetConnected(element) {
