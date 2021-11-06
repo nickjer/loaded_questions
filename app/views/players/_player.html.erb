@@ -1,4 +1,4 @@
-<div id="<%= dom_id player %>">
+<div id="<%= dom_id player %>" data-players-target="player" data-sort-by="<%= player.name %>">
   <%- if player == active_player -%>
     <i class="bi bi-star-fill"></i>
   <%- elsif player.current_answer.present? -%>

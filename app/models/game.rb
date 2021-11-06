@@ -3,8 +3,7 @@
 class Game < ApplicationRecord
   enum status: { playing: 0, completed: 1 }
 
-  has_many :players, -> { ordered_by_name }, inverse_of: :game,
-    dependent: :destroy
+  has_many :players, dependent: :destroy
 
   has_many :rounds, through: :players
   has_one :active_player, -> { active }, class_name: "Player",

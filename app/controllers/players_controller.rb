@@ -26,12 +26,11 @@ class PlayersController < ApplicationController
     @player = game.players.where(user: @user).build(player_params)
 
     if @player.save
-      Turbo::StreamsChannel.broadcast_update_to(
+      Turbo::StreamsChannel.broadcast_append_to(
         game,
         target: "players",
         partial: "players/player",
-        collection: game.players,
-        locals: { active_player: game.active_player }
+        locals: { player: @player, active_player: game.active_player }
       )
       redirect_to @player.game
     else

@@ -28,7 +28,7 @@
 
   <div class="col-md-2">
     <strong>Players:</strong>
-    <div id="players">
+    <div id="players" data-controller="players">
       <%=
         render(@game.players, active_player: @active_player)
       %>
