@@ -1,0 +1,8 @@
+<div id="answers" class="list-group mb-2">
+  <%=
+    render round.ordered_answers, round_completed: round.completed?
+  %>
+</div>
+<p>
+  <%= round.player.name %>'s Score = <%= round.ordered_answers.count(&:correct?) %>
+</p>

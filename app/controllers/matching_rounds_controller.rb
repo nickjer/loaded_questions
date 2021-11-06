@@ -11,12 +11,12 @@ class MatchingRoundsController < ApplicationController
     @matching_round = MatchingRound.new(matching_round_params)
 
     if @matching_round.save
-      # Turbo::StreamsChannel.broadcast_update_to(
-      #   @matching_round.game,
-      #   target: "current_round",
-      #   partial: "rounds/round",
-      #   locals: { round: @round, answer: nil }
-      # )
+      Turbo::StreamsChannel.broadcast_update_to(
+        @matching_round.game,
+        target: "round_body",
+        partial: "matching_rounds/matching_round",
+        locals: { round: @round, is_active_user: false }
+      )
       redirect_to @matching_round.game
     else
       redirect_to @matching_round.game,

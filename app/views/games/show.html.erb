@@ -19,7 +19,7 @@
       <%=
         link_to(
           "New Round",
-          new_player_new_round_path(@current_player),
+          new_player_new_round_path(":current_player_id"),
           class: "btn btn-primary btn-lg d-grid gap-2 col-6 mx-auto"
         )
       %>
