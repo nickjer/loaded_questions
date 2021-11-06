@@ -2,7 +2,10 @@
   simple_form_for(
     [answer.persisted? ? nil : round, answer],
     wrapper: :inline_form,
-    html: { class: "row row-cols-lg-auto g-3 align-items-center mb-2" },
+    html: {
+      class: "row row-cols-lg-auto g-3 align-items-center mb-2",
+      data: { "rounds-target": "notActivePlayer" }
+    },
     wrapper_mappings: { boolean: :inline_boolean }
   ) do |form|
 %>

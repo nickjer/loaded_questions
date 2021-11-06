@@ -15,7 +15,7 @@ class MatchingRoundsController < ApplicationController
       #   @matching_round.game,
       #   target: "current_round",
       #   partial: "rounds/round",
-      #   locals: { round: @round, answer: nil, is_active_player: false }
+      #   locals: { round: @round, answer: nil }
       # )
       redirect_to @matching_round.game
     else

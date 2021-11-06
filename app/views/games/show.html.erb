@@ -11,10 +11,7 @@
 
 <div class="row mt-2">
   <div class="col-md-10" id="current_round">
-    <%=
-      render @current_round, answer: @answer,
-        is_active_player: @current_player == @active_player
-    %>
+    <%= render @current_round, answer: @answer %>
     <%- if @current_round.completed? -%>
       <%=
         link_to(

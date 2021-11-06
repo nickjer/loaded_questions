@@ -1,4 +1,7 @@
-<div id="<%= dom_id round %>">
+<div
+  id="<%= dom_id round %>"
+  data-controller="rounds"
+  data-rounds-active-player-id-value="<%= round.player.id %>">
   <div class="card border-secondary mb-2">
     <div class="card-body">
       <strong>Question:</strong>
@@ -7,31 +10,24 @@
   </div>
 
   <%- if round.polling? -%>
-    <%- if is_active_player -%>
-      <%= render "matching_rounds/form", round: round %>
-    <%- else -%>
-      <%= render partial: "answers/form", locals: { round: round, answer: answer } %>
-    <%- end -%>
+    <%= render "matching_rounds/form", round: round %>
+    <%= render partial: "answers/form", locals: { round: round, answer: answer } %>
   <%- elsif round.matching? -%>
     <div
       id="answers"
       class="list-group mb-2"
-      data-controller="<%= "swap" if is_active_player %>"
+      data-controller="swap"
       data-swap-url-value="<%= round_answer_swappers_path(round, format: :json) %>"
       data-swap-name-value="answer">
       <%=
-        render round.ordered_answers, is_active_player: is_active_player,
-          round_completed: round.completed?
+        render round.ordered_answers, round_completed: round.completed?
       %>
     </div>
-    <%- if is_active_player -%>
-      <%= render "completed_rounds/form", round: round %>
-    <%- end -%>
+    <%= render "completed_rounds/form", round: round %>
   <%- else -%>
     <div id="answers" class="list-group mb-2">
       <%=
-        render round.ordered_answers, is_active_player: is_active_player,
-          round_completed: round.completed?
+        render round.ordered_answers, round_completed: round.completed?
       %>
     </div>
     <p>

@@ -6,7 +6,6 @@ export default class extends Controller {
   static targets = [ "modal" ]
 
   connect() {
-    console.log(this.element)
   }
 
   modalTargetConnected(element) {
