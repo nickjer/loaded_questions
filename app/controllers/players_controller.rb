@@ -26,7 +26,7 @@ class PlayersController < ApplicationController
     @player = game.players.where(user: @user).build(player_params)
 
     if @player.save
-      Turbo::StreamsChannel.broadcast_append_to(
+      Turbo::StreamsChannel.broadcast_append_later_to(
         game,
         target: "players",
         partial: "players/player",

@@ -14,7 +14,7 @@ class MatchingRoundsController < ApplicationController
       MatchingRound.new(matching_round_params.merge(round: round))
 
     if @matching_round.save
-      Turbo::StreamsChannel.broadcast_replace_to(
+      Turbo::StreamsChannel.broadcast_replace_later_to(
         @matching_round.game,
         target: round,
         partial: "rounds/round_frame",
