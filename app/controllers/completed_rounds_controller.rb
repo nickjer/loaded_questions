@@ -13,8 +13,8 @@ class CompletedRoundsController < ApplicationController
     if @completed_round.save
       Turbo::StreamsChannel.broadcast_update_to(
         @completed_round.game,
-        target: "round_body",
-        partial: "completed_rounds/completed_round",
+        target: round,
+        partial: "rounds/round_frame",
         locals: { round: round }
       )
       redirect_to @completed_round.game

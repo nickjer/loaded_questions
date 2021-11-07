@@ -1,14 +1,14 @@
 <div
   id="<%= dom_id answer %>"
-  <%- if round_completed -%>
+  <%- if answer.round_completed? -%>
     class="list-group-item list-group-item-<%= answer.correct? ? "success" : "danger" %>"
   <%- else -%>
     class="list-group-item"
   <%- end -%>
-  data-swap-target="item">
+  data-swap-target="group">
   <div class="d-flex w-100 justify-content-between">
     <h5 class="mb-1"><%= answer.guessed_player.name %></h5>
-    <%- if round_completed -%>
+    <%- if answer.round_completed? -%>
       <small>
         <%- if answer.correct? -%>
           <i class="bi bi-check-lg"></i>
@@ -19,18 +19,14 @@
     <%- end -%>
   </div>
   <div
-    class="p-2 w-100 bg-light border rounded d-flex align-items-center"
-    data-id="<%= answer.id %>"
-    data-rounds-target="activePlayerClass"
-    data-rounds-active-player-class="swap-item">
-    <%- if !round_completed -%>
-      <div class="swap-handle me-1">
-        <i class="bi bi-grip-vertical"></i>
-      </div>
-    <%- end -%>
+    class="swap-item p-2 w-100 bg-light border rounded d-flex align-items-center"
+    data-id="<%= answer.id %>">
+    <div class="swap-handle me-1">
+      <i class="bi bi-grip-vertical"></i>
+    </div>
     <div><%= answer.value %></div>
   </div>
-  <%- if round_completed && !answer.correct? -%>
+  <%- if answer.round_completed? && !answer.correct? -%>
     <div>
       <small>
         <i class="bi bi-dash"></i>

@@ -4,23 +4,26 @@ import { Sortable, Swap } from "sortablejs"
 Sortable.mount(new Swap())
 
 export default class extends Controller {
-  static targets = [ "item" ]
+  static targets = [ "group" ]
   static values = {
     name: String,
-    url: String
+    url: String,
+    enabled: Boolean
   }
 
   connect() {
   }
 
-  itemTargetConnected(item_element) {
-    Sortable.create(item_element, {
-      group: this.element.id,
-      draggable: ".swap-item",
-      swap: true,
-      sort: false,
-      onEnd: this.end.bind(this)
-    })
+  groupTargetConnected(group_element) {
+    if (this.enabledValue) {
+      Sortable.create(group_element, {
+        group: this.element.id,
+        draggable: ".swap-item",
+        swap: true,
+        sort: false,
+        onEnd: this.end.bind(this)
+      })
+    }
   }
 
   end(event) {

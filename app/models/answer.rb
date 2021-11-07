@@ -37,4 +37,8 @@ class Answer < ApplicationRecord
   def correct?
     player_id == guessed_player_id
   end
+
+  # @!method round_completed?
+  #   @return [Boolean]
+  delegate :completed?, to: :round, prefix: true
 end

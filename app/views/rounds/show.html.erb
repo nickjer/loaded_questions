@@ -1,10 +1,10 @@
 <p id="notice"><%= notice %></p>
 
-<%= render @round %>
+<%= render @round, is_active_user: @round.player == @current_player %>
 
 <div>
   <%= link_to "Edit this round", edit_round_path(@round) %> |
-  <%= link_to "Back to rounds", rounds_path %>
+  <%= link_to "Back to rounds", game_rounds_path(@round.game) %>
 
   <%= button_to "Destroy this round", round_path(@round), method: :delete %>
 </div>

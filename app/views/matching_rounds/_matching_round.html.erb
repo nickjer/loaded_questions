@@ -1,15 +1,10 @@
-<%= turbo_frame_tag round do %>
-  <div
-    id="answers"
-    class="list-group mb-2"
-    data-controller="swap"
-    data-swap-url-value="<%= round_answer_swappers_path(round, format: :json) %>"
-    data-swap-name-value="answer">
-    <%=
-      render round.ordered_answers, round_completed: false
-    %>
-  </div>
-  <%- if is_active_user -%>
-    <%= render "completed_rounds/form", round: round %>
-  <%- end -%>
-<% end %>
+<div id="answers" class="list-group mb-2"
+  data-controller="swap"
+  data-swap-url-value="<%= round_answer_swappers_path(round, format: :json) %>"
+  data-swap-name-value="answer"
+  data-swap-enabled-value="<%= is_active_user %>">
+  <%= render round.ordered_answers %>
+</div>
+<%- if is_active_user -%>
+  <%= render "completed_rounds/form", round: round %>
+<%- end -%>

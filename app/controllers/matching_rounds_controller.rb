@@ -16,8 +16,8 @@ class MatchingRoundsController < ApplicationController
     if @matching_round.save
       Turbo::StreamsChannel.broadcast_update_to(
         @matching_round.game,
-        target: "round_body",
-        partial: "matching_rounds/matching_round_frame",
+        target: round,
+        partial: "rounds/round_frame",
         locals: { round: round }
       )
       redirect_to @matching_round.game
@@ -25,16 +25,6 @@ class MatchingRoundsController < ApplicationController
       redirect_to @matching_round.game,
         notice: "Failed to proceed to matching round"
     end
-  end
-
-  def show
-    round = Round.find(params[:id])
-    current_player = Player.find_by!(
-      user: @user, game: Game.where(players: Player.where(rounds: round))
-    )
-
-    render partial: "matching_rounds/matching_round",
-      locals: { round: round, is_active_user: round.player == current_player }
   end
 
   private
