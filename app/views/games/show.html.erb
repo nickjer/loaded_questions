@@ -16,15 +16,13 @@
         is_active_user: @current_player == @active_player
     %>
     <div class="d-grid gap-2 col-6 mx-auto">
-      <%- if @current_round.completed? -%>
-        <%=
-          link_to(
-            "New Round",
-            new_player_new_round_path(@current_player),
-            class: "btn btn-primary btn-lg"
-          )
-        %>
-      <%- end -%>
+      <%=
+        link_to(
+          "New Round",
+          new_player_new_round_path(@current_player),
+          class: "show-round-completed btn btn-primary btn-lg"
+        )
+      %>
     </div>
   </div>
 

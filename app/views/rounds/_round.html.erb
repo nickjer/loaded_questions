@@ -1,4 +1,10 @@
-<%= turbo_frame_tag "#{"active_user_" if is_active_user}#{dom_id(round)}", target: "_top" do %>
+<%=
+  turbo_frame_tag(
+    "#{"active_user_" if is_active_user}#{dom_id(round)}",
+    target: "_top",
+    class: "round-#{round.status}"
+  ) do
+%>
   <div class="card border-secondary mb-2">
     <div class="card-body">
       <strong>Question:</strong>
