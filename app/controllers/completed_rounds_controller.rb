@@ -15,7 +15,7 @@ class CompletedRoundsController < ApplicationController
         @completed_round.game,
         target: "round_body",
         partial: "completed_rounds/completed_round",
-        locals: { round: @round }
+        locals: { round: round }
       )
       redirect_to @completed_round.game
     else
