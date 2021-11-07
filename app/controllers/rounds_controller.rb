@@ -12,14 +12,6 @@ class RoundsController < ApplicationController
     @current_player = Player.find_by!(
       user: @user, game: Game.where(players: Player.where(rounds: @round))
     )
-
-    return unless turbo_frame_request?
-
-    render partial: "rounds/round",
-      locals: {
-        round: @round,
-        is_active_user: @round.player == @current_player
-      }
   end
 
   # GET /rounds/new

@@ -11,7 +11,7 @@ class CompletedRoundsController < ApplicationController
     @completed_round = CompletedRound.new(completed_round_params)
 
     if @completed_round.save
-      Turbo::StreamsChannel.broadcast_update_to(
+      Turbo::StreamsChannel.broadcast_replace_to(
         @completed_round.game,
         target: round,
         partial: "rounds/round_frame",

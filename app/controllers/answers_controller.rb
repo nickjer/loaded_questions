@@ -26,7 +26,7 @@ class AnswersController < ApplicationController
     @answer = round.answers.where(player: current_player).build(answer_params)
 
     if @answer.save
-      Turbo::StreamsChannel.broadcast_update_to(
+      Turbo::StreamsChannel.broadcast_replace_to(
         game,
         target: @current_player,
         partial: "players/player",
