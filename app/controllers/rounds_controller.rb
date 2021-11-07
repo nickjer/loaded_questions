@@ -16,7 +16,10 @@ class RoundsController < ApplicationController
     return unless turbo_frame_request?
 
     render partial: "rounds/round",
-      locals: { round: @round, is_active_user: @round.player == @current_player }
+      locals: {
+        round: @round,
+        is_active_user: @round.player == @current_player
+      }
   end
 
   # GET /rounds/new
