@@ -6,6 +6,9 @@ import { application } from "./application"
 import ConfirmSubmitController from "./confirm_submit_controller.js"
 application.register("confirm-submit", ConfirmSubmitController)
 
+import PlayerStreamFilterController from "./player_stream_filter_controller.js"
+application.register("player-stream-filter", PlayerStreamFilterController)
+
 import PlayersController from "./players_controller.js"
 application.register("players", PlayersController)
 

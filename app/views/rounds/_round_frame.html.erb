@@ -3,6 +3,9 @@
     round,
     src: round_path(round, frame: true),
     target: "_top",
-    class: "round-#{round.status}"
+    class: "round-#{round.status}",
+    data: {
+      "unless-player-id": round.player.id
+    }
   )
 %>
