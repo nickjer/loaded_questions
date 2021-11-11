@@ -1,5 +1,5 @@
 <div
-  id="<%= dom_id answer %>"
+  id=<%= "guessed_#{dom_id(answer.guessed_player)}" %>
   <%- if answer.round_completed? -%>
     class="list-group-item list-group-item-<%= answer.correct? ? "success" : "danger" %>"
   <%- else -%>

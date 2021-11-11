@@ -10,23 +10,11 @@
 <div class="row mt-2">
   <%= turbo_frame_tag("current_round", target: "_top", class: "col-md-10") do %>
 
-    <%# Question Card %>
-    <div class="card border-secondary mb-2">
-      <div class="card-body">
-        <strong>Question:</strong>
-        <%= @current_round.question %>
-      </div>
-    </div>
-
-    <%# Answer List %>
-    <%- if @current_round.matching? -%>
-      <%=
-        render "matching_rounds/matching_round", round: @current_round,
-          is_active_user: @current_player == @active_player
-      %>
-    <%- elsif @current_round.completed? -%>
-      <%= render "completed_rounds/completed_round", round: @current_round %>
-    <%- end -%>
+    <%# Question Card & Answer List %>
+    <%=
+      render "rounds/round", round: @current_round,
+        is_active_user: @current_player == @active_player
+    %>
 
     <%# Answer Form %>
     <%- if @current_round.polling? && @current_player != @active_player -%>

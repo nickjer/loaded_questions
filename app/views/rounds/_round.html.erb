@@ -1,2 +1,17 @@
-<%= turbo_frame_tag(round, target: "_top", class: "round-#{round.status}") do %>
-<% end %>
+<%# Question Card %>
+<div class="card border-secondary mb-2">
+  <div class="card-body">
+    <strong>Question:</strong>
+    <%= round.question %>
+  </div>
+</div>
+
+<%# Answer List %>
+<%- if round.matching? -%>
+  <%=
+    render "matching_rounds/matching_round", round: round,
+      is_active_user: is_active_user
+  %>
+<%- elsif round.completed? -%>
+  <%= render "completed_rounds/completed_round", round: round %>
+<%- end -%>

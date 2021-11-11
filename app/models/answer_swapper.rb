@@ -8,14 +8,28 @@ class AnswerSwapper < Form
   validates :answer, presence: true
   validates :swap_answer, presence: true
 
+  # @return [Round]
+  attr_accessor :round
+
   # @return [String]
   attr_accessor :answer_id
 
   # @return [String]
   attr_accessor :swap_answer_id
 
-  # @return [Round]
-  attr_accessor :round
+  # @return [Answer, nil]
+  def answer
+    return if round.blank? || answer_id.blank?
+
+    @answer ||= round.answers.find(answer_id)
+  end
+
+  # @return [Answer, nil]
+  def swap_answer
+    return if round.blank? || swap_answer_id.blank?
+
+    @swap_answer ||= round.answers.find(swap_answer_id)
+  end
 
   # @return [Boolean]
   def save
@@ -32,21 +46,5 @@ class AnswerSwapper < Form
     true
   rescue StandardError
     false
-  end
-
-  private
-
-  # @return [Answer, nil]
-  def answer
-    return if round.blank?
-
-    @answer ||= round.answers.find(answer_id)
-  end
-
-  # @return [Answer, nil]
-  def swap_answer
-    return if round.blank?
-
-    @swap_answer ||= round.answers.find(swap_answer_id)
   end
 end
