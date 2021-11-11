@@ -83,5 +83,5 @@ production:
   <<: *default
   host: <%= ENV["DATABASE_HOST"] %>
   database: loaded_questions_production
-  username: <%= ENV["DB_USERNAME"] %>
-  password: <%= ENV["DB_PASSWORD"] %>
+  username: <%= ENV["DATABASE_USERNAME"] %>
+  password: <%= ENV["DATABASE_PASSWORD"] %>

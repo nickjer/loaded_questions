@@ -39,8 +39,7 @@ FROM ruby:3.0.1-alpine
 # Add basic packages
 RUN apk add --no-cache \
       libpq \
-      tzdata \
-      file && \
+      tzdata && \
     addgroup -g 1000 -S app && \
     adduser -u 1000 -S app -G app
 
