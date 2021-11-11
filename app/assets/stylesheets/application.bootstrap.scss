@@ -23,14 +23,3 @@ $bootstrap-icons-font-src:
     display: unset;
   }
 }
-
-// Hide elements that should only be shown on completed rounds
-.show-round-completed {
-  display: none;
-}
-
-.round-completed ~ div {
-  .show-round-completed {
-    display: unset;
-  }
-}

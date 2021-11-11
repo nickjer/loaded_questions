@@ -5,6 +5,3 @@
   data-swap-enabled-value="<%= is_active_user %>">
   <%= render round.ordered_answers %>
 </div>
-<%- if is_active_user -%>
-  <%= render "completed_rounds/form", round: round %>
-<%- end -%>

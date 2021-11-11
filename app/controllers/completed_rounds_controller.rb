@@ -11,12 +11,16 @@ class CompletedRoundsController < ApplicationController
     @completed_round = CompletedRound.new(completed_round_params)
 
     if @completed_round.save
-      Turbo::StreamsChannel.broadcast_replace_later_to(
-        @completed_round.game,
-        target: round,
-        partial: "rounds/round_frame",
-        locals: { round: round }
-      )
+      @completed_round.game.players.each do |player|
+        next if player == round.player
+
+        Turbo::StreamsChannel.broadcast_replace_later_to(
+          player,
+          target: "current_round",
+          partial: "games/current_round_frame",
+          locals: { game: @completed_round.game }
+        )
+      end
       redirect_to @completed_round.game
     else
       redirect_to @completed_round.game,

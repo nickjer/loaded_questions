@@ -1,19 +1,21 @@
-<%=
-  simple_form_for(
-    [answer.persisted? ? nil : round, answer],
-    wrapper: :inline_form,
-    html: { class: "row row-cols-lg-auto g-3 align-items-center mb-2" },
-    wrapper_mappings: { boolean: :inline_boolean }
-  ) do |form|
-%>
-  <%= form.error_notification %>
-  <%- if form.object.errors[:base].present? -%>
-    <%= form.error_notification message: form.object.errors[:base].to_sentence %>
+<%= turbo_frame_tag("answer_form") do %>
+  <%=
+    simple_form_for(
+      [round, answer],
+      wrapper: :inline_form,
+      html: { class: "row row-cols-lg-auto g-3 align-items-center mb-2" },
+      wrapper_mappings: { boolean: :inline_boolean }
+    ) do |form|
+  %>
+    <%= form.error_notification %>
+    <%- if form.object.errors[:base].present? -%>
+      <%= form.error_notification message: form.object.errors[:base].to_sentence %>
+    <%- end -%>
+
+    <%= form.input :value, label: false %>
+
+    <div class="col-12">
+      <%= form.button :submit, class: "btn-primary" %>
+    </div>
   <%- end -%>
-
-  <%= form.input :value, label: false %>
-
-  <div class="col-12">
-    <%= form.button :submit, class: "btn-primary" %>
-  </div>
-<%- end -%>
+<% end %>

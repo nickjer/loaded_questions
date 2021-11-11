@@ -3,7 +3,8 @@
 class AnswersController < ApplicationController
   # GET /answers
   def index
-    @answers = round.answers
+    @round = Round.find(params[:round_id])
+    @answers = @round.answers
   end
 
   # GET /answers/1
@@ -13,7 +14,10 @@ class AnswersController < ApplicationController
 
   # GET /answers/new
   def new
-    @answer = round.answers.build(player: current_player)
+    @round = Round.find(params[:round_id])
+    @current_player = @round.game.players.find_by!(user: @user)
+
+    @answer = @round.answers.build(player: @current_player)
   end
 
   # GET /answers/1/edit
@@ -23,30 +27,37 @@ class AnswersController < ApplicationController
 
   # POST /answers
   def create
-    @answer = round.answers.where(player: current_player).build(answer_params)
+    @round = Round.find(params[:round_id])
+    @current_player = @round.game.players.find_by!(user: @user)
+
+    @answer = @round.answers.where(player: @current_player).build(answer_params)
 
     if @answer.save
-      Turbo::StreamsChannel.broadcast_replace_later_to(
-        game,
-        target: @current_player,
-        partial: "players/player",
-        locals: { player: @current_player, active_player: game.active_player }
-      )
-      redirect_to game
+      @round.game.players.each do |player|
+        Turbo::StreamsChannel.broadcast_replace_later_to(
+          player,
+          target: @current_player,
+          partial: "players/player",
+          locals: { player: @current_player, active_player: @round.player }
+        )
+      end
+      redirect_to @round.game
     else
-      redirect_to game, notice: "Answer failed to be created."
+      redirect_to @round.game, notice: "Answer failed to be created."
     end
   end
 
   # PATCH/PUT /answers/1
   def update
-    @answer = Answer.find(params[:id])
+    @answer = Answer.where(player: Player.where(user: @user)).find(params[:id])
 
     respond_to do |format|
       if @answer.update(answer_params)
-        format.html { redirect_to game }
+        format.html { redirect_to @answer.game }
       else
-        format.html { redirect_to game, notice: "Answer failed to be created." }
+        format.html do
+          redirect_to @answer.game, notice: "Answer failed to be created."
+        end
       end
     end
   end
@@ -59,14 +70,6 @@ class AnswersController < ApplicationController
   end
 
   private
-
-  def round
-    @round ||= Round.find(params[:round_id])
-  end
-
-  def game
-    @game ||= round.game
-  end
 
   def current_player
     @current_player ||= game.players.find_by!(user: @user)

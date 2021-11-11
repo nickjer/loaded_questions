@@ -7,25 +7,65 @@
   </div>
 <%- end -%>
 
-<%= turbo_stream_from @game %>
+<%= turbo_stream_from @current_player %>
 
 <div class="row mt-2" data-controller="player-stream-filter">
-  <div class="col-md-10" id="current_round">
-    <%=
-      render @current_round, answer: @answer,
-        is_active_user: @current_player == @active_player
-    %>
-    <div class="d-grid gap-2 col-6 mx-auto">
-      <%=
-        link_to(
-          "New Round",
-          new_player_new_round_path(@current_player),
-          class: "show-round-completed btn btn-primary btn-lg"
-        )
-      %>
-    </div>
-  </div>
+  <%= turbo_frame_tag("current_round", target: "_top", class: "col-md-10") do %>
 
+    <%# Question Card %>
+    <div class="card border-secondary mb-2">
+      <div class="card-body">
+        <strong>Question:</strong>
+        <%= @current_round.question %>
+      </div>
+    </div>
+
+    <%# Answer List %>
+    <%- if @current_round.matching? -%>
+      <%=
+        render "matching_rounds/matching_round", round: @current_round,
+          is_active_user: @current_player == @active_player
+      %>
+    <%- elsif @current_round.completed? -%>
+      <%= render "completed_rounds/completed_round", round: @current_round %>
+    <%- end -%>
+
+    <%# Answer Form %>
+    <%- if @current_round.polling? && @current_player != @active_player -%>
+      <%=
+        render partial: "answers/form",
+          locals: {
+            answer: @answer,
+            round: @answer.persisted? ? nil : @current_round
+          }
+      %>
+    <% end %>
+
+    <%# Round Controls %>
+    <%- if @current_player == @active_player -%>
+      <%- if @current_round.polling? -%>
+        <%= render "matching_rounds/form", round: @current_round %>
+      <%- elsif @current_round.matching? -%>
+        <%= render "completed_rounds/form", round: @current_round %>
+      <%- end -%>
+    <%- end -%>
+
+    <%# Next Round Controls %>
+    <%- if @current_round.completed? -%>
+      <div class="d-grid gap-2 col-6 mx-auto">
+        <%=
+          link_to(
+            "New Round",
+            new_player_new_round_path(@current_player),
+            class: "btn btn-primary btn-lg"
+          )
+        %>
+      </div>
+    <%- end -%>
+
+  <% end %>
+
+  <%# Player List %>
   <div class="col-md-2">
     <strong>Players:</strong>
     <div id="players" data-controller="players">
@@ -34,6 +74,7 @@
       %>
     </div>
   </div>
+
 </div>
 
 <footer>
