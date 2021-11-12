@@ -11,6 +11,7 @@ WORKDIR /app
 
 ENV LANG C.UTF-8
 ENV RAILS_ENV production
+ENV NODE_ENV production
 ENV BUNDLE_JOBS 4
 ENV BUNDLE_RETRY 3
 
@@ -21,16 +22,19 @@ RUN gem install bundler --no-document && \
     bundle config set --local --without 'development test' && \
     bundle config set --local path 'vendor/bundle' && \
     bundle install --quiet && \
-    rm -rf $GEM_HOME/cache/* && \
-    yarn --check-files --silent --production && \
-    yarn cache clean
+    rm -rf $GEM_HOME/cache/*
+
+COPY package.json yarn.lock ./
+
+RUN yarn --check-files --frozen-lockfile --silent --production
 
 COPY . ./
 
 # Need to precompile twice because first time does not compile CSS correctly
-RUN bundle exec rails assets:precompile || \
-    bundle exec rails assets:precompile && \
-    rm -fr node_modules
+RUN bundle exec rails assets:precompile --trace || \
+    bundle exec rails assets:precompile --trace && \
+    yarn cache clean && \
+    rm -fr node_modules tmp/cache vendor/assets test
 
 ############################################################
 
@@ -50,6 +54,7 @@ COPY --from=builder --chown=app /app /app
 # Configure Rails
 ENV LANG C.UTF-8
 ENV RAILS_ENV production
+ENV NODE_ENV production
 ENV BUNDLE_PATH 'vendor/bundle'
 ENV RAILS_LOG_TO_STDOUT true
 ENV RAILS_SERVE_STATIC_FILES true
