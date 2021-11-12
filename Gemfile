@@ -49,6 +49,9 @@ gem "bootsnap", ">= 1.4.4", require: false
 # Use Sass to process CSS
 # gem "sassc-rails", "~> 2.1"
 
+# Use Sidekiq for ActiveJob's queueing backend
+gem "sidekiq", "~> 6.3"
+
 # Flexible form builder
 gem "simple_form", "~> 5.1"
 

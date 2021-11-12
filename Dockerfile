@@ -59,7 +59,4 @@ ENV BUNDLE_PATH 'vendor/bundle'
 ENV RAILS_LOG_TO_STDOUT true
 ENV RAILS_SERVE_STATIC_FILES true
 
-# Expose Puma port
-EXPOSE 3000
-
 WORKDIR /app
