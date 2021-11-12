@@ -5,12 +5,15 @@ RUN apk add --no-cache \
       tzdata \
       yarn \
       git \
+      vim \
       build-base && \
     addgroup -g 1000 -S app && \
     adduser -u 1000 -S app -G app
 
-ENV LANG C.UTF-8
-ENV BUNDLE_PATH vendor/bundle
+ENV LANG=C.UTF-8
+ENV EDITOR=vim
+ENV BUNDLE_PATH=vendor/bundle
+ENV PATH=/app/bin:${PATH}
 
 WORKDIR /app
 
