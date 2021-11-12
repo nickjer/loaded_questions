@@ -38,6 +38,7 @@ I'd recommend starting up a local development build first to play in. You will
 first want to generate a new credentials file and master key:
 
 ```console
+$ rm config/credentials.yml.enc
 $ bin/run rails credentials:edit
 ```
 
