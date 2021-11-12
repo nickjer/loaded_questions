@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  web:
+  web: &web
     image: loaded_questions
     build: .
     command: ["bin/rails", "server"]
@@ -23,11 +23,7 @@ services:
   cache:
     image: redis:6
   worker:
-    image: loaded_questions
-    build: .
+    <<: *web
     command: ["bundle", "exec", "sidekiq"]
-    environment:
-      DATABASE_HOST: db
-      DATABASE_USERNAME: postgres
-      DATABASE_PASSWORD: loaded_questions_password
-      REDIS_URL: redis://cache
+    ports: []
+    depends_on: []
