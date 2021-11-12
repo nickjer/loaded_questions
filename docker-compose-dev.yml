@@ -1,18 +1,23 @@
 version: "3"
 
 x-app: &default_app
-  image: loaded_questions:prod
+  image: loaded_questions:dev
   build:
     context: .
-    dockerfile: docker/prod/Dockerfile
+    dockerfile: docker/dev/Dockerfile
   environment:
     PGHOST: /var/run/postgresql
     PGUSER: loaded_questions
     REDIS_URL: redis://cache
   volumes:
+    - .:/app
+    - vendor_bundle:/app/vendor/bundle
+    - node_modules:/app/node_modules
     - db_socket:/var/run/postgresql
 
 volumes:
+  vendor_bundle:
+  node_modules:
   db_socket:
 
 services:
@@ -25,6 +30,8 @@ services:
       - db
       - cache
       - worker
+      - css
+      - js
   db:
     image: postgres:13
     command: ["postgres", "-c", "listen_addresses="]
@@ -41,3 +48,10 @@ services:
     depends_on:
       - db
       - cache
+  css:
+    <<: *default_app
+    command: ["yarn", "build:css", "--watch"]
+  js:
+    <<: *default_app
+    command: ["yarn", "build", "--watch"]
+    stdin_open: true
