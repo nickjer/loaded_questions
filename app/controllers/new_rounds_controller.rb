@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 class NewRoundsController < ApplicationController
-  # GET /new_rounds/new
+  # GET /players/:player_id/new_rounds/new
   def new
     @new_round = NewRound.new(player: current_player)
   end
 
-  # POST /new_rounds
+  # POST /players/:player_id/new_rounds
   def create
     @new_round = NewRound.new(new_round_params)
 

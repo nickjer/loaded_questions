@@ -1,12 +1,7 @@
 # frozen_string_literal: true
 
 class CompletedRoundsController < ApplicationController
-  # GET /completed_rounds/new
-  def new
-    @completed_round = CompletedRound.new
-  end
-
-  # POST /completed_rounds
+  # POST /rounds/:round_id/completed_rounds
   def create
     @completed_round = CompletedRound.new(completed_round_params)
 

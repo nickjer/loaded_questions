@@ -1,12 +1,7 @@
 # frozen_string_literal: true
 
 class AnswerSwappersController < ApplicationController
-  # GET /answer_swappers/new
-  def new
-    @answer_swapper = AnswerSwapper.new
-  end
-
-  # POST /answer_swappers
+  # POST /rounds/:round_id/answer_swappers
   def create
     @answer_swapper = AnswerSwapper.new(answer_swapper_params)
 

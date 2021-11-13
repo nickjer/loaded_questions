@@ -1,12 +1,7 @@
 # frozen_string_literal: true
 
 class MatchingRoundsController < ApplicationController
-  # GET /matching_rounds/new
-  def new
-    @matching_round = MatchingRound.new
-  end
-
-  # POST /matching_rounds
+  # POST /rounds/:round_id/matching_rounds
   def create
     round =
       Round.find_by!(id: params[:round_id], player: Player.where(user: @user))

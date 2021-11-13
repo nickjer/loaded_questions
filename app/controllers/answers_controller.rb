@@ -1,18 +1,7 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-  # GET /answers
-  def index
-    @round = Round.find(params[:round_id])
-    @answers = @round.answers
-  end
-
-  # GET /answers/1
-  def show
-    @answer = Answer.find(params[:id])
-  end
-
-  # GET /answers/new
+  # GET /rounds/:round_id/answers/new
   def new
     @round = Round.find(params[:round_id])
     @current_player = @round.game.players.find_by!(user: @user)
@@ -25,7 +14,7 @@ class AnswersController < ApplicationController
     @answer = Answer.find(params[:id])
   end
 
-  # POST /answers
+  # POST /rounds/:round_id/answers
   def create
     @round = Round.find(params[:round_id])
     @current_player = @round.game.players.find_by!(user: @user)
@@ -60,13 +49,6 @@ class AnswersController < ApplicationController
         end
       end
     end
-  end
-
-  # DELETE /answers/1
-  def destroy
-    @answer = Answer.find(params[:id])
-    @answer.destroy
-    respond_to { |format| format.html { redirect_to answers_url } }
   end
 
   private
