@@ -1,14 +1,23 @@
 # frozen_string_literal: true
 
 class MatchingRound < Form
-  validates :round, presence: true
-  validates :status, inclusion: { in: %w[polling] }
-
   # @return [Round]
-  attr_accessor :round
+  attr_reader :round
 
   # @return [Game]
   delegate :game, to: :round
+
+  # @return [Array<Player>]
+  delegate :players, to: :game
+
+  # Validations
+  validates :round, presence: true
+  validates :status, inclusion: { in: %w[polling] }
+
+  # @param round [Round]
+  def initialize(round)
+    @round = round
+  end
 
   # @return [Boolean]
   def save

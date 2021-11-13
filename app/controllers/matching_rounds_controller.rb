@@ -3,13 +3,14 @@
 class MatchingRoundsController < ApplicationController
   # POST /rounds/:round_id/matching_rounds
   def create
-    round =
-      Round.find_by!(id: params[:round_id], player: Player.where(user: @user))
-    @matching_round =
-      MatchingRound.new(matching_round_params.merge(round: round))
+    round = Round.find_by!(
+      id: params[:round_id],
+      player: Player.where(user: @user)
+    )
+    @matching_round = MatchingRound.new(round)
 
     if @matching_round.save
-      @matching_round.game.players.each do |player|
+      @matching_round.players.each do |player|
         next if player == round.player
 
         Turbo::StreamsChannel.broadcast_replace_later_to(
@@ -24,11 +25,5 @@ class MatchingRoundsController < ApplicationController
       redirect_to @matching_round.game,
         notice: "Failed to proceed to matching round"
     end
-  end
-
-  private
-
-  def matching_round_params
-    params.permit
   end
 end

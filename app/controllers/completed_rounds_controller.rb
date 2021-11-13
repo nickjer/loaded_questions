@@ -3,10 +3,14 @@
 class CompletedRoundsController < ApplicationController
   # POST /rounds/:round_id/completed_rounds
   def create
-    @completed_round = CompletedRound.new(completed_round_params)
+    round = Round.find_by!(
+      id: params[:round_id],
+      player: Player.where(user: @user)
+    )
+    @completed_round = CompletedRound.new(round)
 
     if @completed_round.save
-      @completed_round.game.players.each do |player|
+      @completed_round.players.each do |player|
         next if player == round.player
 
         Turbo::StreamsChannel.broadcast_replace_later_to(
@@ -21,18 +25,5 @@ class CompletedRoundsController < ApplicationController
       redirect_to @completed_round.game,
         notice: "Failed to proceed to completed round"
     end
-  end
-
-  private
-
-  def round
-    @round ||= Round.find_by!(
-      id: params[:round_id],
-      player: Player.where(user: @user)
-    )
-  end
-
-  def completed_round_params
-    params.permit.merge(round: round)
   end
 end
