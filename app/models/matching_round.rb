@@ -4,15 +4,17 @@ class MatchingRound < Form
   # @return [Round]
   attr_reader :round
 
-  # @return [Game]
-  delegate :game, to: :round
-
-  # @return [Array<Player>]
-  delegate :players, to: :game
-
   # Validations
   validates :round, presence: true
   validates :status, inclusion: { in: %w[polling] }
+
+  # @!method game
+  #   @return [Game]
+  delegate :game, to: :round
+
+  # @!method players
+  #   @return [Array<Player>]
+  delegate :players, to: :game
 
   # @param round [Round]
   def initialize(round)

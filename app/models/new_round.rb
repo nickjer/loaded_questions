@@ -1,38 +1,49 @@
 # frozen_string_literal: true
 
 class NewRound < Form
+  # @return [Player]
+  attr_reader :player
+
+  # @return [String]
+  attr_reader :question
+
+  # Validations
   validates :player, presence: true
   validates :question, presence: true
   validates :previous_round, presence: true
   validates :previous_round_status, inclusion: { in: %w[completed] }
 
-  # @return [Player, nil]
-  attr_accessor :player
+  # @!method game
+  #   @return [Game]
+  delegate :game, to: :player
 
-  # @return [String, nil]
-  attr_accessor :question
+  # @!method players
+  #   @return [Array<Player>]
+  delegate :players, to: :game
+
+  # @param player [Player]
+  # @param params [#to_h]
+  def initialize(player:, params: nil)
+    @player = player
+
+    params = params.to_h.deep_symbolize_keys
+    @question = params[:question].to_s.squish
+  end
 
   # @return [Boolean]
   def save
     return false unless valid?
 
-    player.rounds.create!(question: question, previous: previous_round)
+    round = player.rounds.build(question: question, previous: previous_round)
 
-    true
-  rescue StandardError
-    false
+    round.save
   end
 
   private
 
-  # @return [Game, nil]
-  def game
-    player&.game
-  end
-
   # @return [Round, nil]
   def previous_round
-    game&.current_round
+    game.current_round
   end
 
   # @return [String, nil]
