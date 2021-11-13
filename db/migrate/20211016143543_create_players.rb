@@ -2,10 +2,10 @@
 
 class CreatePlayers < ActiveRecord::Migration[7.0]
   def change
-    create_table :players do |t|
+    create_table :players, id: :uuid do |t|
       t.string :name
-      t.references :user, null: false, foreign_key: true
-      t.references :game, null: false, foreign_key: true
+      t.references :user, type: :uuid, null: false, foreign_key: true
+      t.references :game, type: :uuid, null: false, foreign_key: true
 
       t.timestamps
 

@@ -12,11 +12,15 @@
 
 ActiveRecord::Schema.define(version: 2021_10_19_215845) do
 
-  create_table "answers", force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
+  enable_extension "plpgsql"
+
+  create_table "answers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "value", null: false
-    t.integer "player_id", null: false
-    t.integer "round_id", null: false
-    t.integer "guessed_player_id"
+    t.uuid "player_id", null: false
+    t.uuid "round_id", null: false
+    t.uuid "guessed_player_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["guessed_player_id", "round_id"], name: "index_answers_on_guessed_player_id_and_round_id", unique: true
@@ -26,16 +30,16 @@ ActiveRecord::Schema.define(version: 2021_10_19_215845) do
     t.index ["round_id"], name: "index_answers_on_round_id"
   end
 
-  create_table "games", force: :cascade do |t|
+  create_table "games", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.integer "status", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "players", force: :cascade do |t|
+  create_table "players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
-    t.integer "user_id", null: false
-    t.integer "game_id", null: false
+    t.uuid "user_id", null: false
+    t.uuid "game_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["game_id"], name: "index_players_on_game_id"
@@ -44,9 +48,9 @@ ActiveRecord::Schema.define(version: 2021_10_19_215845) do
     t.index ["user_id"], name: "index_players_on_user_id"
   end
 
-  create_table "rounds", force: :cascade do |t|
-    t.integer "player_id", null: false
-    t.integer "previous_id"
+  create_table "rounds", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "player_id", null: false
+    t.uuid "previous_id"
     t.integer "status", default: 0, null: false
     t.text "question"
     t.datetime "created_at", precision: 6, null: false
@@ -55,15 +59,17 @@ ActiveRecord::Schema.define(version: 2021_10_19_215845) do
     t.index ["previous_id"], name: "index_rounds_on_previous_id", unique: true
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "last_seen_at", precision: 6, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "answers", "players"
+  add_foreign_key "answers", "players", column: "guessed_player_id"
   add_foreign_key "answers", "rounds"
   add_foreign_key "players", "games"
   add_foreign_key "players", "users"
   add_foreign_key "rounds", "players"
+  add_foreign_key "rounds", "rounds", column: "previous_id"
 end
