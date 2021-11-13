@@ -1,48 +1,47 @@
 # frozen_string_literal: true
 
 class NewGame < Form
+  # @return [User]
+  attr_reader :user
+
+  # @return [String]
+  attr_reader :player_name
+
+  # @return [String]
+  attr_reader :question
+
+  # Validations
+  validates :user, presence: true
   validates :player_name, presence: true
   validates :question, presence: true
-  validates :user, presence: true
 
-  # @return [String]
-  attr_accessor :player_name
+  # @param user [User]
+  # @param params [#to_h]
+  def initialize(user:, params: nil)
+    @user = user
 
-  # @return [String]
-  attr_accessor :question
+    params = params.to_h.deep_symbolize_keys
+    @player_name = params[:player_name].to_s.squish
+    @question = params[:question].to_s.squish
+  end
 
-  # @return [User]
-  attr_accessor :user
-
-  # @!method persisted?
-  #   @return [Boolean]
-  delegate :persisted?, to: :game
-
-  # @!method to_param
-  #   @return [String, nil]
-  delegate :to_param, to: :game
+  # @return [Game]
+  def game
+    @game ||= Game.new(
+      players: [
+        Player.new(
+          user: user,
+          name: player_name,
+          rounds: [Round.new(question: question)]
+        )
+      ]
+    )
+  end
 
   # @return [Boolean]
   def save
     return false unless valid?
 
-    player.assign_attributes(name: player_name, user: user)
-    player.rounds << Round.new(question: question)
-
-    game.players << player
-
-    game.save && @persisted = true
-  end
-
-  private
-
-  # @return [Player]
-  def player
-    @player ||= Player.new
-  end
-
-  # @return [Game]
-  def game
-    @game ||= Game.new
+    game.save
   end
 end

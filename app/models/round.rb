@@ -29,11 +29,6 @@ class Round < ApplicationRecord
     super || player&.game
   end
 
-  # @return [void]
-  def question=(value)
-    super(value&.strip)
-  end
-
   # @return [Boolean]
   def readonly?
     status_was == "completed"
