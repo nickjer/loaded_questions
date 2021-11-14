@@ -18,6 +18,7 @@ class NewGame < Form
   # @param user [User]
   # @param params [#to_h]
   def initialize(user:, params: nil)
+    super
     @user = user
 
     params = params.to_h.deep_symbolize_keys

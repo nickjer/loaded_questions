@@ -18,6 +18,7 @@ class MatchingRound < Form
 
   # @param round [Round]
   def initialize(round)
+    super
     @round = round
   end
 
