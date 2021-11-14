@@ -21,13 +21,13 @@ RUN chown -R app:app /app && chmod 755 /app
 
 USER app
 
-COPY Gemfile Gemfile.lock ./
+COPY --chown=app:app Gemfile Gemfile.lock ./
 
 RUN gem install bundler --no-document && \
     bundle config set --local jobs $(nproc) && \
     bundle config set --local retry 3 && \
     bundle install --quiet
 
-COPY package.json yarn.lock ./
+COPY --chown=app:app package.json yarn.lock ./
 
 RUN yarn --check-files --frozen-lockfile --silent
