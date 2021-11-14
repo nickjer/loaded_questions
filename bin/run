@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-exec docker-compose --file docker-compose-dev.yml run web "${@}"
+exec docker-compose --file docker-compose-dev.yml run --rm web "${@}"
