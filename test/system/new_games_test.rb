@@ -5,11 +5,21 @@ require "application_system_test_case"
 class NewGamesTest < ApplicationSystemTestCase
   test "should create New Game" do
     visit new_new_game_url
-    fill_in "Player name", with: 'PLAYER'
-    fill_in "Question", with: 'QUESTION'
+    fill_in "Player name", with: "Bob"
+    fill_in "Question", with: "How high is the sky?"
     click_on "Create New Game"
 
     assert_text "Match Answers"
+
+    game_url = current_url
+
+    using_session("Alice") do
+      visit game_url
+      fill_in "Name", with: "Alice"
+      click_on "Create Player"
+
+      assert_text "Bob"
+    end
   end
 
   # test "should create Game" do
