@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-class NewRound < Form
+class NewRound
+  include FormModel
+
   # @return [Player]
   attr_reader :player
 
@@ -24,7 +26,6 @@ class NewRound < Form
   # @param player [Player]
   # @param params [#to_h]
   def initialize(player:, params: nil)
-    super
     @player = player
 
     params = params.to_h.deep_symbolize_keys

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-class AnswerSwapper < Form
+class AnswerSwapper
+  include FormModel
+
   validates :answer_id, presence: true
   validates :swap_answer_id, presence: true
   validates :round, presence: true

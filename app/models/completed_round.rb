@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-class CompletedRound < Form
+class CompletedRound
+  include FormModel
+
   # @return [Round]
   attr_reader :round
 
@@ -18,7 +20,6 @@ class CompletedRound < Form
 
   # @param round [Round]
   def initialize(round)
-    super
     @round = round
   end
 
