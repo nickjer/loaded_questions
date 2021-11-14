@@ -34,24 +34,29 @@ Requirements:
 - [Docker](https://docs.docker.com/get-docker)
 - [Docker Compose](https://docs.docker.com/compose/install)
 
-I'd recommend starting up a local development build first to play in. You will
-first want to generate a new credentials file and master key:
+First you will want to build the image:
+
+```console
+$ docker-compose build web
+```
+
+Then you will want to generate a new credentials file and master key:
 
 ```console
 $ rm config/credentials.yml.enc
-$ bin/run rails credentials:edit
+$ docker-compose run --rm web bin/rails credentials:edit
 ```
 
 Once you have this set up you will want to create the database:
 
 ```console
-$ bin/run rails db:setup
+$ docker-compose run --rm web bin/rails db:setup
 ```
 
 Finally you will launch all of the services into the background:
 
 ```console
-$ bin/up
+$ docker-compose up
 ```
 
 Then navigate to http://localhost:3000.
