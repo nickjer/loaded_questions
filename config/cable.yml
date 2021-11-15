@@ -7,7 +7,8 @@ development:
   channel_prefix: loaded_questions_development
 
 test:
-  adapter: test
+  <<: *default
+  channel_prefix: loaded_questions_test
 
 production:
   <<: *default

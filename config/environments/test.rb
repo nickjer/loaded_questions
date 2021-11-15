@@ -11,6 +11,9 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in
   # config/application.rb.
 
+  # Use default async adapter for ActiveJobs
+  config.active_job.queue_adapter = :async
+
   # Turn false under Spring and add config.action_view.cache_template_loading =
   # true
   config.cache_classes = true

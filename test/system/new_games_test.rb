@@ -20,6 +20,8 @@ class NewGamesTest < ApplicationSystemTestCase
 
       assert_text "Bob"
     end
+
+    assert_text "Alice"
   end
 
   # test "should create Game" do
