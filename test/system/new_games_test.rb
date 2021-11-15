@@ -10,6 +10,10 @@ class NewGamesTest < ApplicationSystemTestCase
     click_on "Create New Game"
 
     assert_text "Match Answers"
+    assert_text "Bob"
+    assert_css "i.bi-star-fill", count: 1
+    assert_css "i.bi-square", count: 0
+    assert_css "i.bi-check-square", count: 0
 
     game_url = current_url
 
@@ -19,9 +23,39 @@ class NewGamesTest < ApplicationSystemTestCase
       click_on "Create Player"
 
       assert_text "Bob"
+      assert_text "Alice"
+      assert_css "i.bi-star-fill", count: 1
+      assert_css "i.bi-square", count: 1
+      assert_css "i.bi-check-square", count: 0
     end
 
     assert_text "Alice"
+    assert_css "i.bi-star-fill", count: 1
+    assert_css "i.bi-square", count: 1
+    assert_css "i.bi-check-square", count: 0
+
+    using_session("Alice") do
+      fill_in "answer_value", with: "Alice original answer"
+      click_on "Create Answer"
+
+      assert_text "Alice original answer"
+      assert_css "i.bi-star-fill", count: 1
+      assert_css "i.bi-square", count: 0
+      assert_css "i.bi-check-square", count: 1
+    end
+
+    assert_css "i.bi-star-fill", count: 1
+    assert_css "i.bi-square", count: 0
+    assert_css "i.bi-check-square", count: 1
+
+    using_session("Alice") do
+      fill_in "answer_value", with: "Alice answer"
+      click_on "Update Answer"
+    end
+
+    assert_css "i.bi-star-fill", count: 1
+    assert_css "i.bi-square", count: 0
+    assert_css "i.bi-check-square", count: 1
   end
 
   # test "should create Game" do
