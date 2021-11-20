@@ -23,6 +23,7 @@ class Answer < ApplicationRecord
   scope :ordered_by_guessed_player,
     -> { includes(:guessed_player).order("players.name") }
 
+  # @param value [String, nil]
   # @return [void]
   def value=(value)
     super(value&.strip)

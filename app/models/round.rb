@@ -36,12 +36,14 @@ class Round < ApplicationRecord
 
   private
 
+  # @return [void]
   def all_rounds_completed
     return unless game.rounds.not_completed.exists?
 
     errors.add(:base, "Active round currently exists for this game")
   end
 
+  # @return [void]
   def single_root_round
     return if previous.present? || !game.rounds.exists?
 

@@ -8,10 +8,4 @@ class RoundsController < ApplicationController
       user: @user, game: Game.where(players: Player.where(rounds: @round))
     )
   end
-
-  private
-
-  def round_params
-    params.require(:round).permit(:question, :status)
-  end
 end

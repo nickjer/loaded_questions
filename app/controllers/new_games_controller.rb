@@ -19,6 +19,7 @@ class NewGamesController < ApplicationController
 
   private
 
+  # @return [ActionController::Parameters]
   def new_game_params
     params.require(:new_game).permit(:player_name, :question)
   end

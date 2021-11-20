@@ -23,10 +23,4 @@ class GamesController < ApplicationController
     @answer = @current_round.answers
       .find_or_initialize_by(player: @current_player)
   end
-
-  private
-
-  def game_params
-    params.require(:game).permit(:question, :status)
-  end
 end

@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
     cookies.encrypted[:current_user_id].to_s.presence
   end
 
+  # @param user_id [#to_s]
   # @return [void]
   def current_user_id=(user_id)
     cookies.permanent.encrypted[:current_user_id] = user_id.to_s

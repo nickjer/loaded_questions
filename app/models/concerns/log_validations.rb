@@ -5,6 +5,7 @@ module LogValidations
 
   included { after_validation :log_validations }
 
+  # @return [void]
   def log_validations
     return if errors.blank?
 

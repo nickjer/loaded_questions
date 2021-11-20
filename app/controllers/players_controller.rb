@@ -27,10 +27,12 @@ class PlayersController < ApplicationController
 
   private
 
+  # @return [Game]
   def game
     @game ||= Game.find(params[:game_id])
   end
 
+  # @return [ActionController::Parameters]
   def player_params
     params.require(:player).permit(:name)
   end

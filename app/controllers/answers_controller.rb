@@ -53,10 +53,7 @@ class AnswersController < ApplicationController
 
   private
 
-  def current_player
-    @current_player ||= game.players.find_by!(user: @user)
-  end
-
+  # @return [ActionController::Parameters]
   def answer_params
     params.require(:answer).permit(:value)
   end

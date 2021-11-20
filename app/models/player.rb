@@ -18,6 +18,7 @@ class Player < ApplicationRecord
 
   scope :active, -> { joins(:rounds).merge(Round.current) }
 
+  # @param value [String, nil]
   # @return [void]
   def name=(value)
     super(value&.strip)

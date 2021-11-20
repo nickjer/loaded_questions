@@ -43,6 +43,7 @@ class AnswerSwappersController < ApplicationController
 
   private
 
+  # @return [Round]
   def round
     @round ||= Round.find_by!(
       id: params[:round_id],
@@ -50,11 +51,14 @@ class AnswerSwappersController < ApplicationController
     )
   end
 
+  # @return [ActionController::Parameters]
   def answer_swapper_params
     params.require(:answer_swapper).permit(:answer_id, :swap_answer_id)
       .merge(round: round)
   end
 
+  # @param target [Player, nil]
+  # @return [String]
   def dom_id(target)
     ActionView::RecordIdentifier.dom_id(target)
   end
