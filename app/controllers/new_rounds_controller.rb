@@ -29,7 +29,7 @@ class NewRoundsController < ApplicationController
 
   private
 
-  # @param [Player]
+  # @return [Player]
   def current_player
     @current_player ||= Player.find_by!(id: params[:player_id], user: @user)
   end

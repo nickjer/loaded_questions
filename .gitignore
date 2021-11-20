@@ -38,3 +38,7 @@
 
 # Ignore bundled gems
 /vendor/bundle
+
+# Documentation
+/.yardoc
+/doc
