@@ -38,16 +38,22 @@ class NewGamesTest < ApplicationSystemTestCase
     game_url = current_url
 
     alice = create_player("Alice", game_url: game_url)
+    steve = create_player("Steve", game_url: game_url)
+    zombie = create_player("Zombie", game_url: game_url)
 
     # Alice's view
     using_session(alice.name) do
       assert_player bob, status: :active
       assert_player alice, status: :not_answered
+      assert_player steve, status: :not_answered
+      assert_player zombie, status: :not_answered
     end
 
     # Bob's view
     assert_player bob, status: :active
     assert_player alice, status: :not_answered
+    assert_player steve, status: :not_answered
+    assert_player zombie, status: :not_answered
 
     # Alice's view
     using_session(alice.name) do
@@ -57,12 +63,44 @@ class NewGamesTest < ApplicationSystemTestCase
       assert_text "Alice original answer"
       assert_player bob, status: :active
       assert_player alice, status: :answered
+      assert_player steve, status: :not_answered
+      assert_player zombie, status: :not_answered
     end
 
     # Bob's view
     assert_no_text "Alice original answer"
     assert_player bob, status: :active
     assert_player alice, status: :answered
+    assert_player steve, status: :not_answered
+    assert_player zombie, status: :not_answered
+
+    # Steve's view
+    using_session(steve.name) do
+      fill_in "answer_value", with: "Steve answer"
+      click_on "Create Answer"
+
+      assert_text "Steve answer"
+      assert_player bob, status: :active
+      assert_player alice, status: :answered
+      assert_player steve, status: :answered
+      assert_player zombie, status: :not_answered
+    end
+
+    # Bob's view
+    assert_no_text "Alice original answer"
+    assert_player bob, status: :active
+    assert_player alice, status: :answered
+    assert_player steve, status: :answered
+    assert_player zombie, status: :not_answered
+
+    karen = create_player("Karen", game_url: game_url)
+
+    # Bob's view
+    assert_player bob, status: :active
+    assert_player alice, status: :answered
+    assert_player steve, status: :answered
+    assert_player karen, status: :not_answered
+    assert_player zombie, status: :not_answered
 
     # Alice's view
     using_session(alice.name) do
@@ -72,11 +110,44 @@ class NewGamesTest < ApplicationSystemTestCase
       assert_text "Alice answer"
       assert_player bob, status: :active
       assert_player alice, status: :answered
+      assert_player steve, status: :answered
+      assert_player karen, status: :not_answered
+      assert_player zombie, status: :not_answered
+    end
+
+    # Karen's view
+    using_session(karen.name) do
+      fill_in "answer_value", with: "Karen answer"
+      click_on "Create Answer"
+
+      assert_text "Karen answer"
+      assert_player bob, status: :active
+      assert_player alice, status: :answered
+      assert_player steve, status: :answered
+      assert_player karen, status: :answered
+      assert_player zombie, status: :not_answered
     end
 
     # Bob's view
     assert_no_text "Alice answer"
+    assert_no_text "Steve answer"
+    assert_no_text "Karen answer"
     assert_player bob, status: :active
     assert_player alice, status: :answered
+    assert_player steve, status: :answered
+    assert_player karen, status: :answered
+    assert_player zombie, status: :not_answered
+
+    # Begin matching round
+    click_on "Match Answers"
+
+    assert_text "Are you sure"
+    sleep 0.5
+    click_on "Close"
+
+    assert_text "Match Answers"
+    click_on "Match Answers"
+    sleep 0.5
+    click_on "Yes, I am sure"
   end
 end
