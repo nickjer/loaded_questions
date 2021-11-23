@@ -3,6 +3,27 @@
 require "application_system_test_case"
 
 class NewGamesTest < ApplicationSystemTestCase
+  def create_player(player, game_url:)
+    using_session(player) do
+      visit game_url
+      fill_in "Name", with: player
+      click_on "Create Player"
+    end
+    Player.find_by!(name: player)
+  end
+
+  def assert_player(player, status:)
+    assert_selector :id, dom_id(player) do |player_element|
+      icon = {
+        active: "i.bi-star-fill",
+        not_answered: "i.bi-square",
+        answered: "i.bi-check-square"
+      }.fetch(status.to_sym)
+      player_element.assert_selector icon
+      player_element.assert_text player.name
+    end
+  end
+
   test "should create New Game" do
     visit new_new_game_url
     fill_in "Player name", with: "Bob"
@@ -11,81 +32,51 @@ class NewGamesTest < ApplicationSystemTestCase
 
     assert_text "Match Answers"
     assert_text "Bob"
-    assert_css "i.bi-star-fill", count: 1
-    assert_css "i.bi-square", count: 0
-    assert_css "i.bi-check-square", count: 0
 
+    bob = Player.find_by!(name: "Bob")
+    assert_player(bob, status: :active)
     game_url = current_url
 
-    using_session("Alice") do
-      visit game_url
-      fill_in "Name", with: "Alice"
-      click_on "Create Player"
+    alice = create_player("Alice", game_url: game_url)
 
-      assert_text "Bob"
-      assert_text "Alice"
-      assert_css "i.bi-star-fill", count: 1
-      assert_css "i.bi-square", count: 1
-      assert_css "i.bi-check-square", count: 0
+    # Alice's view
+    using_session(alice.name) do
+      assert_player bob, status: :active
+      assert_player alice, status: :not_answered
     end
 
-    assert_text "Alice"
-    assert_css "i.bi-star-fill", count: 1
-    assert_css "i.bi-square", count: 1
-    assert_css "i.bi-check-square", count: 0
+    # Bob's view
+    assert_player bob, status: :active
+    assert_player alice, status: :not_answered
 
-    using_session("Alice") do
+    # Alice's view
+    using_session(alice.name) do
       fill_in "answer_value", with: "Alice original answer"
       click_on "Create Answer"
 
       assert_text "Alice original answer"
-      assert_css "i.bi-star-fill", count: 1
-      assert_css "i.bi-square", count: 0
-      assert_css "i.bi-check-square", count: 1
+      assert_player bob, status: :active
+      assert_player alice, status: :answered
     end
 
-    assert_css "i.bi-star-fill", count: 1
-    assert_css "i.bi-square", count: 0
-    assert_css "i.bi-check-square", count: 1
+    # Bob's view
+    assert_no_text "Alice original answer"
+    assert_player bob, status: :active
+    assert_player alice, status: :answered
 
-    using_session("Alice") do
+    # Alice's view
+    using_session(alice.name) do
       fill_in "answer_value", with: "Alice answer"
       click_on "Update Answer"
+
+      assert_text "Alice answer"
+      assert_player bob, status: :active
+      assert_player alice, status: :answered
     end
 
-    assert_css "i.bi-star-fill", count: 1
-    assert_css "i.bi-square", count: 0
-    assert_css "i.bi-check-square", count: 1
+    # Bob's view
+    assert_no_text "Alice answer"
+    assert_player bob, status: :active
+    assert_player alice, status: :answered
   end
-
-  # test "should create Game" do
-  #   visit games_url
-  #   click_on "New Game"
-
-  #   fill_in "Question", with: @game.question
-  #   fill_in "Status", with: @game.status
-  #   click_on "Create Game"
-
-  #   assert_text "Game was successfully created"
-  #   click_on "Back"
-  # end
-
-  # test "should update Game" do
-  #   visit games_url
-  #   click_on "Edit", match: :first
-
-  #   fill_in "Question", with: @game.question
-  #   fill_in "Status", with: @game.status
-  #   click_on "Update Game"
-
-  #   assert_text "Game was successfully updated"
-  #   click_on "Back"
-  # end
-
-  # test "should destroy Game" do
-  #   visit games_url
-  #   page.accept_confirm { click_on "Destroy", match: :first }
-
-  #   assert_text "Game was successfully destroyed"
-  # end
 end
