@@ -30,9 +30,7 @@ RUN yarn --check-files --frozen-lockfile --silent --production
 
 COPY . ./
 
-# Need to precompile twice because first time does not compile CSS correctly
-RUN bundle exec rails assets:precompile --trace || \
-    bundle exec rails assets:precompile --trace && \
+RUN bundle exec rails assets:precompile --trace && \
     yarn cache clean && \
     rm -fr node_modules tmp/cache vendor/assets test
 
