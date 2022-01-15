@@ -19,6 +19,7 @@ services:
   loaded_questions:
     <<: *default_app
     command: ["bin/rails", "server", "--binding", "0.0.0.0", "--port", "3000"]
+    restart: unless-stopped
     ports:
       - 3000:3000
     depends_on:
@@ -28,6 +29,7 @@ services:
   loaded_questions_db:
     image: postgres:13
     command: ["postgres", "-c", "listen_addresses="]
+    restart: unless-stopped
     environment:
       POSTGRES_USER: loaded_questions
       POSTGRES_PASSWORD: loaded_questions_password
@@ -35,9 +37,11 @@ services:
       - loaded_questions_db_socket:/var/run/postgresql
   loaded_questions_cache:
     image: redis:6
+    restart: unless-stopped
   loaded_questions_worker:
     <<: *default_app
     command: ["bundle", "exec", "sidekiq"]
+    restart: unless-stopped
     depends_on:
       - loaded_questions_db
       - loaded_questions_cache
