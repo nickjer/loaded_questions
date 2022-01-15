@@ -37,20 +37,20 @@ Requirements:
 First you will want to build the image:
 
 ```console
-$ docker-compose build web
+$ docker-compose build loaded_questions
 ```
 
 Then you will want to generate a new credentials file and master key:
 
 ```console
 $ rm config/credentials.yml.enc
-$ docker-compose run --rm web bin/rails credentials:edit
+$ docker-compose run --rm loaded_questions bin/rails credentials:edit
 ```
 
 Once you have this set up you will want to create the database:
 
 ```console
-$ docker-compose run --rm web bin/rails db:setup
+$ docker-compose run --rm loaded_questions bin/rails db:setup
 ```
 
 Finally you will launch all of the services into the background:
