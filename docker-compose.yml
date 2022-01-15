@@ -8,36 +8,36 @@ x-app: &default_app
   environment:
     PGHOST: /var/run/postgresql
     PGUSER: loaded_questions
-    REDIS_URL: redis://cache
+    REDIS_URL: redis://loaded_questions_cache
   volumes:
-    - db_socket:/var/run/postgresql
+    - loaded_questions_db_socket:/var/run/postgresql
 
 volumes:
-  db_socket:
+  loaded_questions_db_socket:
 
 services:
-  web:
+  loaded_questions:
     <<: *default_app
     command: ["bin/rails", "server", "--binding", "0.0.0.0", "--port", "3000"]
     ports:
       - 3000:3000
     depends_on:
-      - db
-      - cache
-      - worker
-  db:
+      - loaded_questions_db
+      - loaded_questions_cache
+      - loaded_questions_worker
+  loaded_questions_db:
     image: postgres:13
     command: ["postgres", "-c", "listen_addresses="]
     environment:
       POSTGRES_USER: loaded_questions
       POSTGRES_PASSWORD: loaded_questions_password
     volumes:
-      - db_socket:/var/run/postgresql
-  cache:
+      - loaded_questions_db_socket:/var/run/postgresql
+  loaded_questions_cache:
     image: redis:6
-  worker:
+  loaded_questions_worker:
     <<: *default_app
     command: ["bundle", "exec", "sidekiq"]
     depends_on:
-      - db
-      - cache
+      - loaded_questions_db
+      - loaded_questions_cache
