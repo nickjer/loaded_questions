@@ -2,6 +2,10 @@
 
 This is a work in progress... There is leftover code everywhere with no tests.
 
+## Demo
+
+You can play with it at: https://lq.nicklas.cloud/
+
 ## How does it work
 
 This is meant to be played in tandem with the actual board game, ideally with
