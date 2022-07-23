@@ -3,13 +3,13 @@
 require "application_system_test_case"
 
 class NewGamesTest < ApplicationSystemTestCase
-  def create_player(player, game_url:)
-    using_session(player) do
+  def create_player(player_name, game_url:)
+    using_session(player_name) do
       visit game_url
-      fill_in "Name", with: player
+      fill_in "Name", with: player_name
       click_on "Create Player"
     end
-    Player.find_by!(name: player)
+    Player.find_by!(name: player_name)
   end
 
   def assert_player(player, status:)

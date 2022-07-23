@@ -1,7 +1,7 @@
 <div id="<%= dom_id player %>" data-players-target="player" data-sort-by="<%= player.name %>">
   <%- if player == active_player -%>
     <i class="bi bi-star-fill"></i>
-  <%- elsif player.current_answer.present? -%>
+  <%- elsif player.current_answer&.persisted? -%>
     <i class="bi bi-check-square"></i>
   <%- else -%>
     <i class="bi bi-square"></i>
