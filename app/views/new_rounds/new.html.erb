@@ -6,7 +6,7 @@
     <%= form.error_notification message: error_msgs.to_sentence %>
   <%- end -%>
 
-  <%= form.input :question %>
+  <%= form.input :question, as: :text %>
 
   <div class="col-12">
     <%= form.button :submit, "Create New Round", class: "btn-primary" %>

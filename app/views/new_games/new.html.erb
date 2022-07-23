@@ -7,7 +7,7 @@
   <%- end -%>
 
   <%= form.input :player_name %>
-  <%= form.input :question %>
+  <%= form.input :question, as: :text %>
 
   <div class="col-12">
     <%= form.button :submit, "Create New Game", class: "btn-primary" %>

@@ -4,7 +4,7 @@
     <%= form.error_notification message: form.object.errors[:base].to_sentence %>
   <%- end -%>
 
-  <%= form.input :question %>
+  <%= form.input :question, as: :text %>
 
   <div class="col-12">
     <%= form.button :submit, class: "btn-primary" %>
