@@ -40,14 +40,10 @@ class AnswersController < ApplicationController
   def update
     @answer = Answer.where(player: Player.where(user: @user)).find(params[:id])
 
-    respond_to do |format|
-      if @answer.update(answer_params)
-        format.html { redirect_to @answer.game }
-      else
-        format.html do
-          redirect_to @answer.game, notice: "Answer failed to be updated."
-        end
-      end
+    if @answer.update(answer_params)
+      redirect_to @answer.game
+    else
+      redirect_to @answer.game, notice: "Answer failed to be updated."
     end
   end
 
