@@ -52,7 +52,7 @@ gem "bootsnap", ">= 1.4.4", require: false
 gem "sidekiq", "~> 6.3"
 
 # Flexible form builder
-gem "simple_form", "~> 5.1"
+gem "simple_form", github: "heartcombo/simple_form"
 
 group :development, :test do
   # Start debugger with binding.b [https://github.com/ruby/debug]

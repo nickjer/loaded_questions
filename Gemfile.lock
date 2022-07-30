@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/heartcombo/simple_form.git
+  revision: 31fe25504771bd6cd425b585a4e0ed652fba4521
+  specs:
+    simple_form (5.1.0)
+      actionpack (>= 5.2)
+      activemodel (>= 5.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -214,9 +222,6 @@ GEM
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
-    simple_form (5.1.0)
-      actionpack (>= 5.2)
-      activemodel (>= 5.2)
     stimulus-rails (1.1.0)
       railties (>= 6.0.0)
     strscan (3.0.4)
@@ -266,7 +271,7 @@ DEPENDENCIES
   rubocop-rails
   selenium-webdriver
   sidekiq (~> 6.3)
-  simple_form (~> 5.1)
+  simple_form!
   stimulus-rails (>= 0.4.0)
   turbo-rails (>= 0.7.11)
   tzinfo-data
