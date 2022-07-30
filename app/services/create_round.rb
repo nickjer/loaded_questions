@@ -10,7 +10,7 @@ class CreateRound
   def call
     question = "How are you doing?"
 
-    player.rounds.create!(question: question)
+    player.rounds.create!(question:)
 
     true
   rescue StandardError

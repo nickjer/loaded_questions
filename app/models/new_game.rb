@@ -37,9 +37,9 @@ class NewGame
     @game ||= Game.new(
       players: [
         Player.new(
-          user: user,
+          user:,
           name: player_name,
-          rounds: [Round.new(question: question, hide_answers: hide_answers)]
+          rounds: [Round.new(question:, hide_answers:)]
         )
       ]
     )

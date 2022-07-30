@@ -37,9 +37,9 @@ class NewGamesTest < ApplicationSystemTestCase
     assert_player(bob, status: :active)
     game_url = current_url
 
-    alice = create_player("Alice", game_url: game_url)
-    steve = create_player("Steve", game_url: game_url)
-    zombie = create_player("Zombie", game_url: game_url)
+    alice = create_player("Alice", game_url:)
+    steve = create_player("Steve", game_url:)
+    zombie = create_player("Zombie", game_url:)
 
     # Alice's view
     using_session(alice.name) do
@@ -93,7 +93,7 @@ class NewGamesTest < ApplicationSystemTestCase
     assert_player steve, status: :answered
     assert_player zombie, status: :not_answered
 
-    karen = create_player("Karen", game_url: game_url)
+    karen = create_player("Karen", game_url:)
 
     # Bob's view
     assert_player bob, status: :active

@@ -75,3 +75,9 @@ Style/CollectionMethods:
 Style/UnlessLogicalOperators:
   Enabled: true
   EnforcedStyle: forbid_logical_operators
+
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+Minitest/MultipleAssertions:
+  Enabled: false

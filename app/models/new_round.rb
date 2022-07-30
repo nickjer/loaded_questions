@@ -44,9 +44,9 @@ class NewRound
     return false unless valid?
 
     round = player.rounds.build(
-      question: question,
+      question:,
       previous: previous_round,
-      hide_answers: hide_answers
+      hide_answers:
     )
 
     round.save

@@ -41,7 +41,7 @@ class AnswerSwapper
       guessed_player = answer.guessed_player
       swap_guessed_player = swap_answer.guessed_player
       answer.update!(guessed_player: nil)
-      swap_answer.update!(guessed_player: guessed_player)
+      swap_answer.update!(guessed_player:)
       answer.update!(guessed_player: swap_guessed_player)
     end
 

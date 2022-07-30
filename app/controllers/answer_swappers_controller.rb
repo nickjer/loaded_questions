@@ -17,7 +17,7 @@ class AnswerSwappersController < ApplicationController
             player,
             target: "guessed_#{dom_id(answer.guessed_player)}",
             partial: "answers/answer",
-            locals: { answer: answer }
+            locals: { answer: }
           )
           Turbo::StreamsChannel.broadcast_replace_later_to(
             player,
@@ -32,7 +32,7 @@ class AnswerSwappersController < ApplicationController
           round.player,
           target: "answers",
           partial: "matching_rounds/matching_round",
-          locals: { round: round, is_active_user: true }
+          locals: { round:, is_active_user: true }
         )
         format.json do
           render json: @answer_swapper.errors, status: :unprocessable_entity
@@ -54,7 +54,7 @@ class AnswerSwappersController < ApplicationController
   # @return [ActionController::Parameters]
   def answer_swapper_params
     params.require(:answer_swapper).permit(:answer_id, :swap_answer_id)
-      .merge(round: round)
+      .merge(round:)
   end
 
   # @param target [Player, nil]
