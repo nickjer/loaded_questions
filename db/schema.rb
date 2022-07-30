@@ -52,6 +52,7 @@ ActiveRecord::Schema[7.0].define(version: 2021_10_19_215845) do
     t.uuid "previous_id"
     t.integer "status", default: 0, null: false
     t.text "question"
+    t.boolean "hide_answers", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["player_id"], name: "index_rounds_on_player_id"

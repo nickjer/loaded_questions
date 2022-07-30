@@ -36,6 +36,6 @@ class NewRoundsController < ApplicationController
 
   # @return [ActionController::Parameters]
   def new_round_params
-    params.require(:new_round).permit(:question)
+    params.require(:new_round).permit(:question, :hide_answers)
   end
 end

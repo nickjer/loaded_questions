@@ -31,7 +31,7 @@ class Round < ApplicationRecord
 
   # @return [Boolean]
   def readonly?
-    status_was == "completed"
+    self.next.present?
   end
 
   private

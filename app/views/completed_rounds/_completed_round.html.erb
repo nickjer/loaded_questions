@@ -1,6 +1,27 @@
-<div id="answers" class="list-group mb-2">
-  <%= render round.ordered_answers %>
-</div>
+<%- if is_active_user || !round.hide_answers? -%>
+  <div id="answers" class="list-group mb-2">
+    <%= render round.ordered_answers %>
+  </div>
+<%- else -%>
+  <div id="answers" class="list_group mb-2">
+    <div class="list-group-item list-group-item-secondary">
+      <div class="p-2 w-100">
+        The answers are hidden until the active player unhides them.
+      </div>
+    </div>
+  </div>
+<%- end -%>
 <p>
   <%= round.player.name %>'s Score = <%= round.ordered_answers.count(&:correct?) %>
 </p>
+<%- if is_active_user && round.hide_answers? -%>
+  <%=
+    simple_form_for(
+      round,
+      html: { class: "d-grid gap-2 col-6 mx-auto mb-2" }
+    ) do |form|
+  %>
+    <%= form.hidden_field :hide_answers, value: "0" %>
+    <%= form.button :button, "Show Answers", class: "btn-danger btn-lg" %>
+  <% end %>
+<%- end -%>

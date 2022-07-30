@@ -9,9 +9,13 @@ class NewRound
   # @return [String]
   attr_reader :question
 
+  # @return [Boolean]
+  attr_reader :hide_answers
+
   # Validations
   validates :player, presence: true
   validates :question, presence: true
+  validates :hide_answers, inclusion: [true, false]
   validates :previous_round, presence: true
   validates :previous_round_status, inclusion: { in: %w[completed] }
 
@@ -30,13 +34,20 @@ class NewRound
 
     params = params.to_h.deep_symbolize_keys
     @question = params[:question].to_s.squish
+
+    @hide_answers = ActiveModel::Type::Boolean.new.cast(params[:hide_answers])
+    @hide_answers = previous_round.hide_answers if @hide_answers.nil?
   end
 
   # @return [Boolean]
   def save
     return false unless valid?
 
-    round = player.rounds.build(question: question, previous: previous_round)
+    round = player.rounds.build(
+      question: question,
+      previous: previous_round,
+      hide_answers: hide_answers
+    )
 
     round.save
   end

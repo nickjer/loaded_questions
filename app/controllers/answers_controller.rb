@@ -45,7 +45,7 @@ class AnswersController < ApplicationController
         format.html { redirect_to @answer.game }
       else
         format.html do
-          redirect_to @answer.game, notice: "Answer failed to be created."
+          redirect_to @answer.game, notice: "Answer failed to be updated."
         end
       end
     end

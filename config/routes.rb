@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     resources :players, only: %i[create new], shallow: true do
       resources :new_rounds, only: %i[create new]
     end
-    resources :rounds, only: %i[show], shallow: true do
+    resources :rounds, only: %i[show update], shallow: true do
       resources :matching_rounds, only: %i[create]
       resources :completed_rounds, only: %i[create]
       resources :answer_swappers, only: %i[create]

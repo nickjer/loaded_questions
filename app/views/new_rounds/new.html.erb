@@ -7,6 +7,7 @@
   <%- end -%>
 
   <%= form.input :question, as: :text %>
+  <%= form.input :hide_answers, as: :boolean %>
 
   <div class="col-12">
     <%= form.button :submit, "Create New Round", class: "btn-primary" %>
