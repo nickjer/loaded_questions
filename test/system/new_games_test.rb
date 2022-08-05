@@ -60,6 +60,7 @@ class NewGamesTest < ApplicationSystemTestCase
       fill_in "answer_value", with: "Alice original answer"
       click_on "Create Answer"
 
+      click_on "Edit Answer"
       assert_text "Alice original answer"
       assert_player bob, status: :active
       assert_player alice, status: :answered
@@ -68,6 +69,7 @@ class NewGamesTest < ApplicationSystemTestCase
     end
 
     # Bob's view
+    assert_no_text "Edit Answer"
     assert_no_text "Alice original answer"
     assert_player bob, status: :active
     assert_player alice, status: :answered
@@ -79,6 +81,7 @@ class NewGamesTest < ApplicationSystemTestCase
       fill_in "answer_value", with: "Steve answer"
       click_on "Create Answer"
 
+      click_on "Edit Answer"
       assert_text "Steve answer"
       assert_player bob, status: :active
       assert_player alice, status: :answered
@@ -87,6 +90,7 @@ class NewGamesTest < ApplicationSystemTestCase
     end
 
     # Bob's view
+    assert_no_text "Edit Answer"
     assert_no_text "Alice original answer"
     assert_player bob, status: :active
     assert_player alice, status: :answered
@@ -107,6 +111,7 @@ class NewGamesTest < ApplicationSystemTestCase
       fill_in "answer_value", with: "Alice answer"
       click_on "Update Answer"
 
+      click_on "Edit Answer"
       assert_text "Alice answer"
       assert_player bob, status: :active
       assert_player alice, status: :answered
@@ -120,6 +125,7 @@ class NewGamesTest < ApplicationSystemTestCase
       fill_in "answer_value", with: "Karen answer"
       click_on "Create Answer"
 
+      click_on "Edit Answer"
       assert_text "Karen answer"
       assert_player bob, status: :active
       assert_player alice, status: :answered
@@ -129,6 +135,7 @@ class NewGamesTest < ApplicationSystemTestCase
     end
 
     # Bob's view
+    assert_no_text "Edit Answer"
     assert_no_text "Alice answer"
     assert_no_text "Steve answer"
     assert_no_text "Karen answer"
