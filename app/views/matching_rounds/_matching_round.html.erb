@@ -3,5 +3,13 @@
   data-swap-url-value="<%= round_answer_swappers_path(round, format: :json) %>"
   data-swap-name-value="answer"
   data-swap-enabled-value="<%= is_active_user %>">
-  <%= render round.ordered_answers %>
+  <%- if is_active_user || !round.hide_answers? -%>
+    <%= render round.ordered_answers %>
+  <%- else -%>
+    <div class="list-group-item list-group-item-secondary">
+      <div class="p-2 w-100">
+        The answers are hidden until the active player finishes matching them.
+      </div>
+    </div>
+  <%- end -%>
 </div>
