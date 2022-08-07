@@ -8,6 +8,7 @@ class Answer < ApplicationRecord
   has_one :game, through: :player
 
   validates :value, presence: true
+  validates :value, length: { in: 3..80 }
   validates :player,
     uniqueness: {
       scope: :round,
@@ -26,7 +27,7 @@ class Answer < ApplicationRecord
   # @param value [String, nil]
   # @return [void]
   def value=(value)
-    super(value&.strip)
+    super(value&.squish)
   end
 
   # @return [Boolean]

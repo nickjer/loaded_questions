@@ -1,5 +1,7 @@
+<%- edit_answer = answer.persisted? && answer.valid? -%>
+
 <%= turbo_frame_tag("answer_form") do %>
-  <%- if answer.persisted? -%>
+  <%- if edit_answer -%>
     <button
       class="btn btn-secondary mb-2"
       type="button"
@@ -10,7 +12,7 @@
       Edit Answer
     </button>
   <%- end -%>
-  <div id="collapsed_answer_form" class="<%= "collapse" if answer.persisted? %>">
+  <div id="collapsed_answer_form" class="<%= "collapse" if edit_answer %>">
     <%=
       simple_form_for(
         [round, answer],
@@ -19,11 +21,6 @@
         wrapper_mappings: { boolean: :inline_boolean }
       ) do |form|
     %>
-      <%= form.error_notification %>
-      <%- if form.object.errors[:base].present? -%>
-        <%= form.error_notification message: form.object.errors[:base].to_sentence %>
-      <%- end -%>
-
       <%= form.input :value, label: false %>
 
       <div class="col-12">

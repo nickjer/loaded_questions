@@ -32,7 +32,8 @@ class AnswersController < ApplicationController
       end
       redirect_to @round.game
     else
-      redirect_to @round.game, notice: "Answer failed to be created."
+      render :new, status: :unprocessable_entity
+      # redirect_to @round.game, notice: "Answer failed to be created."
     end
   end
 
@@ -43,7 +44,8 @@ class AnswersController < ApplicationController
     if @answer.update(answer_params)
       redirect_to @answer.game
     else
-      redirect_to @answer.game, notice: "Answer failed to be updated."
+      render :edit, status: :unprocessable_entity
+      # redirect_to @answer.game, notice: "Answer failed to be updated."
     end
   end
 
