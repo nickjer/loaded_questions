@@ -7,6 +7,7 @@ class Player < ApplicationRecord
   has_many :rounds, dependent: :destroy
   has_many :answers, dependent: :destroy
 
+  validates :name, presence: true
   validates :name, uniqueness: { scope: :game, case_sensitive: false }
   validates :game,
     uniqueness: { scope: :user, message: "Player already exists for this game" }
@@ -16,7 +17,8 @@ class Player < ApplicationRecord
   # @param value [String, nil]
   # @return [void]
   def name=(value)
-    super(value&.strip)
+    normalized_value = value.to_s.unicode_normalize(:nfkc).squish
+    super(normalized_value.gsub(/\P{Print}|\p{Cf}/, "").presence)
   end
 
   # @return [Answer, nil]
