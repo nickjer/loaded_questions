@@ -7,7 +7,7 @@ class Player < ApplicationRecord
   has_many :rounds, dependent: :destroy
   has_many :answers, dependent: :destroy
 
-  validates :name, presence: true
+  validates :name, length: { in: 3..20 }
   validates :name, uniqueness: { scope: :game, case_sensitive: false }
   validates :game,
     uniqueness: { scope: :user, message: "Player already exists for this game" }
