@@ -18,7 +18,7 @@ class Round < ApplicationRecord
   scope :current,
     -> { left_outer_joins(:next).where(nexts_rounds: { id: nil }).distinct }
 
-  validates :question, presence: true
+  validates :question, length: { in: 3..80 }
   validates :previous, uniqueness: { allow_blank: true }
   validate :all_rounds_completed, on: :create
   validate :single_root_round, on: :create
