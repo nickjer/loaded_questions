@@ -21,7 +21,7 @@
         wrapper_mappings: { boolean: :inline_boolean }
       ) do |form|
     %>
-      <%= form.input :value, label: false %>
+      <%= form.input :value, label: false, input_html: { maxlength: 80 } %>
 
       <div class="col-12">
         <%= form.button :submit, class: "btn-primary" %>

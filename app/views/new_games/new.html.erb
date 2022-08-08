@@ -6,8 +6,8 @@
     <%= form.error_notification message: error_msgs.to_sentence %>
   <%- end -%>
 
-  <%= form.input :player_name %>
-  <%= form.input :question, as: :text %>
+  <%= form.input :player_name, input_html: { maxlength: 20 } %>
+  <%= form.input :question, as: :text, input_html: { maxlength: 80 } %>
   <%= form.input :hide_answers, as: :boolean %>
 
   <div class="col-12">
