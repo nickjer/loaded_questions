@@ -13,13 +13,13 @@ class AnswerSwappersController < ApplicationController
         round.game.players.each do |player|
           next if player == round.player
 
-          Turbo::StreamsChannel.broadcast_replace_later_to(
+          PlayerChannel.broadcast_replace_later_to(
             player,
             target: "guessed_#{dom_id(answer.guessed_player)}",
             partial: "answers/answer",
             locals: { answer: }
           )
-          Turbo::StreamsChannel.broadcast_replace_later_to(
+          PlayerChannel.broadcast_replace_later_to(
             player,
             target: "guessed_#{dom_id(swap_answer.guessed_player)}",
             partial: "answers/answer",
@@ -28,7 +28,7 @@ class AnswerSwappersController < ApplicationController
         end
         format.json { head :created }
       else
-        Turbo::StreamsChannel.broadcast_replace_later_to(
+        PlayerChannel.broadcast_replace_later_to(
           round.player,
           target: "answers",
           partial: "matching_rounds/matching_round",

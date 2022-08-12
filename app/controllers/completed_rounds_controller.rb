@@ -13,7 +13,7 @@ class CompletedRoundsController < ApplicationController
       @completed_round.players.each do |player|
         next if player == round.player
 
-        Turbo::StreamsChannel.broadcast_replace_later_to(
+        PlayerChannel.broadcast_replace_later_to(
           player,
           target: "current_round",
           partial: "games/current_round_frame",

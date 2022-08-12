@@ -23,17 +23,18 @@ class AnswersController < ApplicationController
 
     if @answer.save
       @round.game.players.each do |player|
-        Turbo::StreamsChannel.broadcast_replace_later_to(
+        PlayerChannel.broadcast_replace_later_to(
           player,
           target: @current_player,
           partial: "players/player",
-          locals: { player: @current_player, active_player: @round.player }
+          locals: {
+            player: @current_player, active_player: @round.player, me: player
+          }
         )
       end
       redirect_to @round.game
     else
       render :new, status: :unprocessable_entity
-      # redirect_to @round.game, notice: "Answer failed to be created."
     end
   end
 

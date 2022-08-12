@@ -14,10 +14,18 @@ class NewRoundsController < ApplicationController
       @new_round.players.each do |player|
         next if player == current_player
 
-        Turbo::StreamsChannel.broadcast_update_later_to(
+        PlayerChannel.broadcast_update_later_to(
           player,
           target: "new_round_link",
           partial: "games/current_round_link",
+          locals: { game: @new_round.game }
+        )
+
+        # Redraw all players to set up for new round state
+        PlayerChannel.broadcast_replace_to(
+          player,
+          target: "players",
+          partial: "games/players_frame",
           locals: { game: @new_round.game }
         )
       end

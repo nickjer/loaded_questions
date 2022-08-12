@@ -5,7 +5,7 @@
   </div>
 <%- end -%>
 
-<%= turbo_stream_from @current_player %>
+<%= turbo_stream_from @current_player, channel: PlayerChannel %>
 
 <div class="row mt-2">
   <%= turbo_frame_tag("current_round", target: "_top", class: "col-md-10") do %>
@@ -52,14 +52,14 @@
   <% end %>
 
   <%# Player List %>
-  <div class="col-md-2">
+  <%= turbo_frame_tag("players", class: "col-md-2") do %>
     <strong>Players:</strong>
-    <div id="players" data-controller="players">
+    <div data-controller="players">
       <%=
-        render(@game.players, active_player: @active_player)
+        render(@game.players, active_player: @active_player, me: @current_player)
       %>
     </div>
-  </div>
+  <% end %>
 
 </div>
 

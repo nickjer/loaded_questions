@@ -1,4 +1,9 @@
 <div id="<%= dom_id player %>" data-players-target="player" data-sort-by="<%= player.name %>">
+  <%- if player.online? || player == me -%>
+    🟢
+  <%- else -%>
+    🔴
+  <%- end -%>
   <%- if player == active_player -%>
     <i class="bi bi-star-fill"></i>
   <%- elsif player.current_answer&.persisted? -%>
@@ -7,5 +12,9 @@
     <i class="bi bi-square"></i>
   <%- end -%>
   -
-  <%= player.name %>
+  <%- if player == me -%>
+    <strong><%= player.name %></strong>
+  <%- else -%>
+    <%= player.name %>
+  <%- end -%>
 </div>

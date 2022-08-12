@@ -14,6 +14,11 @@ class Player < ApplicationRecord
 
   scope :active, -> { joins(:rounds).merge(Round.current) }
 
+  # @return [Boolean]
+  def online?
+    PlayerChannel.subscribed?(self)
+  end
+
   # @param value [String, nil]
   # @return [void]
   def name=(value)

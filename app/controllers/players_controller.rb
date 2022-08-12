@@ -12,11 +12,15 @@ class PlayersController < ApplicationController
 
     if @player.save
       game.players.each do |player|
-        Turbo::StreamsChannel.broadcast_append_later_to(
+        next if player == @player
+
+        PlayerChannel.broadcast_append_later_to(
           player,
           target: "players",
           partial: "players/player",
-          locals: { player: @player, active_player: game.active_player }
+          locals: {
+            player: @player, active_player: game.active_player, me: player
+          }
         )
       end
       redirect_to game
