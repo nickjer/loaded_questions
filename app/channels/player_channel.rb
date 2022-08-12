@@ -51,7 +51,8 @@ class PlayerChannel < ApplicationCable::Channel
 
   # @return [void]
   def broadcast_player_to_game
-    game = player.game.reload
+    # Reload cache, in particular the instance variables
+    game = Game.find(player.game_id)
 
     game.players.each do |other_player|
       next if other_player == player
