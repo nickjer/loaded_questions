@@ -39,11 +39,13 @@ ActiveRecord::Schema[7.0].define(version: 2021_10_19_215845) do
     t.string "name"
     t.uuid "user_id", null: false
     t.uuid "game_id", null: false
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_players_on_deleted_at"
     t.index ["game_id"], name: "index_players_on_game_id"
-    t.index ["name", "game_id"], name: "index_players_on_name_and_game_id", unique: true
-    t.index ["user_id", "game_id"], name: "index_players_on_user_id_and_game_id", unique: true
+    t.index ["name", "game_id", "deleted_at"], name: "index_players_on_name_and_game_id_and_deleted_at", unique: true
+    t.index ["user_id", "game_id", "deleted_at"], name: "index_players_on_user_id_and_game_id_and_deleted_at", unique: true
     t.index ["user_id"], name: "index_players_on_user_id"
   end
 

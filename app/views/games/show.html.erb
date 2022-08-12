@@ -52,14 +52,14 @@
   <% end %>
 
   <%# Player List %>
-  <%= turbo_frame_tag("players", class: "col-md-2") do %>
+  <div class="col-md-2">
     <strong>Players:</strong>
-    <div data-controller="players">
+    <%= turbo_frame_tag("players", "data-controller": "players") do %>
       <%=
         render(@game.players, active_player: @active_player, me: @current_player)
       %>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 
 </div>
 

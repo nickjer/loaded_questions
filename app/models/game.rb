@@ -20,4 +20,23 @@ class Game < ApplicationRecord
   def current_answers
     @current_answers ||= current_round&.answers.to_a
   end
+
+  # @return [Array<Player>]
+  def inactive_players(num_rounds: 3)
+    @inactive_players ||=
+      begin
+        player_list = players.to_a.dup
+
+        num_rounds.times.reduce(current_round) do |round, _index|
+          next round if round.blank?
+
+          player_list.delete_if do |player|
+            !player.existed_in?(round) || player.played_in?(round)
+          end
+          round.previous
+        end
+
+        player_list
+      end
+  end
 end

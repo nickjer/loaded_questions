@@ -11,6 +11,15 @@ class NewRoundsController < ApplicationController
     @new_round = NewRound.new(player: current_player, params: new_round_params)
 
     if @new_round.save
+      # Refresh the cache, in particular the `Game#current_round`
+      game = Game.find(@new_round.game.id)
+
+      # Delete inactive players
+      game.inactive_players.each do |inactive_player|
+        inactive_player.update(deleted_at: Time.current)
+      end
+
+      # Update all other players
       @new_round.players.each do |player|
         next if player == current_player
 
@@ -18,7 +27,7 @@ class NewRoundsController < ApplicationController
           player,
           target: "new_round_link",
           partial: "games/current_round_link",
-          locals: { game: @new_round.game }
+          locals: { game: }
         )
 
         # Redraw all players to set up for new round state
@@ -26,10 +35,10 @@ class NewRoundsController < ApplicationController
           player,
           target: "players",
           partial: "games/players_frame",
-          locals: { game: @new_round.game }
+          locals: { game: }
         )
       end
-      redirect_to @new_round.game
+      redirect_to game
     else
       render :new, status: :unprocessable_entity
     end
