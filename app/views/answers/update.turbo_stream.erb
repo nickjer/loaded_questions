@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "answer_form" do %>
+  <%= render partial: "form", locals: { answer: @answer, round: nil } %>
+<% end %>

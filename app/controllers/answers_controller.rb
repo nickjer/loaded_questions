@@ -19,10 +19,9 @@ class AnswersController < ApplicationController
           }
         )
       end
-      render turbo_stream: answer_form(answer: @answer)
+      render :update
     else
-      render turbo_stream: answer_form(answer: @answer, round: @round),
-        status: :unprocessable_entity
+      render :create, status: :unprocessable_entity
     end
   end
 
@@ -31,10 +30,9 @@ class AnswersController < ApplicationController
     @answer = Answer.where(player: Player.where(user: @user)).find(params[:id])
 
     if @answer.update(answer_params)
-      render turbo_stream: answer_form(answer: @answer)
+      render :update
     else
-      render turbo_stream: answer_form(answer: @answer),
-        status: :unprocessable_entity
+      render :update, status: :unprocessable_entity
     end
   end
 
@@ -43,16 +41,5 @@ class AnswersController < ApplicationController
   # @return [ActionController::Parameters]
   def answer_params
     params.require(:answer).permit(:value)
-  end
-
-  # @param answer [Answer]
-  # @param round [Round, nil]
-  # @return [String]
-  def answer_form(answer:, round: nil)
-    turbo_stream.replace(
-      "answer_form",
-      partial: "form",
-      locals: { answer:, round: }
-    )
   end
 end
