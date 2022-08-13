@@ -31,12 +31,7 @@ class NewRoundsController < ApplicationController
         )
 
         # Redraw all players to set up for new round state
-        PlayerChannel.broadcast_replace_to(
-          player,
-          target: "players",
-          partial: "games/players_frame",
-          locals: { game: }
-        )
+        RedrawPlayersJob.perform_later(game)
       end
       redirect_to game
     else
