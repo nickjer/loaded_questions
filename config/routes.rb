@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       resources :matching_rounds, only: %i[create]
       resources :completed_rounds, only: %i[create]
       resources :answer_swappers, only: %i[create]
-      resources :answers, only: %i[create edit new update]
+      resources :answers, only: %i[create update]
     end
   end
 

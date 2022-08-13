@@ -1,19 +1,6 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-  # GET /rounds/:round_id/answers/new
-  def new
-    @round = Round.find(params[:round_id])
-    @current_player = @round.game.players.find_by!(user: @user)
-
-    @answer = @round.answers.build(player: @current_player)
-  end
-
-  # GET /answers/1/edit
-  def edit
-    @answer = Answer.find(params[:id])
-  end
-
   # POST /rounds/:round_id/answers
   def create
     @round = Round.find(params[:round_id])
@@ -32,9 +19,10 @@ class AnswersController < ApplicationController
           }
         )
       end
-      redirect_to @round.game
+      render turbo_stream: answer_form(answer: @answer)
     else
-      render :new, status: :unprocessable_entity
+      render turbo_stream: answer_form(answer: @answer, round: @round),
+        status: :unprocessable_entity
     end
   end
 
@@ -43,10 +31,10 @@ class AnswersController < ApplicationController
     @answer = Answer.where(player: Player.where(user: @user)).find(params[:id])
 
     if @answer.update(answer_params)
-      redirect_to @answer.game
+      render turbo_stream: answer_form(answer: @answer)
     else
-      render :edit, status: :unprocessable_entity
-      # redirect_to @answer.game, notice: "Answer failed to be updated."
+      render turbo_stream: answer_form(answer: @answer),
+        status: :unprocessable_entity
     end
   end
 
@@ -55,5 +43,16 @@ class AnswersController < ApplicationController
   # @return [ActionController::Parameters]
   def answer_params
     params.require(:answer).permit(:value)
+  end
+
+  # @param answer [Answer]
+  # @param round [Round, nil]
+  # @return [String]
+  def answer_form(answer:, round: nil)
+    turbo_stream.replace(
+      "answer_form",
+      partial: "form",
+      locals: { answer:, round: }
+    )
   end
 end

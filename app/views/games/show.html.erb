@@ -22,7 +22,7 @@
         render partial: "answers/form",
           locals: {
             answer: @answer,
-            round: @answer.persisted? ? nil : @current_round
+            round: @answer.new_record? ? @current_round : nil
           }
       %>
     <% end %>

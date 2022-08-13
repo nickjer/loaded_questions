@@ -1,7 +1,7 @@
-<%- edit_answer = answer.persisted? && answer.valid? -%>
+<%- collapsible = !answer.new_record? && answer.valid? -%>
 
 <%= turbo_frame_tag("answer_form") do %>
-  <%- if edit_answer -%>
+  <%- if collapsible -%>
     <button
       class="btn btn-secondary mb-2"
       type="button"
@@ -12,7 +12,7 @@
       Edit Answer
     </button>
   <%- end -%>
-  <div id="collapsed_answer_form" class="<%= "collapse" if edit_answer %>">
+  <div id="collapsed_answer_form" class="<%= "collapse" if collapsible %>">
     <%=
       simple_form_for(
         [round, answer],
