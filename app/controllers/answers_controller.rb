@@ -3,19 +3,19 @@
 class AnswersController < ApplicationController
   # POST /rounds/:round_id/answers
   def create
-    @round = Round.find(params[:round_id])
-    @current_player = @round.game.players.find_by!(user: @user)
+    round = Round.find(params[:round_id])
+    current_player = round.game.players.find_by!(user: @user)
 
-    @answer = @round.answers.where(player: @current_player).build(answer_params)
+    @answer = round.answers.where(player: current_player).build(answer_params)
 
     if @answer.save
-      @round.game.players.each do |player|
+      round.game.players.each do |player|
         PlayerChannel.broadcast_replace_later_to(
           player,
-          target: @current_player,
+          target: current_player,
           partial: "players/player",
           locals: {
-            player: @current_player, active_player: @round.player, me: player
+            player: current_player, active_player: round.player, me: player
           }
         )
       end

@@ -18,13 +18,7 @@
 
     <%# Answer Form %>
     <%- if @current_round.polling? && @current_player != @active_player -%>
-      <%=
-        render partial: "answers/form",
-          locals: {
-            answer: @answer,
-            round: @answer.new_record? ? @current_round : nil
-          }
-      %>
+      <%= render "answers/form", answer: @answer %>
     <% end %>
 
     <%# Round Controls %>

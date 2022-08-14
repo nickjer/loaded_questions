@@ -15,7 +15,7 @@
   <div id="collapsed_answer_form" class="<%= "collapse" if collapsible %>">
     <%=
       simple_form_for(
-        [round, answer],
+        [answer.new_record? ? answer.round : nil, answer],
         wrapper: :inline_form,
         html: { class: "row row-cols-lg-auto g-3 align-items-center mb-2" },
         wrapper_mappings: { boolean: :inline_boolean }
