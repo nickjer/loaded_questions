@@ -12,26 +12,26 @@
 
     <%# Question Card & Answer List %>
     <%=
-      render "rounds/round", round: @current_round,
-        is_active_user: @current_player == @active_player
+      render "rounds/round", round: @game.current_round,
+        is_active_user: @current_player == @game.active_player
     %>
 
     <%# Answer Form %>
-    <%- if @current_round.polling? && @current_player != @active_player -%>
+    <%- if @game.current_round.polling? && @current_player != @game.active_player -%>
       <%= render "answers/form", answer: @answer %>
     <% end %>
 
     <%# Round Controls %>
-    <%- if @current_player == @active_player -%>
-      <%- if @current_round.polling? -%>
-        <%= render "matching_rounds/form", round: @current_round %>
-      <%- elsif @current_round.matching? -%>
-        <%= render "completed_rounds/form", round: @current_round %>
+    <%- if @current_player == @game.active_player -%>
+      <%- if @game.current_round.polling? -%>
+        <%= render "matching_rounds/form", round: @game.current_round %>
+      <%- elsif @game.current_round.matching? -%>
+        <%= render "completed_rounds/form", round: @game.current_round %>
       <%- end -%>
     <%- end -%>
 
     <%# Next Round Controls %>
-    <%- if @current_round.completed? -%>
+    <%- if @game.current_round.completed? -%>
       <div id="new_round_link" class="d-grid gap-2 col-6 mx-auto">
         <%=
           link_to(
@@ -50,7 +50,9 @@
     <strong>Players:</strong>
     <%= turbo_frame_tag("players", "data-controller": "players") do %>
       <%=
-        render(@game.players, active_player: @active_player, me: @current_player)
+        render(
+          @game.players, active_player: @game.active_player, me: @current_player
+        )
       %>
     <% end %>
   </div>

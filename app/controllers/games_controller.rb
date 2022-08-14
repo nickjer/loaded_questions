@@ -9,11 +9,9 @@ class GamesController < ApplicationController
     # Create player if user doesn't have one
     return redirect_to(new_game_player_path(@game)) if @current_player.blank?
 
-    @active_player = @game.active_player
-    @current_round = @game.current_round
-    return unless @current_round.polling?
+    return unless @game.current_round.polling?
 
-    @answer = @current_round.answers
+    @answer = @game.current_round.answers
       .find_or_initialize_by(player: @current_player)
   end
 end
