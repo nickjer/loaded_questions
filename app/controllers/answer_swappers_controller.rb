@@ -32,7 +32,7 @@ class AnswerSwappersController < ApplicationController
           round.player,
           target: "answers",
           partial: "matching_rounds/matching_round",
-          locals: { round:, is_active_user: true }
+          locals: { round:, is_active_player: true }
         )
         format.json do
           render json: @answer_swapper.errors, status: :unprocessable_entity

@@ -5,7 +5,7 @@
   </div>
 <%- end -%>
 
-<%= turbo_stream_from @current_player, channel: PlayerChannel %>
+<%= turbo_stream_from @game.current_player, channel: PlayerChannel %>
 
 <div class="row mt-2">
   <%= turbo_frame_tag("current_round", target: "_top", class: "col-md-10") do %>
@@ -13,30 +13,30 @@
     <%# Question Card & Answer List %>
     <%=
       render "rounds/round", round: @game.current_round,
-        is_active_user: @current_player == @game.active_player
+        is_active_player: @game.active_player?
     %>
 
     <%# Answer Form %>
-    <%- if @game.current_round.polling? && @current_player != @game.active_player -%>
-      <%= render "answers/form", answer: @answer %>
+    <%- if @game.polling? && !@game.active_player? -%>
+      <%= render "answers/form", answer: @game.current_player_answer %>
     <% end %>
 
     <%# Round Controls %>
-    <%- if @current_player == @game.active_player -%>
-      <%- if @game.current_round.polling? -%>
+    <%- if @game.active_player? -%>
+      <%- if @game.polling? -%>
         <%= render "matching_rounds/form", round: @game.current_round %>
-      <%- elsif @game.current_round.matching? -%>
+      <%- elsif @game.matching? -%>
         <%= render "completed_rounds/form", round: @game.current_round %>
       <%- end -%>
     <%- end -%>
 
     <%# Next Round Controls %>
-    <%- if @game.current_round.completed? -%>
+    <%- if @game.completed? -%>
       <div id="new_round_link" class="d-grid gap-2 col-6 mx-auto">
         <%=
           link_to(
             "New Round",
-            new_player_new_round_path(@current_player),
+            new_player_new_round_path(@game.current_player),
             class: "btn btn-success btn-lg"
           )
         %>
@@ -51,7 +51,7 @@
     <%= turbo_frame_tag("players", "data-controller": "players") do %>
       <%=
         render(
-          @game.players, active_player: @game.active_player, me: @current_player
+          @game.players, active_player: @game.active_player, me: @game.current_player
         )
       %>
     <% end %>

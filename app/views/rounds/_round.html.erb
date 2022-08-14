@@ -10,11 +10,11 @@
 <%- if round.matching? -%>
   <%=
     render "matching_rounds/matching_round", round: round,
-      is_active_user: is_active_user
+      is_active_player: is_active_player
   %>
 <%- elsif round.completed? -%>
   <%=
     render "completed_rounds/completed_round", round: round,
-      is_active_user: is_active_user
+      is_active_player: is_active_player
   %>
 <%- end -%>

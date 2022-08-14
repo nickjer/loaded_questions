@@ -1,3 +1,3 @@
-<%= render @round, is_active_user: @round.player == @current_player %>
+<%= render @round, is_active_player: @round.player == @current_player %>
 
 <%= link_to "Back to game", game_path(@round.game) %>
