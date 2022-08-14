@@ -1,15 +1,5 @@
 <h1>New Round</h1>
 
-<%= simple_form_for [@new_round.player, @new_round] do |form| %>
-  <%= form.error_notification %>
-  <%- form.object.errors.to_hash(true).except(:question).each_value do |error_msgs| -%>
-    <%= form.error_notification message: error_msgs.to_sentence %>
-  <%- end -%>
-
-  <%= form.input :question, as: :text, input_html: { maxlength: 80 } %>
-  <%= form.input :hide_answers, as: :boolean %>
-
-  <div class="col-12">
-    <%= form.button :submit, "Create New Round", class: "btn-primary" %>
-  </div>
+<%= turbo_frame_tag("current_round") do %>
+  <%= render "form", new_round: @new_round %>
 <% end %>

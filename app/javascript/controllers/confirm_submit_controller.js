@@ -13,6 +13,7 @@ export default class extends Controller {
   }
 
   showModal(event) {
+    this.submitFormEvent = event
     event.preventDefault()
     this.modal.show()
   }
@@ -22,7 +23,7 @@ export default class extends Controller {
   }
 
   submitForm(event) {
-    this.element.submit()
+    this.submitFormEvent.detail.resume()
     this.modal.hide()
   }
 }

@@ -51,7 +51,7 @@ class GamePresenter
 
   # @return [Answer, nil]
   def current_player_answer
-    return unless polling?
+    return if active_player? || !polling?
 
     @current_player_answer ||=
       current_round.answers.find_or_initialize_by(player: current_player)

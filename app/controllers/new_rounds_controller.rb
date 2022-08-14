@@ -11,31 +11,34 @@ class NewRoundsController < ApplicationController
     @new_round = NewRound.new(player: current_player, params: new_round_params)
 
     if @new_round.save
-      # Refresh the cache, in particular the `Game#current_round`
-      game = Game.find(@new_round.game.id)
+      game = Game.find(@new_round.game.id) # work from latest data
 
       # Delete inactive players
       game.inactive_players.each do |inactive_player|
         inactive_player.update(deleted_at: Time.current)
       end
 
-      # Update all other players
+      # Show the Next Round link to all other players
       @new_round.players.each do |player|
         next if player == current_player
 
         PlayerChannel.broadcast_update_later_to(
           player,
-          target: "new_round_link",
+          target: "new_new_round",
           partial: "games/current_round_link",
           locals: { game: }
         )
-
-        # Redraw all players to set up for new round state
-        RedrawPlayersJob.perform_later(game)
       end
-      redirect_to game
+
+      RedrawPlayersJob.perform_later(game)
+
+      game_presenter = GamePresenter.new(game:, current_player:)
+      render(
+        turbo_stream: turbo_stream.update(:current_round,
+          partial: "games/current_round", locals: { game: game_presenter })
+      )
     else
-      render :new, status: :unprocessable_entity
+      render :create, status: :unprocessable_entity
     end
   end
 

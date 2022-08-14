@@ -7,7 +7,7 @@
       class: "d-grid gap-2 col-6 mx-auto",
       data: {
         controller: "confirm-submit",
-        action: "confirm-submit#showModal"
+        action: "turbo:before-fetch-request->confirm-submit#showModal"
       }
     }
   ) do |form|

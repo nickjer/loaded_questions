@@ -3,6 +3,8 @@
 class RedrawPlayersJob < ApplicationJob
   queue_as :default
 
+  # @param game [Game]
+  # @return [void]
   def perform(game)
     game.players.each do |player|
       PlayerChannel.broadcast_update_to(
