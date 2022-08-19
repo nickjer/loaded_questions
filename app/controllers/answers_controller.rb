@@ -15,7 +15,7 @@ class AnswersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /answers/1
+  # PATCH/PUT /answers/:id
   def update
     @answer = Answer.where(player: Player.where(user: @user)).find(params[:id])
 

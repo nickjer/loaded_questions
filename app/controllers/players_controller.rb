@@ -29,6 +29,29 @@ class PlayersController < ApplicationController
     end
   end
 
+  # GET /players/:id/edit
+  def edit
+    @player = Player.where(user: @user).find(params[:id])
+  end
+
+  # PATCH/PUT /players/:id
+  def update
+    @player = Player.where(user: @user).find(params[:id])
+
+    if @player.update(player_params)
+      RedrawPlayerJob.perform_later(@player)
+
+      game_presenter =
+        GamePresenter.new(game: @player.game, current_player: @player)
+      render(
+        turbo_stream: turbo_stream.update(:current_round,
+          partial: "games/current_round", locals: { game: game_presenter })
+      )
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   # @return [Game]

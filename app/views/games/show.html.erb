@@ -9,12 +9,12 @@
 
 <div class="row mt-2">
   <%# Current Round View and Controls %>
-  <%= turbo_frame_tag("current_round", class: "col-md-10 mb-2") do %>
+  <%= turbo_frame_tag("current_round", class: "col-md-8 mb-2") do %>
     <%= render "current_round", game: @game %>
   <% end %>
 
   <%# Player List %>
-  <div class="col-md-2">
+  <div class="col-md-4">
     <strong>Players:</strong>
     <%= turbo_frame_tag("players", "data-controller": "players") do %>
       <%=

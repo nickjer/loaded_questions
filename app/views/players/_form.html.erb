@@ -1,4 +1,4 @@
-<%= simple_form_for(player, url: game_players_path) do |form| %>
+<%= simple_form_for(player, url: player.new_record? ? game_players_path : nil) do |form| %>
   <%= form.error_notification %>
   <%- if form.object.errors[:base].present? -%>
     <%= form.error_notification message: form.object.errors[:base].to_sentence %>

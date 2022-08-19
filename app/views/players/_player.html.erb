@@ -14,6 +14,15 @@
   -
   <%- if player == me -%>
     <strong><%= player.name %></strong>
+    <%=
+      link_to(
+        edit_player_path(player),
+        class: "btn btn-outline-dark btn-sm ms-3",
+        role: "button",
+        data: { "turbo-frame": "current_round" }
+      ) do %>
+      <i class="bi bi-pencil"></i>
+    <% end %>
   <%- else -%>
     <%= player.name %>
   <%- end -%>
