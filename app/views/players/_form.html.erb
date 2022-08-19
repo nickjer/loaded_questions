@@ -7,11 +7,9 @@
     <%= form.error_notification message: form.object.errors[:game].to_sentence %>
   <%- end -%>
 
-  <div class="form-inputs">
-    <%= form.input :name, input_html: { maxlength: 20 } %>
-  </div>
+  <%= form.input :name, label: "Player name", input_html: { maxlength: 20 } %>
 
-  <div class="form-actions">
-    <%= form.button :submit, class: "btn-primary" %>
+  <div class="d-grid gap-2">
+    <%= form.button :submit, class: "btn-primary btn-lg" %>
   </div>
 <% end %>

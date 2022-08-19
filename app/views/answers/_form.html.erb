@@ -2,29 +2,28 @@
 
 <%= turbo_frame_tag("answer_form") do %>
   <%- if collapsible -%>
-    <button
-      class="btn btn-secondary mb-2"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#collapsed_answer_form"
-      aria-expanded="false"
-      aria-controls="collapsed_answer_form">
-      Edit Answer
-    </button>
+    <div class="d-grid gap-2">
+      <button
+        class="btn btn-secondary btn-lg mb-3"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#collapsed_answer_form"
+        aria-expanded="false"
+        aria-controls="collapsed_answer_form">
+        Show/Hide Answer
+      </button>
+    </div>
   <%- end -%>
   <div id="collapsed_answer_form" class="<%= "collapse" if collapsible %>">
     <%=
       simple_form_for(
         [answer.new_record? ? answer.round : nil, answer],
-        wrapper: :inline_form,
-        html: { class: "row row-cols-lg-auto g-3 align-items-center mb-2" },
-        wrapper_mappings: { boolean: :inline_boolean }
       ) do |form|
     %>
       <%= form.input :value, label: false, input_html: { maxlength: 80 } %>
 
-      <div class="col-12">
-        <%= form.button :submit, class: "btn-primary" %>
+      <div class="d-grid gap-2">
+        <%= form.button :submit, class: "btn-primary btn-lg" %>
       </div>
     <%- end -%>
   </div>
