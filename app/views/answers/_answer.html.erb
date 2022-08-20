@@ -7,31 +7,25 @@
   <%- end -%>
   data-swap-target="group">
   <div class="d-flex w-100 justify-content-between">
-    <h5 class="mb-1"><%= answer.guessed_player.name %></h5>
-    <%- if answer.round_completed? -%>
-      <small>
-        <%- if answer.correct? -%>
-          <i class="bi bi-check-lg"></i>
-        <%- else -%>
-          <i class="bi bi-x-lg"></i>
-        <%- end -%>
-      </small>
+    <%- if answer.round_completed? && answer.correct? -%>
+      <h5 class="mb-1"><%= answer.guessed_player.name %></h5>
+      <i class="bi bi-check-lg"></i>
+    <%- elsif answer.round_completed? -%>
+      <div class="d-flex flex-wrap">
+        <h5><s class="me-2"><%= answer.guessed_player.name %></s></h5>
+        <h5><%= answer.player.name %></h5>
+      </div>
+      <i class="bi bi-x-lg small"></i>
+    <%- else -%>
+      <h5 class="mb-1"><%= answer.guessed_player.name %></h5>
     <%- end -%>
   </div>
   <div
-    class="swap-item p-2 w-100 bg-light border rounded d-flex align-items-center"
+    class="swap-item mb-1 p-2 w-100 bg-light border rounded d-flex align-items-center"
     data-id="<%= answer.id %>">
     <div class="swap-handle me-1">
       <i class="bi bi-grip-vertical"></i>
     </div>
     <div><%= answer.value %></div>
   </div>
-  <%- if answer.round_completed? && !answer.correct? -%>
-    <div>
-      <small>
-        <i class="bi bi-dash"></i>
-        <%= answer.player.name %>
-      </small>
-    </div>
-  <%- end -%>
 </div>
