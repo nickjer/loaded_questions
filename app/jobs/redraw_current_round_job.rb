@@ -13,7 +13,7 @@ class RedrawCurrentRoundJob < ApplicationJob
       game_presenter = GamePresenter.new(game:, current_player: player)
       PlayerChannel.broadcast_update_to(
         player,
-        target: "current_round",
+        target: "main",
         partial: "games/current_round",
         locals: { game: game_presenter }
       )

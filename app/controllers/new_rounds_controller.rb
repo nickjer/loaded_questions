@@ -34,7 +34,7 @@ class NewRoundsController < ApplicationController
 
       game_presenter = GamePresenter.new(game:, current_player:)
       render(
-        turbo_stream: turbo_stream.update(:current_round,
+        turbo_stream: turbo_stream.update("main",
           partial: "games/current_round", locals: { game: game_presenter })
       )
     else

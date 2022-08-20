@@ -9,7 +9,7 @@
 
 <div class="row mt-2">
   <%# Current Round View and Controls %>
-  <%= turbo_frame_tag("current_round", class: "col-md-8 mb-2") do %>
+  <%= turbo_frame_tag("main", class: "col-md-8 mb-2") do %>
     <%= render "current_round", game: @game %>
   <% end %>
 
