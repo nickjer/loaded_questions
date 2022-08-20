@@ -6,7 +6,7 @@ class NewGamesTest < ApplicationSystemTestCase
   def create_player(player_name, game_url:)
     using_session(player_name) do
       visit game_url
-      fill_in "Name", with: player_name
+      fill_in "Player name", with: player_name
       click_on "Create Player"
     end
     Player.find_by!(name: player_name)
@@ -60,7 +60,7 @@ class NewGamesTest < ApplicationSystemTestCase
       fill_in "answer_value", with: "Alice original answer"
       click_on "Create Answer"
 
-      click_on "Edit Answer"
+      click_on "Show/Hide Answer"
       assert_text "Alice original answer"
       assert_player bob, status: :active
       assert_player alice, status: :answered
@@ -69,7 +69,7 @@ class NewGamesTest < ApplicationSystemTestCase
     end
 
     # Bob's view
-    assert_no_text "Edit Answer"
+    assert_no_text "Show/Hide Answer"
     assert_no_text "Alice original answer"
     assert_player bob, status: :active
     assert_player alice, status: :answered
@@ -81,7 +81,7 @@ class NewGamesTest < ApplicationSystemTestCase
       fill_in "answer_value", with: "Steve answer"
       click_on "Create Answer"
 
-      click_on "Edit Answer"
+      click_on "Show/Hide Answer"
       assert_text "Steve answer"
       assert_player bob, status: :active
       assert_player alice, status: :answered
@@ -90,7 +90,7 @@ class NewGamesTest < ApplicationSystemTestCase
     end
 
     # Bob's view
-    assert_no_text "Edit Answer"
+    assert_no_text "Show/Hide Answer"
     assert_no_text "Alice original answer"
     assert_player bob, status: :active
     assert_player alice, status: :answered
@@ -111,7 +111,7 @@ class NewGamesTest < ApplicationSystemTestCase
       fill_in "answer_value", with: "Alice answer"
       click_on "Update Answer"
 
-      click_on "Edit Answer"
+      click_on "Show/Hide Answer"
       assert_text "Alice answer"
       assert_player bob, status: :active
       assert_player alice, status: :answered
@@ -125,7 +125,7 @@ class NewGamesTest < ApplicationSystemTestCase
       fill_in "answer_value", with: "Karen answer"
       click_on "Create Answer"
 
-      click_on "Edit Answer"
+      click_on "Show/Hide Answer"
       assert_text "Karen answer"
       assert_player bob, status: :active
       assert_player alice, status: :answered
@@ -135,7 +135,7 @@ class NewGamesTest < ApplicationSystemTestCase
     end
 
     # Bob's view
-    assert_no_text "Edit Answer"
+    assert_no_text "Show/Hide Answer"
     assert_no_text "Alice answer"
     assert_no_text "Steve answer"
     assert_no_text "Karen answer"
