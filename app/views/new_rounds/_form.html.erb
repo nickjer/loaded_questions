@@ -4,7 +4,7 @@
     <%= form.error_notification message: error_msgs.to_sentence %>
   <%- end -%>
 
-  <%= form.input :question, as: :text, input_html: { maxlength: 80 } %>
+  <%= form.input :question, as: :text, input_html: { maxlength: 160 } %>
   <%= form.input :hide_answers, as: :boolean %>
 
   <div class="d-grid gap-2 col-md-6 mx-auto">

@@ -14,7 +14,7 @@ class NewRound
 
   # Validations
   validates :player, presence: true
-  validates :question, length: { in: 3..80 }
+  validates :question, length: { in: 3..160 }
   validates :hide_answers, inclusion: [true, false]
   validates :previous_round, presence: true
   validates :previous_round_status, inclusion: { in: %w[completed] }

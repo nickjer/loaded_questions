@@ -18,7 +18,7 @@ class NewGame
   # Validations
   validates :user, presence: true
   validates :player_name, length: { in: 3..20 }
-  validates :question, length: { in: 3..80 }
+  validates :question, length: { in: 3..160 }
   validates :hide_answers, inclusion: [true, false]
 
   # @param user [User]
