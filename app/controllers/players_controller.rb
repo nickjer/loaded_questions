@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 class PlayersController < ApplicationController
-  # GET /games/:game_id/players/new
+  # GET /games/:game_slug/players/new
   def new
     @player = game.players.where(user: @user).build
   end
 
-  # POST /games/:game_id/players
+  # POST /games/:game_slug/players
   def create
     @player = game.players.where(user: @user).build(player_params)
 
@@ -56,7 +56,7 @@ class PlayersController < ApplicationController
 
   # @return [Game]
   def game
-    @game ||= Game.find(params[:game_id])
+    @game ||= Game.find_by!(slug: params[:game_slug])
   end
 
   # @return [ActionController::Parameters]

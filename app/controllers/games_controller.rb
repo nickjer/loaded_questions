@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class GamesController < ApplicationController
-  # GET /games/1
+  # GET /games/:slug
   def show
-    game = Game.includes(:players).find(params[:id])
+    game = Game.includes(:players).find_by!(slug: params[:slug])
     current_player = game.players.find_by(user: @user)
 
     if current_player.blank?

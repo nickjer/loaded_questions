@@ -35,6 +35,7 @@ class NewGame
   # @return [Game]
   def game
     @game ||= Game.new(
+      slug: generate_slug,
       players: [
         Player.new(
           user:,
@@ -50,5 +51,15 @@ class NewGame
     return false unless valid?
 
     game.save
+  end
+
+  private
+
+  # @return [String]
+  def generate_slug
+    loop do
+      slug = NOUN_LIST.shuffle.take(4).join("-")
+      break slug unless Game.exists?(slug:)
+    end
   end
 end
