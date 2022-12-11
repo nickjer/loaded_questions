@@ -6,6 +6,11 @@ class PlayersController < ApplicationController
     @player = game.players.where(user: @user).build
   end
 
+  # GET /players/:id/edit
+  def edit
+    @player = Player.where(user: @user).find(params[:id])
+  end
+
   # POST /games/:game_id/players
   def create
     @player = game.players.where(user: @user).build(player_params)
@@ -27,11 +32,6 @@ class PlayersController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
-  end
-
-  # GET /players/:id/edit
-  def edit
-    @player = Player.where(user: @user).find(params[:id])
   end
 
   # PATCH/PUT /players/:id

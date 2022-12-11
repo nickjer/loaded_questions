@@ -21,13 +21,13 @@ gem "puma", "~> 5.0"
 gem "jsbundling-rails", "~> 0.1"
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
-gem "turbo-rails", ">= 0.7.11"
+gem "turbo-rails", "~> 1.3"
 
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
-gem "stimulus-rails", ">= 0.4.0"
+gem "stimulus-rails", "~> 1.2"
 
 # Bundle and process CSS [https://github.com/rails/cssbundling-rails]
-gem "cssbundling-rails", ">= 0.1.0"
+gem "cssbundling-rails", "~> 1.1"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder", "~> 2.7"
@@ -64,7 +64,7 @@ group :development do
   gem "web-console", ">= 4.1.0"
 
   # Linter
-  gem "rubocop", "~> 1.22", require: false
+  gem "rubocop", require: false
   gem "rubocop-minitest", require: false
   gem "rubocop-rails", require: false
 

@@ -7,11 +7,13 @@ class PlayersControllerTest < ActionDispatch::IntegrationTest
 
   test "should get index" do
     get players_url
+
     assert_response :success
   end
 
   test "should get new" do
     get new_player_url
+
     assert_response :success
   end
 
@@ -27,11 +29,13 @@ class PlayersControllerTest < ActionDispatch::IntegrationTest
 
   test "should show player" do
     get player_url(@player)
+
     assert_response :success
   end
 
   test "should get edit" do
     get edit_player_url(@player)
+
     assert_response :success
   end
 
@@ -39,6 +43,7 @@ class PlayersControllerTest < ActionDispatch::IntegrationTest
     patch player_url(@player),
       params: { player: { game_id: @player.game_id, name: @player.name,
                           user_id: @player.user_id } }
+
     assert_redirected_to player_url(@player)
   end
 

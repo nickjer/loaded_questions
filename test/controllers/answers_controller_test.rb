@@ -7,11 +7,13 @@ class AnswersControllerTest < ActionDispatch::IntegrationTest
 
   test "should get index" do
     get answers_url
+
     assert_response :success
   end
 
   test "should get new" do
     get new_answer_url
+
     assert_response :success
   end
 
@@ -32,11 +34,13 @@ class AnswersControllerTest < ActionDispatch::IntegrationTest
 
   test "should show answer" do
     get answer_url(@answer)
+
     assert_response :success
   end
 
   test "should get edit" do
     get edit_answer_url(@answer)
+
     assert_response :success
   end
 
@@ -49,6 +53,7 @@ class AnswersControllerTest < ActionDispatch::IntegrationTest
           value: @answer.value
         }
       }
+
     assert_redirected_to answer_url(@answer)
   end
 

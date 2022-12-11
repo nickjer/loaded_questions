@@ -7,11 +7,13 @@ class GamesControllerTest < ActionDispatch::IntegrationTest
 
   test "should get index" do
     get games_url
+
     assert_response :success
   end
 
   test "should get new" do
     get new_game_url
+
     assert_response :success
   end
 
@@ -26,17 +28,20 @@ class GamesControllerTest < ActionDispatch::IntegrationTest
 
   test "should show game" do
     get game_url(@game)
+
     assert_response :success
   end
 
   test "should get edit" do
     get edit_game_url(@game)
+
     assert_response :success
   end
 
   test "should update game" do
     patch game_url(@game),
       params: { game: { question: @game.question, status: @game.status } }
+
     assert_redirected_to game_url(@game)
   end
 

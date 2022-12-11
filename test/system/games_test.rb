@@ -7,6 +7,7 @@ class GamesTest < ApplicationSystemTestCase
 
   test "visiting the index" do
     visit games_url
+
     assert_selector "h1", text: "Games"
   end
 

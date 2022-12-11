@@ -19,6 +19,7 @@ class NewGamesTest < ApplicationSystemTestCase
         not_answered: "i.bi-square",
         answered: "i.bi-check-square"
       }.fetch(status.to_sym)
+
       player_element.assert_selector icon
       player_element.assert_text player.name
     end
@@ -34,6 +35,7 @@ class NewGamesTest < ApplicationSystemTestCase
     assert_text "Bob"
 
     bob = Player.find_by!(name: "Bob")
+
     assert_player(bob, status: :active)
     game_url = current_url
 
@@ -61,6 +63,7 @@ class NewGamesTest < ApplicationSystemTestCase
       click_on "Create Answer"
 
       click_on "Show/Hide Answer"
+
       assert_text "Alice original answer"
       assert_player bob, status: :active
       assert_player alice, status: :answered
@@ -82,6 +85,7 @@ class NewGamesTest < ApplicationSystemTestCase
       click_on "Create Answer"
 
       click_on "Show/Hide Answer"
+
       assert_text "Steve answer"
       assert_player bob, status: :active
       assert_player alice, status: :answered
@@ -112,6 +116,7 @@ class NewGamesTest < ApplicationSystemTestCase
       click_on "Update Answer"
 
       click_on "Show/Hide Answer"
+
       assert_text "Alice answer"
       assert_player bob, status: :active
       assert_player alice, status: :answered
@@ -126,6 +131,7 @@ class NewGamesTest < ApplicationSystemTestCase
       click_on "Create Answer"
 
       click_on "Show/Hide Answer"
+
       assert_text "Karen answer"
       assert_player bob, status: :active
       assert_player alice, status: :answered

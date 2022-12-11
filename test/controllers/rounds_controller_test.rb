@@ -7,11 +7,13 @@ class RoundsControllerTest < ActionDispatch::IntegrationTest
 
   test "should get index" do
     get rounds_url
+
     assert_response :success
   end
 
   test "should get new" do
     get new_round_url
+
     assert_response :success
   end
 
@@ -30,11 +32,13 @@ class RoundsControllerTest < ActionDispatch::IntegrationTest
 
   test "should show round" do
     get round_url(@round)
+
     assert_response :success
   end
 
   test "should get edit" do
     get edit_round_url(@round)
+
     assert_response :success
   end
 
@@ -45,6 +49,7 @@ class RoundsControllerTest < ActionDispatch::IntegrationTest
           game_id: @round.game_id, question: @round.question
         }
       }
+
     assert_redirected_to round_url(@round)
   end
 

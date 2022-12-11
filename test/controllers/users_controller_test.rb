@@ -7,11 +7,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should get index" do
     get users_url
+
     assert_response :success
   end
 
   test "should get new" do
     get new_user_url
+
     assert_response :success
   end
 
@@ -33,11 +35,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should show user" do
     get user_url(@user)
+
     assert_response :success
   end
 
   test "should get edit" do
     get edit_user_url(@user)
+
     assert_response :success
   end
 
@@ -51,6 +55,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
           sign_in_count: @user.sign_in_count
         }
       }
+
     assert_redirected_to user_url(@user)
   end
 
