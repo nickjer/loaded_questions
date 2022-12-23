@@ -3,7 +3,7 @@
 class AnswersController < ApplicationController
   # POST /rounds/:round_id/answers
   def create
-    round = Round.find(params[:round_id])
+    round = Round.polling.find(params[:round_id])
     current_player = round.game.players.find_by!(user: @user)
     @answer = round.answers.where(player: current_player).build(answer_params)
 
@@ -17,7 +17,9 @@ class AnswersController < ApplicationController
 
   # PATCH/PUT /answers/:id
   def update
-    @answer = Answer.where(player: Player.where(user: @user)).find(params[:id])
+    @answer = Answer
+      .where(player: Player.where(user: @user), round: Round.polling)
+      .find(params[:id])
 
     if @answer.update(answer_params)
       render :update
