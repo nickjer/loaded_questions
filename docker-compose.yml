@@ -6,7 +6,6 @@ x-app: &default_app
     context: .
     dockerfile: docker/prod/Dockerfile
   environment:
-    PGHOST: /var/run/postgresql
     PGUSER: loaded_questions
     REDIS_URL: redis://loaded_questions_cache
   volumes:
@@ -14,6 +13,7 @@ x-app: &default_app
 
 volumes:
   loaded_questions_db_socket:
+  loaded_questions_db_data:
 
 services:
   loaded_questions:
@@ -27,16 +27,17 @@ services:
       - loaded_questions_cache
       - loaded_questions_worker
   loaded_questions_db:
-    image: postgres:13
+    image: postgres:15
     command: ["postgres", "-c", "listen_addresses="]
     restart: unless-stopped
     environment:
       POSTGRES_USER: loaded_questions
-      POSTGRES_PASSWORD: loaded_questions_password
+      POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
       - loaded_questions_db_socket:/var/run/postgresql
+      - loaded_questions_db_data:/var/lib/postgresql/data
   loaded_questions_cache:
-    image: redis:6
+    image: redis:7
     restart: unless-stopped
   loaded_questions_worker:
     <<: *default_app
