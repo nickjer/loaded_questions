@@ -28,7 +28,7 @@ class NewGame
 
     params = params.to_h.deep_symbolize_keys
     @player_name = params[:player_name].to_s.squish
-    @question = params[:question].to_s.squish
+    @question = params[:question].to_s.squish.presence || Round.seeded_question
     @hide_answers = ActiveModel::Type::Boolean.new.cast(params[:hide_answers])
   end
 

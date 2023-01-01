@@ -23,6 +23,13 @@ class Round < ApplicationRecord
   validate :all_rounds_completed, on: :create
   validate :single_root_round, on: :create
 
+  class << self
+    # @return [String]
+    def seeded_question
+      Rails.configuration.x.questions.sample.to_s
+    end
+  end
+
   # @return [Game, nil]
   def game
     # This is a workaround for https://github.com/rails/rails/issues/33155
@@ -32,6 +39,11 @@ class Round < ApplicationRecord
   # @return [Boolean]
   def readonly?
     self.next.present?
+  end
+
+  # @return [String, nil]
+  def question
+    @question ||= self.class.seeded_question
   end
 
   private

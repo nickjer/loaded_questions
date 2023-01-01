@@ -33,7 +33,7 @@ class NewRound
     @player = player
 
     params = params.to_h.deep_symbolize_keys
-    @question = params[:question].to_s.squish
+    @question = params[:question].to_s.squish.presence || Round.seeded_question
 
     @hide_answers = ActiveModel::Type::Boolean.new.cast(params[:hide_answers])
     @hide_answers = previous_round.hide_answers if @hide_answers.nil?

@@ -36,5 +36,12 @@ module LoadedQuestions
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.x.questions =
+      if Pathname.new("#{paths['config'].existent.first}/questions.yml").exist?
+        config_for(:questions)
+      else
+        []
+      end
   end
 end
