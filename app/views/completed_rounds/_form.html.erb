@@ -4,7 +4,7 @@
     url: round_completed_rounds_path(round),
     method: :post,
     html: {
-      class: "d-grid gap-2 col-md-6 mx-auto",
+      class: "d-grid gap-2 mt-2",
       data: {
         controller: "confirm-submit",
         action: "turbo:before-fetch-request->confirm-submit#showModal"
@@ -12,7 +12,7 @@
     }
   ) do |form|
 %>
-  <%= form.button :button, "Finished Matching", class: "btn-danger btn-lg" %>
+  <%= form.button :button, "Finished Matching", class: "btn-warning btn-lg" %>
 
   <!-- Modal -->
   <div

@@ -8,7 +8,7 @@ class CompleteRound
 
   # @return [Boolean]
   def call
-    return false unless round.polling?
+    return false unless round.matching?
 
     round.completed!
 
