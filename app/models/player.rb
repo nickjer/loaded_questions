@@ -78,6 +78,7 @@ class Player < ApplicationRecord
   # @return [Boolean]
   def played_in?(round)
     return false if round.blank?
+    return true if round.guesser_id == id
 
     round.participants.find { |participant| participant.player_id == id }
       &.answer.present?
