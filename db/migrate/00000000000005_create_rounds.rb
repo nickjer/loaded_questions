@@ -8,7 +8,7 @@ class CreateRounds < ActiveRecord::Migration[7.0]
         foreign_key: { to_table: :players }
       t.integer :order, default: 0, null: false
       t.integer :status, default: 0, null: false
-      t.text :question
+      t.text :question, null: false
       t.boolean :hide_answers, default: false, null: false
 
       t.timestamps

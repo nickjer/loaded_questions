@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Round < ApplicationRecord
-  enum status: { polling: 0, completed: 1 }
+  enum status: { polling: 0, matching: 1, completed: 2 }
 
   belongs_to :guesser, class_name: "Player"
   belongs_to :game
@@ -38,7 +38,7 @@ class Round < ApplicationRecord
   end
 
   # @return [Boolean]
-  def poll?
+  def match?
     answers.size > 1
   end
 

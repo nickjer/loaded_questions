@@ -7,8 +7,8 @@ import { application } from "./application"
 import ConfirmSubmitController from "./confirm_submit_controller.js"
 application.register("confirm-submit", ConfirmSubmitController)
 
-import PlayersController from "./players_controller.js"
-application.register("players", PlayersController)
+import SorterController from "./sorter_controller"
+application.register("sorter", SorterController)
 
 import SwapController from "./swap_controller.js"
 application.register("swap", SwapController)

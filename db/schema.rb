@@ -60,7 +60,7 @@ ActiveRecord::Schema[7.0].define(version: 7) do
     t.uuid "guesser_id", null: false
     t.integer "order", default: 0, null: false
     t.integer "status", default: 0, null: false
-    t.text "question"
+    t.text "question", null: false
     t.boolean "hide_answers", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

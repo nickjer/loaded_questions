@@ -32,7 +32,7 @@ class Game < ApplicationRecord
   end
 
   # @return [Player, nil]
-  def current_judge
-    current_round&.judge
+  def current_guesser
+    current_round&.guesser
   end
 end

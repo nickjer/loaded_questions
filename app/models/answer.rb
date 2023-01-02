@@ -6,7 +6,7 @@ class Answer < ApplicationRecord
 
   validates :value, length: { in: 3..80 }
   validates :participant, uniqueness: true
-  validates :guessed_participant, uniqueness: true
+  validates :guessed_participant, uniqueness: true, allow_nil: true
   validate :cannot_be_from_round_guesser
   validate :cannot_guess_the_round_guesser
   validate :must_be_in_same_round

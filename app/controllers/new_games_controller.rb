@@ -3,12 +3,12 @@
 class NewGamesController < ApplicationController
   # GET /new_games/new
   def new
-    @new_game = NewGame.new(user: @user)
+    @new_game = NewGameForm.new(user: @user)
   end
 
   # POST /new_games
   def create
-    @new_game = NewGame.new(user: @user, params: new_game_params)
+    @new_game = NewGameForm.new(user: @user, **new_game_params)
 
     if @new_game.save
       redirect_to game_path(@new_game.game)
@@ -21,6 +21,10 @@ class NewGamesController < ApplicationController
 
   # @return [ActionController::Parameters]
   def new_game_params
-    params.require(:new_game).permit(:player_name, :question, :hide_answers)
+    params.require(:new_game_form)
+      .permit(
+        player_attributes: %i[name],
+        round_attributes: %i[question least_likely hide_voters]
+      )
   end
 end

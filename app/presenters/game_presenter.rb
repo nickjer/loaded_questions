@@ -13,12 +13,24 @@ class GamePresenter
     @game = game
     @current_player = current_player
 
-    if current_player.blank?
-      raise "Game presenter needs a current player to present to"
-    end
-
     raise "Game presenter needs a current round to draw" if current_round.blank?
   end
+
+  # @!method to_param
+  #   @return [String]
+  delegate :to_param, to: :game
+
+  # @!method current_round
+  #   @return [Round]
+  delegate :current_round, to: :game
+
+  # @!method players
+  #   @return [Array<Player>]
+  delegate :active_players, to: :game
+
+  # @!method current_guesser
+  #   @return [Player]
+  delegate :current_guesser, to: :game
 
   # @!method polling?
   #   @return [Boolean]
@@ -32,28 +44,25 @@ class GamePresenter
   #   @return [Boolean]
   delegate :completed?, to: :current_round
 
-  # @!method current_round
-  #   @return [Round]
-  delegate :current_round, to: :game
-
-  # @!method active_player
-  #   @return [Player]
-  delegate :active_player, to: :game
-
-  # @!method players
-  #   @return [Player::ActiveRecord_Associations_CollectionProxy]
-  delegate :players, to: :game
-
   # @return [Boolean]
-  def active_player?
-    current_player == active_player
+  def current_player_is_guesser?
+    current_player == current_guesser
+  end
+
+  # @return [Participant, nil]
+  def current_participant
+    return unless polling?
+
+    @current_participant ||=
+      current_round.participants.find_or_initialize_by(player: current_player)
   end
 
   # @return [Answer, nil]
-  def current_player_answer
-    return if active_player? || !polling?
+  def current_participant_answer
+    return if current_participant.blank? || current_participant.new_record?
+    return if current_player_is_guesser?
 
-    @current_player_answer ||=
-      current_round.answers.find_or_initialize_by(player: current_player)
+    @current_participant_answer ||=
+      current_participant.answer.presence || current_participant.build_answer
   end
 end

@@ -1,14 +1,31 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-  # POST /rounds/:round_id/answers
+  # POST /participants/:participant_id/answers
   def create
-    round = Round.polling.find(params[:round_id])
-    current_player = round.game.players.find_by!(user: @user)
-    @answer = round.answers.where(player: current_player).build(answer_params)
+    participant = Participant.where(
+      player: Player.active.where(user: @user),
+      round: Round.polling
+    ).find(params[:participant_id])
+
+    @answer = participant.build_answer(answer_params)
 
     if @answer.save
-      RedrawPlayerJob.perform_later(current_player)
+      player = participant.player
+      player.game.active_players.each do |participating_player|
+        PlayerChannel.broadcast_update_to(
+          participating_player,
+          targets: player.selector_for(:answered),
+          partial: "players/answered",
+          locals: { answered: true }
+        )
+      end
+      PlayerChannel.broadcast_replace_to(
+        player.game.current_guesser,
+        target: "match_answers",
+        partial: "matching_rounds/match_answers",
+        locals: { round: player.game.current_round }
+      )
       render :update
     else
       render :create, status: :unprocessable_entity
@@ -17,9 +34,12 @@ class AnswersController < ApplicationController
 
   # PATCH/PUT /answers/:id
   def update
-    @answer = Answer
-      .where(player: Player.where(user: @user), round: Round.polling)
-      .find(params[:id])
+    @answer = Answer.where(
+      participant: Participant.where(
+        player: Player.active.where(user: @user),
+        round: Round.polling
+      )
+    ).find(params[:id])
 
     if @answer.update(answer_params)
       render :update

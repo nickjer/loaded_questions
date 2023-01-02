@@ -1,29 +1,30 @@
-<div id="<%= dom_id player %>" data-players-target="player" data-sort-by="<%= player.name %>">
-  <%- if player.online? || player == me -%>
-    🟢
-  <%- else -%>
-    🔴
-  <%- end -%>
-  <%- if player == active_player -%>
-    <i class="bi bi-star-fill"></i>
-  <%- elsif player.current_answer&.persisted? -%>
-    <i class="bi bi-check-square"></i>
-  <%- else -%>
-    <i class="bi bi-square"></i>
-  <%- end -%>
-  -
-  <%- if player == me -%>
-    <strong><%= player.name %></strong>
-    <%=
-      link_to(
-        edit_player_path(player),
-        class: "btn btn-outline-dark btn-sm ms-3",
-        role: "button",
-        data: { "turbo-frame": "main" }
-      ) do %>
-      <i class="bi bi-pencil"></i>
-    <% end %>
-  <%- else -%>
+<div
+  id="<%= dom_id player %>"
+  data-player="<%= player.id %>"
+  data-sorter-target="item"
+>
+  <div class="d-inline player-online">
+    <%= render "players/online", online: (player.online? || player == me) %>
+  </div>
+  <div class="d-inline player-answered">
+    <%= render "players/answered", answered: player.current_answer&.persisted?.present? %>
+  </div>
+  <div
+    class="<%= class_names("d-inline", "player-name", "is-guesser": (player == guesser)) %>"
+  >
     <%= player.name %>
+  </div>
+  <%- if player == me -%>
+    <div class="d-inline player-edit">
+      <%=
+        link_to(
+          edit_player_path(player),
+          class: "btn btn-outline-dark btn-sm ms-3",
+          role: "button",
+          data: { "turbo-frame": "main" }
+        ) do %>
+        <i class="bi bi-pencil"></i>
+      <% end %>
+    </div>
   <%- end -%>
 </div>
