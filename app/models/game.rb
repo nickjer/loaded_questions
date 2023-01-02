@@ -4,39 +4,35 @@ class Game < ApplicationRecord
   enum status: { playing: 0, completed: 1 }
 
   has_many :players, dependent: :destroy
-  has_many :rounds, through: :players
+  has_many :rounds, -> { order(:order) }, dependent: :destroy, inverse_of: :game
 
-  # @return [Round, nil]
-  def current_round
-    @current_round ||= rounds.current.first
-  end
-
-  # @return [Player, nil]
-  def active_player
-    @active_player ||= current_round&.player
-  end
-
-  # @return [Array<Answer>]
-  def current_answers
-    @current_answers ||= current_round&.answers.to_a
+  # @return [Array<Player>]
+  def active_players
+    players.select(&:active?)
   end
 
   # @return [Array<Player>]
-  def inactive_players(num_rounds: 3)
-    @inactive_players ||=
-      begin
-        player_list = players.to_a.dup
-
-        num_rounds.times.reduce(current_round) do |round, _index|
-          next round if round.blank?
-
-          player_list.delete_if do |player|
-            !player.existed_in?(round) || player.played_in?(round)
-          end
-          round.previous
-        end
-
-        player_list
+  def active_players_since(num_rounds: 3)
+    active_players.select do |player|
+      rounds.last(num_rounds).any? do |round|
+        !player.existed_since?(round) || player.played_in?(round)
       end
+    end
+  end
+
+  # @param user [User]
+  # @return [Player, nil]
+  def active_player_for(user)
+    active_players.find { |player| player.user == user }
+  end
+
+  # @return [Round, nil]
+  def current_round
+    rounds.last
+  end
+
+  # @return [Player, nil]
+  def current_judge
+    current_round&.judge
   end
 end
