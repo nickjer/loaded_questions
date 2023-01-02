@@ -24,6 +24,11 @@ class Answer < ApplicationRecord
     participant == guessed_participant
   end
 
+  # @return [Boolean]
+  def round_completed?
+    participant.round.completed?
+  end
+
   private
 
   # @return [void]

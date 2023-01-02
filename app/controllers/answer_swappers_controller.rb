@@ -10,18 +10,18 @@ class AnswerSwappersController < ApplicationController
         answer = @answer_swapper.answer
         swap_answer = @answer_swapper.swap_answer
 
-        round.game.players.each do |player|
-          next if player == round.player
+        round.game.active_players.each do |player|
+          next if player == round.guesser
 
           PlayerChannel.broadcast_replace_later_to(
             player,
-            target: "guessed_#{dom_id(answer.guessed_player)}",
+            target: "guessed_#{dom_id(answer.guessed_participant)}",
             partial: "answers/answer",
             locals: { answer: }
           )
           PlayerChannel.broadcast_replace_later_to(
             player,
-            target: "guessed_#{dom_id(swap_answer.guessed_player)}",
+            target: "guessed_#{dom_id(swap_answer.guessed_participant)}",
             partial: "answers/answer",
             locals: { answer: swap_answer }
           )
@@ -29,10 +29,10 @@ class AnswerSwappersController < ApplicationController
         format.json { head :created }
       else
         PlayerChannel.broadcast_replace_later_to(
-          round.player,
+          round.guesser,
           target: "answers",
           partial: "matching_rounds/matching_round",
-          locals: { round:, is_active_player: true }
+          locals: { round:, is_guesser: true }
         )
         format.json do
           render json: @answer_swapper.errors, status: :unprocessable_entity
@@ -45,10 +45,8 @@ class AnswerSwappersController < ApplicationController
 
   # @return [Round]
   def round
-    @round ||= Round.find_by!(
-      id: params[:round_id],
-      player: Player.where(user: @user)
-    )
+    @round ||= Round.where(guesser: Player.active.where(user: @user))
+      .find(params[:round_id])
   end
 
   # @return [ActionController::Parameters]

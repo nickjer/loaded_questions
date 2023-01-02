@@ -23,14 +23,16 @@ class AnswerSwapper
   def answer
     return if round.blank? || answer_id.blank?
 
-    @answer ||= round.answers.find(answer_id)
+    @answer ||= Answer.where(participant: Participant.where(round:))
+      .find(answer_id)
   end
 
   # @return [Answer, nil]
   def swap_answer
     return if round.blank? || swap_answer_id.blank?
 
-    @swap_answer ||= round.answers.find(swap_answer_id)
+    @swap_answer ||= Answer.where(participant: Participant.where(round:))
+      .find(swap_answer_id)
   end
 
   # @return [Boolean]
@@ -38,11 +40,11 @@ class AnswerSwapper
     return false unless valid?
 
     Answer.transaction do
-      guessed_player = answer.guessed_player
-      swap_guessed_player = swap_answer.guessed_player
-      answer.update!(guessed_player: nil)
-      swap_answer.update!(guessed_player:)
-      answer.update!(guessed_player: swap_guessed_player)
+      guessed_participant = answer.guessed_participant
+      swap_guessed_participant = swap_answer.guessed_participant
+      answer.update!(guessed_participant: nil)
+      swap_answer.update!(guessed_participant:)
+      answer.update!(guessed_participant: swap_guessed_participant)
     end
 
     true

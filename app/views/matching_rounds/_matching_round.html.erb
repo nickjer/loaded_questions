@@ -2,8 +2,8 @@
   data-controller="swap"
   data-swap-url-value="<%= round_answer_swappers_path(round, format: :json) %>"
   data-swap-name-value="answer"
-  data-swap-enabled-value="<%= is_active_player %>">
-  <%- if is_active_player || !round.hide_answers? -%>
+  data-swap-enabled-value="<%= is_guesser %>">
+  <%- if is_guesser || !round.hide_answers? -%>
     <%= render round.ordered_answers %>
   <%- else -%>
     <div class="list-group-item list-group-item-secondary">

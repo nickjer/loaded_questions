@@ -1,5 +1,5 @@
 <div
-  id=<%= "guessed_#{dom_id(answer.guessed_player)}" %>
+  id=<%= "guessed_#{dom_id(answer.guessed_participant)}" %>
   <%- if answer.round_completed? -%>
     class="list-group-item list-group-item-<%= answer.correct? ? "success" : "danger" %>"
   <%- else -%>
@@ -8,16 +8,16 @@
   data-swap-target="group">
   <div class="d-flex w-100 justify-content-between">
     <%- if answer.round_completed? && answer.correct? -%>
-      <h5 class="mb-1"><%= answer.guessed_player.name %></h5>
+      <h5 class="mb-1"><%= answer.guessed_participant.name %></h5>
       <i class="bi bi-check-lg"></i>
     <%- elsif answer.round_completed? -%>
       <div class="d-flex flex-wrap">
-        <h5><s class="me-2"><%= answer.guessed_player.name %></s></h5>
-        <h5><%= answer.player.name %></h5>
+        <h5><s class="me-2"><%= answer.guessed_participant.name %></s></h5>
+        <h5><%= answer.participant.name %></h5>
       </div>
       <i class="bi bi-x-lg small"></i>
     <%- else -%>
-      <h5 class="mb-1"><%= answer.guessed_player.name %></h5>
+      <h5 class="mb-1"><%= answer.guessed_participant.name %></h5>
     <%- end -%>
   </div>
   <div

@@ -32,6 +32,11 @@ class Round < ApplicationRecord
     participants.map(&:answer).compact
   end
 
+  # @return [Array<Answer>]
+  def ordered_answers
+    answers.sort_by { |answer| answer.guessed_participant.name }
+  end
+
   # @return [Boolean]
   def show_answers?
     !hide_answers?
