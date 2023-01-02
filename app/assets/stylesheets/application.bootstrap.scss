@@ -13,6 +13,10 @@ $bootstrap-icons-font-src:
 
 @import 'bootstrap-icons/font/bootstrap-icons';
 
+.is-guesser {
+  font-weight: bold;
+}
+
 // Only show the swap handle if it is a swappable item
 .swap-handle {
   display: none;

@@ -23,8 +23,8 @@ class PlayerChannel < ApplicationCable::Channel
   # @return [void]
   def subscribed
     if player.present? && player.user == current_user
-      broadcast_player_to_game
       stream_from stream_name
+      broadcast_player_to_game
     else
       reject
     end
@@ -32,6 +32,7 @@ class PlayerChannel < ApplicationCable::Channel
 
   # @return [void]
   def unsubscribed
+    stop_stream_from stream_name
     broadcast_player_to_game
   end
 
@@ -54,16 +55,14 @@ class PlayerChannel < ApplicationCable::Channel
     # Reload cache, in particular the instance variables
     game = Game.find(player.game_id)
 
-    game.players.each do |other_player|
+    game.active_players.each do |other_player|
       next if other_player == player
 
-      self.class.broadcast_replace_later_to(
+      self.class.broadcast_update_later_to(
         other_player,
-        target: player,
-        partial: "players/player",
-        locals: {
-          player:, active_player: game.active_player, me: other_player
-        }
+        targets: player.selector_for(:online),
+        partial: "players/online",
+        locals: { online: player.online? }
       )
     end
   end

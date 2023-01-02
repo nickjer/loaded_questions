@@ -1,0 +1,11 @@
+<%=
+  tag.button(
+    name: "button",
+    type: "submit",
+    id: "match_answers",
+    class: %w[btn btn-warning btn-lg],
+    disabled: !round.match?
+  ) do
+%>
+  Match Answers
+<% end %>

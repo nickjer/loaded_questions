@@ -1,0 +1,19 @@
+<div class="card text-bg-light mb-2<%= " border-success" if participant.won? %>">
+  <div class="card-header<%= " border-success" if participant.won?%>" data-player="<%= participant.player.id %>">
+    <h5 class="card-title player-name">
+      <%= participant.name %>
+    </h5>
+    <h6 class="card-subtitle mb-2 text-muted">
+      <%= pluralize(participant.total_votes, 'total vote') %>
+    </h6>
+  </div>
+  <%- if show_voters -%>
+    <ul class="list-group list-group-flush">
+      <%- participant.voters.each do |voter| -%>
+        <li class="list-group-item player-name" data-player="<%= voter.player.id %>">
+          <%= voter.name %>
+        </li>
+      <%- end -%>
+    </ul>
+  <%- end -%>
+</div>

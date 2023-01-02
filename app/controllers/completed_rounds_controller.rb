@@ -3,20 +3,19 @@
 class CompletedRoundsController < ApplicationController
   # POST /rounds/:round_id/completed_rounds
   def create
-    round =
-      Round.find_by!(id: params[:round_id], player: Player.where(user: @user))
-    completed_round = CompletedRound.new(round)
+    round = Round.where(guesser: Player.active.where(user: @user))
+      .find(params[:round_id])
 
-    if completed_round.save
+    if CompleteRound.new(round:).call
       game = Game.find(round.game.id) # work from latest data
       status = :created
-      RedrawCurrentRoundJob.perform_later(game, except_to: round.player)
+      RedrawCurrentRoundJob.perform_later(game, except_to: round.guesser)
     else
       game = round.game
       status = :unprocessable_entity
     end
 
-    @game = GamePresenter.new(game:, current_player: round.player)
-    render(:create, status:)
+    @game = GamePresenter.new(game:, current_player: round.guesser)
+    render :create, status:
   end
 end

@@ -1,37 +1,9 @@
 # frozen_string_literal: true
 
 class PlayersController < ApplicationController
-  # GET /games/:game_id/players/new
-  def new
-    @player = game.players.where(user: @user).build
-  end
-
   # GET /players/:id/edit
   def edit
     @player = Player.where(user: @user).find(params[:id])
-  end
-
-  # POST /games/:game_id/players
-  def create
-    @player = game.players.where(user: @user).build(player_params)
-
-    if @player.save
-      game.players.each do |player|
-        next if player == @player
-
-        PlayerChannel.broadcast_append_later_to(
-          player,
-          target: "players",
-          partial: "players/player",
-          locals: {
-            player: @player, active_player: game.active_player, me: player
-          }
-        )
-      end
-      redirect_to game
-    else
-      render :new, status: :unprocessable_entity
-    end
   end
 
   # PATCH/PUT /players/:id
@@ -39,14 +11,15 @@ class PlayersController < ApplicationController
     @player = Player.where(user: @user).find(params[:id])
 
     if @player.update(player_params)
-      RedrawPlayerJob.perform_later(@player)
+      @player.game.active_players.each do |participating_player|
+        PlayerChannel.broadcast_update_to(
+          participating_player,
+          targets: @player.selector_for(:name),
+          html: @player.name
+        )
+      end
 
-      game_presenter =
-        GamePresenter.new(game: @player.game, current_player: @player)
-      render(
-        turbo_stream: turbo_stream.update("main",
-          partial: "games/current_round", locals: { game: game_presenter })
-      )
+      redirect_to @player.game
     else
       render :edit, status: :unprocessable_entity
     end

@@ -9,12 +9,10 @@
 <%# Answer List %>
 <%- if round.matching? -%>
   <%=
-    render "matching_rounds/matching_round", round: round,
-      is_active_player: is_active_player
+    render "matching_rounds/matching_round", round: round, is_guesser: is_guesser
   %>
 <%- elsif round.completed? -%>
   <%=
-    render "completed_rounds/completed_round", round: round,
-      is_active_player: is_active_player
+    render "completed_rounds/completed_round", round: round, is_guesser: is_guesser
   %>
 <%- end -%>

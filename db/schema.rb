@@ -10,29 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2021_10_19_215845) do
+ActiveRecord::Schema[7.0].define(version: 7) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "answers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "value", null: false
-    t.uuid "player_id", null: false
-    t.uuid "round_id", null: false
-    t.uuid "guessed_player_id"
+    t.uuid "participant_id", null: false
+    t.uuid "guessed_participant_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["guessed_player_id", "round_id"], name: "index_answers_on_guessed_player_id_and_round_id", unique: true
-    t.index ["guessed_player_id"], name: "index_answers_on_guessed_player_id"
-    t.index ["player_id", "round_id"], name: "index_answers_on_player_id_and_round_id", unique: true
-    t.index ["player_id"], name: "index_answers_on_player_id"
-    t.index ["round_id"], name: "index_answers_on_round_id"
+    t.index ["guessed_participant_id"], name: "index_answers_on_guessed_participant_id", unique: true
+    t.index ["participant_id"], name: "index_answers_on_participant_id", unique: true
   end
 
   create_table "games", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "participants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "player_id", null: false
+    t.uuid "round_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id", "round_id"], name: "index_participants_on_player_id_and_round_id", unique: true
+    t.index ["player_id"], name: "index_participants_on_player_id"
+    t.index ["round_id"], name: "index_participants_on_round_id"
   end
 
   create_table "players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -50,15 +56,17 @@ ActiveRecord::Schema[7.0].define(version: 2021_10_19_215845) do
   end
 
   create_table "rounds", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "player_id", null: false
-    t.uuid "previous_id"
+    t.uuid "game_id", null: false
+    t.uuid "guesser_id", null: false
+    t.integer "order", default: 0, null: false
     t.integer "status", default: 0, null: false
-    t.text "question"
+    t.text "question", null: false
     t.boolean "hide_answers", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["player_id"], name: "index_rounds_on_player_id"
-    t.index ["previous_id"], name: "index_rounds_on_previous_id", unique: true
+    t.index ["game_id", "order"], name: "index_rounds_on_game_id_and_order", unique: true
+    t.index ["game_id"], name: "index_rounds_on_game_id"
+    t.index ["guesser_id"], name: "index_rounds_on_guesser_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -67,11 +75,12 @@ ActiveRecord::Schema[7.0].define(version: 2021_10_19_215845) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "answers", "players"
-  add_foreign_key "answers", "players", column: "guessed_player_id"
-  add_foreign_key "answers", "rounds"
+  add_foreign_key "answers", "participants"
+  add_foreign_key "answers", "participants", column: "guessed_participant_id"
+  add_foreign_key "participants", "players"
+  add_foreign_key "participants", "rounds"
   add_foreign_key "players", "games"
   add_foreign_key "players", "users"
-  add_foreign_key "rounds", "players"
-  add_foreign_key "rounds", "rounds", column: "previous_id"
+  add_foreign_key "rounds", "games"
+  add_foreign_key "rounds", "players", column: "guesser_id"
 end

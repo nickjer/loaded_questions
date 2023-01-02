@@ -4,20 +4,16 @@ class Player < ApplicationRecord
   belongs_to :user
   belongs_to :game
 
-  has_many :rounds, dependent: :destroy
-  has_many :answers, dependent: :destroy
+  scope :active, -> { where(deleted_at: nil) }
 
   validates :name, length: { in: 3..20 }
   validates :name, uniqueness: {
     scope: %i[game deleted_at], case_sensitive: false
   }
-  validates :game, uniqueness: {
-    scope: %i[user deleted_at], message: "Player already exists for this game"
+  validates :user, uniqueness: {
+    scope: %i[game deleted_at], message: "is already playing in this game"
   }
   validate :cannot_delete_participating_player
-
-  default_scope { where(deleted_at: nil) }
-  scope :active, -> { joins(:rounds).merge(Round.current) }
 
   # @return [Boolean]
   def online?
@@ -28,28 +24,51 @@ class Player < ApplicationRecord
   # @return [void]
   def name=(value)
     normalized_value = value.to_s.unicode_normalize(:nfkc).squish
-    super(normalized_value.gsub(/\P{Print}|\p{Cf}/, "").presence)
+    normalized_value = normalized_value.gsub(/\P{Print}|\p{Cf}/, "")
+    normalized_value = normalized_value.gsub(/ethany/i, "etsy").presence
+    super(normalized_value)
+  end
+
+  # @return [Boolean]
+  def active?
+    deleted_at.blank?
+  end
+
+  # @return [Boolean]
+  def readonly?
+    if will_save_change_to_deleted_at?
+      deleted_at_change_to_be_saved.first.present?
+    else
+      deleted_at.present?
+    end
+  end
+
+  # @param attrib [#to_s]
+  # @return [String]
+  def selector_for(attrib)
+    <<~SELECTOR.squish
+      [data-player="#{id}"].player-#{attrib},
+      [data-player="#{id}"] .player-#{attrib}
+    SELECTOR
+  end
+
+  # @return [Participant, nil]
+  def current_participant
+    game.current_round.participants.find do |participant|
+      participant.player_id == id
+    end
   end
 
   # @return [Answer, nil]
   def current_answer
-    @current_answer ||=
-      game.current_answers.find do |current_answer|
-        id == current_answer.player_id
-      end
-  end
+    return if current_participant.blank?
 
-  # @return [Answer, nil]
-  def guessed_answer
-    @guessed_answer ||=
-      game.current_answers.find do |current_answer|
-        id == current_answer.guessed_player_id
-      end
+    current_participant.answer
   end
 
   # @param round [Round, nil]
   # @return [Boolean]
-  def existed_in?(round)
+  def existed_since?(round)
     return false if round.blank?
 
     created_at < round.created_at
@@ -59,12 +78,10 @@ class Player < ApplicationRecord
   # @return [Boolean]
   def played_in?(round)
     return false if round.blank?
+    return true if round.guesser_id == id
 
-    was_active_player = (round.player_id == id)
-    was_participating_player =
-      round.answers.any? { |answer| answer.player_id == id }
-
-    was_active_player || was_participating_player
+    round.participants.find { |participant| participant.player_id == id }
+      &.answer.present?
   end
 
   private

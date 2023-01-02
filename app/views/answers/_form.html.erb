@@ -4,7 +4,7 @@
   <%- if collapsible -%>
     <div class="d-grid gap-2">
       <button
-        class="btn btn-secondary btn-lg mb-3"
+        class="btn btn-secondary btn-lg"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target="#collapsed_answer_form"
@@ -17,12 +17,13 @@
   <div id="collapsed_answer_form" class="<%= "collapse" if collapsible %>">
     <%=
       simple_form_for(
-        [answer.new_record? ? answer.round : nil, answer],
+        [answer.new_record? ? answer.participant : nil, answer],
+        html: { class: "mt-2" }
       ) do |form|
     %>
       <%= form.input :value, label: false, input_html: { maxlength: 80 } %>
 
-      <div class="d-grid gap-2">
+      <div class="d-grid gap-2 mt-2">
         <%= form.button :submit, class: "btn-primary btn-lg" %>
       </div>
     <%- end -%>

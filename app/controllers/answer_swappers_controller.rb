@@ -3,58 +3,49 @@
 class AnswerSwappersController < ApplicationController
   # POST /rounds/:round_id/answer_swappers
   def create
-    @answer_swapper = AnswerSwapper.new(answer_swapper_params)
+    round = Round.where(guesser: Player.active.where(user: @user))
+      .find(params[:round_id])
+    answer = Answer.where(participant: Participant.where(round:))
+      .find(answer_swapper_params[:answer_id])
+    other_answer = Answer.where(participant: Participant.where(round:))
+      .find(answer_swapper_params[:swap_answer_id])
 
     respond_to do |format|
-      if @answer_swapper.save
-        answer = @answer_swapper.answer
-        swap_answer = @answer_swapper.swap_answer
-
-        round.game.players.each do |player|
-          next if player == round.player
+      if SwapAnswers.new(answer:, other_answer:).call
+        round.game.active_players.each do |participating_player|
+          next if participating_player == round.guesser
 
           PlayerChannel.broadcast_replace_later_to(
-            player,
-            target: "guessed_#{dom_id(answer.guessed_player)}",
+            participating_player,
+            target: "guessed_#{dom_id(answer.guessed_participant)}",
             partial: "answers/answer",
             locals: { answer: }
           )
           PlayerChannel.broadcast_replace_later_to(
-            player,
-            target: "guessed_#{dom_id(swap_answer.guessed_player)}",
+            participating_player,
+            target: "guessed_#{dom_id(other_answer.guessed_participant)}",
             partial: "answers/answer",
-            locals: { answer: swap_answer }
+            locals: { answer: other_answer }
           )
         end
         format.json { head :created }
       else
         PlayerChannel.broadcast_replace_later_to(
-          round.player,
+          round.guesser,
           target: "answers",
           partial: "matching_rounds/matching_round",
-          locals: { round:, is_active_player: true }
+          locals: { round:, is_guesser: true }
         )
-        format.json do
-          render json: @answer_swapper.errors, status: :unprocessable_entity
-        end
+        format.json { head :bad_request }
       end
     end
   end
 
   private
 
-  # @return [Round]
-  def round
-    @round ||= Round.find_by!(
-      id: params[:round_id],
-      player: Player.where(user: @user)
-    )
-  end
-
   # @return [ActionController::Parameters]
   def answer_swapper_params
     params.require(:answer_swapper).permit(:answer_id, :swap_answer_id)
-      .merge(round:)
   end
 
   # @param target [Player, nil]
