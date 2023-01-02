@@ -20,7 +20,8 @@ class NewGameForm < ApplicationForm
     @player = Player.new(user:)
     @round = Round.new(
       guesser: @player,
-      participants: [Participant.new(player: @player)]
+      participants: [Participant.new(player: @player)],
+      question: Round.seeded_question
     )
     @game = Game.new(players: [@player], rounds: [@round])
     super(params)

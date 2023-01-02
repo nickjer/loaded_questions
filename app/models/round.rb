@@ -22,11 +22,6 @@ class Round < ApplicationRecord
     end
   end
 
-  # @return [String, nil]
-  def question
-    @question ||= self.class.seeded_question
-  end
-
   # @return [Array<Answer>]
   def answers
     participants.map(&:answer).compact

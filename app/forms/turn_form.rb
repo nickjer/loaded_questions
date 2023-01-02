@@ -27,6 +27,7 @@ class TurnForm < ApplicationForm
       guesser:,
       participants:
         participating_players.map { |player| Participant.new(player:) },
+      question: Round.seeded_question,
       hide_answers: previous_round.hide_answers,
       order: previous_round.order + 1
     )
