@@ -7,7 +7,11 @@
     <%= render "players/online", online: (player.online? || player == me) %>
   </div>
   <div class="d-inline player-answered">
-    <%= render "players/answered", answered: player.current_answer&.persisted?.present? %>
+    <%- if player == guesser -%>
+      <i class="bi bi-star-fill"></i>
+    <%- else -%>
+      <%= render "players/answered", answered: player.current_answer&.persisted?.present? %>
+    <%- end -%>
   </div>
   <div
     class="<%= class_names("d-inline", "player-name", "is-guesser": (player == guesser)) %>"

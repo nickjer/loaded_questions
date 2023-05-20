@@ -7,7 +7,7 @@ class NewGamesTest < ApplicationSystemTestCase
     using_session(player_name) do
       visit game_url
       fill_in "Player name", with: player_name
-      click_on "Create Player"
+      click_on "Create New Player"
     end
     Player.find_by!(name: player_name)
   end
@@ -28,7 +28,8 @@ class NewGamesTest < ApplicationSystemTestCase
   test "should create New Game" do
     visit new_new_game_url
     fill_in "Player name", with: "Bob"
-    fill_in "Question", with: "How high is the sky?"
+    fill_in "new_game_form_round_attributes_question",
+      with: "How high is the sky?"
     click_on "Create New Game"
 
     assert_text "Match Answers"
