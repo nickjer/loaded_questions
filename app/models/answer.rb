@@ -21,7 +21,7 @@ class Answer < ApplicationRecord
 
   # @return [Boolean]
   def correct?
-    participant == guessed_participant
+    value.parameterize == guessed_participant.answer.value.parameterize
   end
 
   # @return [Boolean]

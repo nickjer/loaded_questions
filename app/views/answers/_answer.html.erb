@@ -7,15 +7,20 @@
   <%- end -%>
   data-swap-target="group">
   <div class="d-flex w-100 justify-content-between">
-    <%- if answer.round_completed? && answer.correct? -%>
-      <h5 class="mb-1"><%= answer.guessed_participant.name %></h5>
-      <i class="bi bi-check-lg"></i>
-    <%- elsif answer.round_completed? -%>
+    <%- if answer.round_completed? -%>
       <div class="d-flex flex-wrap">
-        <h5><s class="me-2"><%= answer.guessed_participant.name %></s></h5>
-        <h5><%= answer.participant.name %></h5>
+        <h5 class="mb-1"><%= answer.participant.name %></h5>
+        <%- unless answer.correct? -%>
+          <h5 class="mb-1">
+            <s class="ms-2"><%= answer.guessed_participant.name %></s>
+          </h5>
+        <%- end -%>
       </div>
-      <i class="bi bi-x-lg small"></i>
+      <%- if answer.correct? -%>
+        <i class="bi bi-check-lg"></i>
+      <%- else -%>
+        <i class="bi bi-x-lg small"></i>
+      <%- end -%>
     <%- else -%>
       <h5 class="mb-1"><%= answer.guessed_participant.name %></h5>
     <%- end -%>

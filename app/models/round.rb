@@ -29,7 +29,13 @@ class Round < ApplicationRecord
 
   # @return [Array<Answer>]
   def ordered_answers
-    answers.sort_by { |answer| answer.guessed_participant.name }
+    answers.sort_by do |answer|
+      if completed?
+        answer.participant.name
+      else
+        answer.guessed_participant.name
+      end
+    end
   end
 
   # @return [Boolean]
