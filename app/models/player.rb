@@ -29,6 +29,11 @@ class Player < ApplicationRecord
     super(normalized_value)
   end
 
+  # @return [String]
+  def sortable_name
+    name.gsub(/[^\p{Word}]/, "").downcase
+  end
+
   # @return [Boolean]
   def active?
     deleted_at.blank?
@@ -46,6 +51,7 @@ class Player < ApplicationRecord
   # @param attrib [#to_s]
   # @return [String]
   def selector_for(attrib)
+    attrib = attrib.to_s.gsub("_", "-")
     <<~SELECTOR.squish
       [data-player="#{id}"].player-#{attrib},
       [data-player="#{id}"] .player-#{attrib}
