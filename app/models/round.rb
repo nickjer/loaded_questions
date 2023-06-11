@@ -31,9 +31,9 @@ class Round < ApplicationRecord
   def ordered_answers
     answers.sort_by do |answer|
       if completed?
-        answer.participant.name
+        answer.participant.sortable_name
       else
-        answer.guessed_participant.name
+        answer.guessed_participant.sortable_name
       end
     end
   end
