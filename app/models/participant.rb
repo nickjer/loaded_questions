@@ -12,7 +12,7 @@ class Participant < ApplicationRecord
 
   # @!method name
   #   @return [String]
-  delegate :name, to: :player
+  delegate :name, :sortable_name, to: :player
 
   # @return [Boolean]
   def guesser?
